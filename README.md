@@ -155,4 +155,30 @@ Creation of a user independent algorithmic utilization of RBF should be an inter
 
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It is not only dangerous, but it will also lead to some users to tend to use it more often, than others.
 
+### Retrieving Private Transaction Information
+
+Retrieving private transaction information from the blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [also not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
+At the time of writing there are three types of wallet architechtures those don't breach the privacy of the users:
+- Full Nodes - Since they download all the transactions the network has, so nobody can tell who's interested in what transactions.  
+- Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also not store hundreds of gigabytes of blockchain data, they throws away what they don't need. There are currently 3 implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
+- [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
+  
+The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumain CoinJoin transactions and all its AnonWork compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
+
+### Private Transaction Broadcasting
+
+Private transaction broadcasting is a tricky topic.  
+
+As [Dandelion: Privacy-Preserving Transaction Propagationg](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
+> Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
+
+It gets even worse harder. If an AnonWork compliant wallet is not a full node an does not constantly relaying, it is not a full node and only connects to other nodes on the network to broadcast its transactions that would result in privacy breach for sure.  
+
+Therefore AnonWork compliant wallets MUST connect to Tor hidden service nodes and broadcast the transactions to them.  
+AnonWork compliant wallets SHOULD also change Tor circuit between every transaction broadcasts.  
+
+It might also be a sufficiently private way to push transactions to a public API over Tor. This would definitely be easier to implement, but this external dependency cannot be expected to be relied on by all post-mix wallet implementations and all of them should use the same way of broadcasting transactions.  
+
+Private transaction broadcasting should be an interest of future research.
+
 ## IV. Conclusions
