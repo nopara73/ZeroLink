@@ -34,7 +34,7 @@ IV. [Conclusions](#iv-conclusions)
 ### CoinJoin
 
 The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input intended to fund which of these outputs.  
-CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques. The maximum reachable theoretical anonimity set goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091).
+CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques. The maximum reachable theoretical anonymity set goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091).
 
 ### Chaumain CoinJoin
 Chaumain CoinJoin was also briefly described by Maxwell:  
@@ -50,21 +50,19 @@ As Maxwell noted:
 Of course distributed systems are more resilient, therefore distribution should certainly be an interest of future research.  
 
 ### Privacy Is Teamwork
-The theoretical anonimity set of a mixing technique is misleading. As an example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a central server is already aware of all its wallet addresses, therefore the it knows the link between an input and output of a mix. 
-If one user of the mix gets deanonymized the real anonimity set of the rest of the users gets lower, too, therefore it is not acceptable that a set of users are using a mixing technique in flawed way.
+The theoretical anonymity set of a mixing technique is misleading. As an example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a central server is already aware of all its wallet addresses, so it knows the link between an input and an output of a mix. 
+If one user of the mix gets deanonymized the real anonymity set of the rest of the users gets lower, too, therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
 
 ### Transactions Vs Transaction Chains
 
 Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristof Atlas did in his [CoinJoin Sudoku](www.coinjoinsudoku.com).  
 This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
-Therefore an observer is not only analyzing individual transactions, but also transaction chains. If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonimity set of all the users who participated in the same mixes would suffer.
+In the real world an observer is not only analyzing individual transactions, but also transaction chains. If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.
 
-### Theoretical And Real Anonimity Set
+### Theoretical And Real Anonymity Set
 
-We refer to theoretical anonimity set as the anonimity set that is achieved by a bitcoin mixing technique within one round and does not weighs in in external factors, like flawed wallet architechture.  
-We refer to real anonimity set when these these external factors are weighted in and transaction chains are examined.  
-  
-We can say the whole purpose of AnonWork is to narrow the gap between the theoretical and real anonimity set as much as possible.
+We refer to theoretical anonymity set as the anonymity set that is achieved by a bitcoin mixing technique within one round and does not weigh in in external factors, like flawed wallet architechture.  
+We refer to real anonymity set when these these external factors are weighted in and transaction chains are analyzed.  
 
 ### RFC2119
 
