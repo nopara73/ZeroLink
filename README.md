@@ -43,7 +43,7 @@ Chaumain CoinJoin was also briefly described by Maxwell:
 
 Every mix made via Chaumain CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Chaumain CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
 
-### Practicality
+### Distributed CoinJoin
 
 It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumain CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The server is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
 As Maxwell noted:  
@@ -68,11 +68,14 @@ Elimination of Tor dependency should be an interest of future research.
 The theoretical anonymity set of a mixing technique is misleading. As an example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a central server is already aware of all its wallet addresses, so it knows the link between an input and an output of a mix. 
 If one user of the mix gets deanonymized the real anonymity set of the rest of the users gets lower, too, therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
 
-### Transactions Vs Transaction Chains
+### Transactions And Transaction Chains
 
 Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristof Atlas did in his [CoinJoin Sudoku](www.coinjoinsudoku.com).  
 This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
-In the real world an observer is not only analyzing individual transactions, but also transaction chains. If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.
+As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) once:
+> The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
+
+If our post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.
 
 ### Theoretical And Real Anonymity Set
 
