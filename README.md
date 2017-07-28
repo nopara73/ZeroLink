@@ -110,7 +110,7 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 ### A. Pre-Mix Wallet
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
-Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going, directly through a secure connection or through the sharing of the post-mix wallet's [extpubkey](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallet must be also online while mixing is in process. In the latter case pre-mix wallet MUST NOT share the extpubkex of the post-mix wallet with any third party.  
+Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going, directly through a secure connection or through the sharing of the post-mix wallet's [extpubkey](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallet must be also online while mixing is in process. In the latter case pre-mix wallet MUST NOT share the extpubkey or any of its derived keys of the post-mix wallet with any third party.  
 Pre-mix and post-mix wallets MAY also be just separate wallet accounts within the same wallet.  
 Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, which not only enables cheaper fees, but also enables achieving higher theoretical anonimity set.  
 
