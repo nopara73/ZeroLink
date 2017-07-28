@@ -130,19 +130,19 @@ We could add coin control feature to the post-mix wallet account, as Bitcoin Cor
 We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users to make bigger than the denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is also expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonimity set of all users of the mixer.  
 In order to make the usage of the post-mix wallet less painful the wallet MAY also implement some kind of coin control feature, but with the above restriction. The wallet MAY also offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
 
-### Uniform ScriptPubKeys - Use Segregated Witness
+#### Uniform ScriptPubKeys - Use Segregated Witness
 
 Post-mix wallets MUST use P2WPKH outputs as defined in [BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Witness_program).  
 If post-mix wallets would enable the usage of different scriptpubkeys, then some group of users would naturally tend to use one way more often than others, leading blockchain observers to various conclusions.
 
-### Indexing Of Transaction Inputs And Outputs - Use BIP69
+#### Indexing Of Transaction Inputs And Outputs - Use BIP69
 
 A post-mix wallet MUST use Lexicographical Indexing of Outputs, as defined in [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).  
 A post-mix wallet, due to its design, will only have one input and maximum two outputs at all times.  
 Uniform indexing is necessary in order for multiple post-mix wallet implementations too look the same.  
 Lexiographical indexing is also beneficial from a privacy point of view. If a wallet software would always generate the change output on the second index, observers would always know what the change output is.
 
-### Fee Estimation, RBF
+#### Fee Estimation, RBF
 
 Another common way blockchain analysis applies to figure out which wallet a transaction was constructed with is by examining the fee its fee patterns, therefore post-mix wallet implementations MUST use unified fee estimating algorithm.  
 If post-mix wallets would enable the selection of transaction fees some users would tend to use always one type of transacions while others would use different ones.  
@@ -151,11 +151,11 @@ Post-mix wallets MUST use the result of Bitcoin Core RPC's [`estimatefee 2`](htt
 Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a frequently used feature and is expected to be used in the future even more frequently. While its usage is highly beneficial, it also opens the door for users to use it many different ways, therefore post-mix wallets MUST not utilize this feature.  
 Creation of a user independent algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
 
-### Spending Unconfirmed Transactions
+#### Spending Unconfirmed Transactions
 
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It is not only dangerous, but it will also lead to some users to tend to use it more often, than others.
 
-### Retrieving Private Transaction Information
+#### Retrieving Private Transaction Information
 
 Retrieving private transaction information from the blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [also not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
 At the time of writing there are three types of wallet architechtures those don't breach the privacy of the users:
@@ -165,7 +165,7 @@ At the time of writing there are three types of wallet architechtures those don'
   
 The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumain CoinJoin transactions and all its AnonWork compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
 
-### Private Transaction Broadcasting
+#### Private Transaction Broadcasting
 
 Private transaction broadcasting is a tricky topic.  
 
