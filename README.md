@@ -142,4 +142,17 @@ A post-mix wallet, due to its design, will only have one input and maximum two o
 Uniform indexing is necessary in order for multiple post-mix wallet implementations too look the same.  
 Lexiographical indexing is also beneficial from a privacy point of view. If a wallet software would always generate the change output on the second index, observers would always know what the change output is.
 
+### Fee Estimation, RBF
+
+Another common way blockchain analysis applies to figure out which wallet a transaction was constructed with is by examining the fee its fee patterns, therefore post-mix wallet implementations MUST use unified fee estimating algorithm.  
+If post-mix wallets would enable the selection of transaction fees some users would tend to use always one type of transacions while others would use different ones.  
+Post-mix wallets MUST use the result of Bitcoin Core RPC's [`estimatefee 2`](https://bitcoin.org/en/developer-reference#estimatefee) for dynamic fee estimation. To obtain the result of course querying a public API is sufficient, too.  
+
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a frequently used feature and is expected to be used in the future even more frequently. While its usage is highly beneficial, it also opens the door for users to use it many different ways, therefore post-mix wallets MUST not utilize this feature.  
+Creation of a user independent algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
+
+### Spending Unconfirmed Transactions
+
+It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It is not only dangerous, but it will also lead to some users to tend to use it more often, than others.
+
 ## IV. Conclusions
