@@ -122,7 +122,7 @@ The requirements of the post-mix wallet are much stronger, than the pre-mix wall
 It is not only important for the post-mix wallet to work in a way that doesn't breach privacy, but it is also important that it works in only one way. As an example if the post-mix wallet enables its users to use both [P2WPKH and P2WSH](https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki), then a set of users will naturally converge to one type of usage that would lead an observer to valuable conclusions.  
 When in the future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing AnonWork deployments it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
 
-#### Disable Input Joining
+#### Coin Selection - Disable Input Joining
 
 If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonimity set of all the users who participated in the same mixes would suffer.  
 We could add coin control feature to the post-mix wallet account, as Bitcoin Core does. While that would result in more conscious post-mix wallet management, in the end users would eventually join inputs together.  
@@ -130,9 +130,16 @@ We could add coin control feature to the post-mix wallet account, as Bitcoin Cor
 We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users to make bigger than the denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is also expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonimity set of all users of the mixer.  
 In order to make the usage of the post-mix wallet less painful the wallet MAY also implement some kind of coin control feature, but with the above restriction. The wallet MAY also offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
 
-### Use Segregated Witness
+### Uniform ScriptPubKeys - Use Segregated Witness
 
 Post-mix wallets MUST use P2WPKH outputs as defined in [BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Witness_program).  
 If post-mix wallets would enable the usage of different scriptpubkeys, then some group of users would naturally tend to use one way more often than others, leading blockchain observers to various conclusions.
+
+### Indexing Of Transaction Inputs And Outputs - Use BIP69
+
+A post-mix wallet MUST use Lexicographical Indexing of Outputs, as defined in [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).  
+A post-mix wallet, due to its design, will only have one input and maximum two outputs at all times.  
+Uniform indexing is necessary in order for multiple post-mix wallet implementations too look the same.  
+Lexiographical indexing is also beneficial from a privacy point of view. If a wallet software would always generate the change output on the second index, observers would always know what the change output is.
 
 ## IV. Conclusions
