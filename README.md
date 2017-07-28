@@ -89,6 +89,7 @@ We refer to real anonymity set when these these external factors are weighted in
 TumbleBit Classic Tumbler mode and [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based. They are both multiple times more expensive and slower than Chaumain CoinJoin. For example while TumbleBit requires 4 transactions, therefore 4 times transaction fees, CoinJoin requires only 1. While TumbleBit requires hours to complete a round, CoinJoin minutes.  
 CoinShuffle and [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we omit to discuss it here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive for bigger anonimity sets and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' mixed coins.  
+Finally there's also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed Confidential Transacions.  
 
 When in the future [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin, CoinJoin based techniques will get even more Blockchain space efficient, therefore cheaper.
 
