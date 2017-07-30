@@ -21,7 +21,7 @@ Furthermore the authors are also committed to build and deploy a production read
 ## Table Of Contents
 
 I. [Introduction](#i-introduction)  
-II. [Chaumain CoinJoin](#ii-chaumain-coinjoin)  
+II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
 &nbsp;&nbsp;&nbsp;A. [Protocol](#a-protocol)  
 &nbsp;&nbsp;&nbsp;C. [Attacks](#b-attacks)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
@@ -36,16 +36,16 @@ IV. [Conclusions](#iv-conclusions)
 The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input intended to fund which of these outputs.  
 CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques. The maximum reachable theoretical anonymity set goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091).
 
-### Chaumain CoinJoin
+### Chaumian CoinJoin
 
-Chaumain CoinJoin was also briefly described by Maxwell:  
+Chaumian CoinJoin was also briefly described by Maxwell:  
 > Using chaum blind signatures: The users connect and provide inputs (and change addresses) and a cryptographically-blinded version of the address they want their private coins to go to; the server signs the tokens and returns them. The users anonymously reconnect, unblind their output addresses, and return them to the server. The server can see that all the outputs were signed by it and so all the outputs had to come from valid participants. Later people reconnect and sign.  
 
-Every mix made via Chaumain CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Chaumain CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
+Every mix made via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Chaumian CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
 
 ### Distributed CoinJoin
 
-It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumain CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The server is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
+It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumian CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The server is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
 As Maxwell noted:  
 >  I don't know if there is, or ever would be, a reason to bother with a fully distributed version with full privacy, but it's certainly possible.  
 
@@ -70,7 +70,7 @@ If one user of the mix gets deanonymized the real anonymity set of the rest of t
 
 ### Transactions And Transaction Chains
 
-Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristof Atlas did in his [CoinJoin Sudoku](www.coinjoinsudoku.com).  
+Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](www.coinjoinsudoku.com).  
 This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
@@ -139,7 +139,7 @@ If post-mix wallets would enable the usage of different scriptpubkeys, then some
 
 A post-mix wallet MUST use Lexicographical Indexing of Outputs, as defined in [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).  
 A post-mix wallet, due to its design, will only have one input and maximum two outputs at all times.  
-Uniform indexing is necessary in order for multiple post-mix wallet implementations too look the same.  
+Uniform indexing is necessary in order for multiple post-mix wallet implementations to look the same.  
 Lexiographical indexing is also beneficial from a privacy point of view. If a wallet software would always generate the change output on the second index, observers would always know what the change output is.
 
 #### Fee Estimation, RBF
@@ -169,7 +169,7 @@ The good news are there is an easier, user friendly way to achieve it. The post-
 
 Private transaction broadcasting is a tricky topic.  
 
-As [Dandelion: Privacy-Preserving Transaction Propagationg](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
+As [Dandelion: Privacy-Preserving Transaction Propagation](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
 > Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
 
 It gets even worse harder. If an AnonWork compliant wallet is not a full node an does not constantly relaying, it is not a full node and only connects to other nodes on the network to broadcast its transactions that would result in privacy breach for sure.  
