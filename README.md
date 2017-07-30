@@ -23,7 +23,7 @@ Furthermore the authors are also committed to build and deploy a production read
 I. [Introduction](#i-introduction)  
 II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
 &nbsp;&nbsp;&nbsp;A. [Protocol](#a-protocol)  
-&nbsp;&nbsp;&nbsp;C. [Attacks](#b-attacks)  
+&nbsp;&nbsp;&nbsp;B. [Attacks](#b-attacks)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
