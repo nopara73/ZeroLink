@@ -16,7 +16,7 @@ adam.ficsor73@gmail.com
 [Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 countless fungibility improvements have been proposed, implemented, deployed and used. Some of them builds on top of Bitcoin, some of them invented their own cryptocurrencies to address the privacy issue. As of today, 2017 no proposal, including privacy centric altcoins addressed the problem in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, we are still not able to transact in a fully anonymous way. The Bitcoin Fungibility Framework is the first attempt to do that. It evaluates all the research and techniques, known to date and combines them in a practical and coherent way.  
 The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) gets deployed and adopted, the entrance and exit transactions will always happen on-chain.  
 **The main goal of ZeroLink is to make a set of coins unlinkable to another set of coins.**  
-Furthermore the authors are also committed to build and deploy a production ready implementation, therefore not get stucked in the research phase.  
+Furthermore the authors are also committed to build and deploy a production ready implementation, therefore not get stuck in the research phase.  
 
 ## Table Of Contents
 
@@ -71,7 +71,7 @@ If one user of the mix gets deanonymized the real anonymity set of the rest of t
 
 ### Transactions And Transaction Chains
 
-Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's SharedCoin (service "temporarily" cancelled due to awareness of its privacy limitations and reports of stuck transactions).   
+Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin) (service "temporarily" cancelled due to awareness of its privacy limitations and reports of stuck transactions.)  
 This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
