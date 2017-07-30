@@ -86,7 +86,7 @@ We refer to real anonymity set when these these external factors are weighted in
 
 ### Alternative On-Chain Mixing
 
-TumbleBit Classic Tumbler mode and [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based. They are both multiple times more expensive and slower than Chaumain CoinJoin. For example while TumbleBit requires 4 transactions, therefore 4 times transaction fees, CoinJoin requires only 1. While TumbleBit requires hours to complete a round, CoinJoin minutes.  
+TumbleBit Classic Tumbler mode and [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example while TumbleBit requires 4 transactions, therefore 4 times transaction fees, CoinJoin requires only 1. While TumbleBit requires hours to complete a round, CoinJoin minutes.  
 CoinShuffle and [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we omit to discuss it here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive for bigger anonymity sets and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' mixed coins.  
 Finally there's also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed Confidential Transacions.  
@@ -99,7 +99,7 @@ Find more detailed comparisons [here](https://medium.com/@nopara73/tumblebit-vs-
 
 The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this document are to be interpreted as described in [RFC2119](https://tools.ietf.org/html/rfc2119).
 
-## II. Chaumain CoinJoin
+## II. Chaumian CoinJoin
 
 ### A. Protocol
 
@@ -114,7 +114,7 @@ Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where t
 Pre-mix and post-mix wallets MAY also be just separate wallet accounts within the same wallet.  
 Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, which not only enables cheaper fees, but also enables achieving higher theoretical anonymity set.  
 
-If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what address to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want acquire all the Chaumain CoinJoin transactions ever happened in the Blockchain. In this case it SHOULD also acquire all the future Chaumain CoinJoin transactions, in order to avoid mixing twice to the same address, what can happen if the same post-mix wallet extpubkey is feeded into another wallet for mixing.
+If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what address to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want acquire all the Chaumian CoinJoin transactions ever happened in the Blockchain. In this case it SHOULD also acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address, what can happen if the same post-mix wallet extpubkey is feeded into another wallet for mixing.
 
 ### B. Post-Mix Wallet
 
@@ -163,7 +163,7 @@ At the time of writing there are three types of wallet architechtures those don'
 - Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also not store hundreds of gigabytes of blockchain data, they throws away what they don't need. There are currently 3 implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
 - [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
   
-The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumain CoinJoin transactions and all its HiddenLink compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
+The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its HiddenLink compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
 
 #### Private Transaction Broadcasting
 
