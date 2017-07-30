@@ -1,4 +1,4 @@
-# AnonWork: The Bitcoin Anonymity Framework
+# HiddenLink: The Bitcoin Fungibility Framework
 
 ## Authors
 
@@ -13,9 +13,9 @@ adam.ficsor73@gmail.com
 
 ## Abstract
 
-[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 countless fungibility improvements have been proposed, implemented, deployed and used. Some of them builds on top of Bitcoin, some of them invented their own cryptocurrencies to address the privacy issue. As of today, 2017 no proposal, including privacy centric altcoins addressed the problem in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, we are still not able to transact in a fully anonymous way. The Bitcoin Anonymity Framework is the first attempt to do that. It evaluates all the research and techniques, known to date and combines them in a practical and coherent way.  
-The scope of AnonWork is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) gets deployed and adopted, the entrance and exit transactions will always happen on-chain.  
-**The main goal of AnonWork is to make a set of coins unlinkable to another set of coins.**  
+[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 countless fungibility improvements have been proposed, implemented, deployed and used. Some of them builds on top of Bitcoin, some of them invented their own cryptocurrencies to address the privacy issue. As of today, 2017 no proposal, including privacy centric altcoins addressed the problem in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, we are still not able to transact in a fully anonymous way. The Bitcoin Fungibility Framework is the first attempt to do that. It evaluates all the research and techniques, known to date and combines them in a practical and coherent way.  
+The scope of HiddenLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) gets deployed and adopted, the entrance and exit transactions will always happen on-chain.  
+**The main goal of HiddenLink is to make a set of coins unlinkable to another set of coins.**  
 Furthermore the authors are also committed to build and deploy a production ready implementation, therefore not get stucked in the research phase.  
 
 ## Table Of Contents
@@ -56,10 +56,10 @@ Of course distributed systems are more resilient, therefore distribution should 
 As Maxwell noted:  
 > Any transaction privacy system that hopes to hide user's addresses should start with some kind of anonymity network. This is no different. Fortunately networks like Tor, I2P, Bitmessage, and Freenet all already exist and could all be used for this. (Freenet would result in rather slow transactions, however)  
 
-Another advantage of CoinShuffle++ is that it does not require such anonimity network as an external dependency, rather it implements its own P2P mixing protocol, DiceMix:  
+Another advantage of CoinShuffle++ is that it does not require such anonymity network as an external dependency, rather it implements its own P2P mixing protocol, DiceMix:  
 >  We conceptualize these P2P anonymous communication protocols as P2P mixing, and present a novel P2P mixing protocol, DiceMix, that needs only four communication rounds in the best case, and 4 + 2f rounds in the worst case with f malicious peers.  
 
-AnonWork requires such P2P anonymous protocols at mixing and at transaction broadcasting. [Tor](https://www.torproject.org/) is the most widely deployed such protocol, therefore AnonWork chooses to rely on it. Note also an AnonWork compliant application should not use a Tor proxy to the clearnet, but rather stay inside the Tor network and constrain its communication with [hidden services](https://www.torproject.org/docs/hidden-services.html.en). This is to protect against of various [attacks](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Weaknesses).  
+HiddenLink requires such P2P anonymous protocols at mixing and at transaction broadcasting. [Tor](https://www.torproject.org/) is the most widely deployed such protocol, therefore HiddenLink chooses to rely on it. Note also an HiddenLink compliant application should not use a Tor proxy to the clearnet, but rather stay inside the Tor network and constrain its communication with [hidden services](https://www.torproject.org/docs/hidden-services.html.en). This is to protect against of various [attacks](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Weaknesses).  
 
 Elimination of Tor dependency should be an interest of future research.  
  
@@ -88,7 +88,7 @@ We refer to real anonymity set when these these external factors are weighted in
 
 TumbleBit Classic Tumbler mode and [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based. They are both multiple times more expensive and slower than Chaumain CoinJoin. For example while TumbleBit requires 4 transactions, therefore 4 times transaction fees, CoinJoin requires only 1. While TumbleBit requires hours to complete a round, CoinJoin minutes.  
 CoinShuffle and [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we omit to discuss it here.  
-JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive for bigger anonimity sets and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' mixed coins.  
+JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive for bigger anonymity sets and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' mixed coins.  
 Finally there's also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed Confidential Transacions.  
 
 When in the future [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin, CoinJoin based techniques will get even more Blockchain space efficient, therefore cheaper.
@@ -112,7 +112,7 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going, directly through a secure connection or through the sharing of the post-mix wallet's [extpubkey](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallet must be also online while mixing is in process. In the latter case pre-mix wallet MUST NOT share the extpubkey or any of its derived keys of the post-mix wallet with any third party.  
 Pre-mix and post-mix wallets MAY also be just separate wallet accounts within the same wallet.  
-Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, which not only enables cheaper fees, but also enables achieving higher theoretical anonimity set.  
+Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, which not only enables cheaper fees, but also enables achieving higher theoretical anonymity set.  
 
 If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what address to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want acquire all the Chaumain CoinJoin transactions ever happened in the Blockchain. In this case it SHOULD also acquire all the future Chaumain CoinJoin transactions, in order to avoid mixing twice to the same address, what can happen if the same post-mix wallet extpubkey is feeded into another wallet for mixing.
 
@@ -120,14 +120,14 @@ If the pre-mix wallet normally uses a privacy breaching way to query its address
 
 The requirements of the post-mix wallet are much stronger, than the pre-mix wallet's.  
 It is not only important for the post-mix wallet to work in a way that doesn't breach privacy, but it is also important that it works in only one way. As an example if the post-mix wallet enables its users to use both [P2WPKH and P2WSH](https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki), then a set of users will naturally converge to one type of usage that would lead an observer to valuable conclusions.  
-When in the future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing AnonWork deployments it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
+When in the future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing HiddenLink deployments it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
 
 #### Coin Selection - Disable Input Joining
 
-If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonimity set of all the users who participated in the same mixes would suffer.  
+If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
 We could add coin control feature to the post-mix wallet account, as Bitcoin Core does. While that would result in more conscious post-mix wallet management, in the end users would eventually join inputs together.  
 ![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
-We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users to make bigger than the denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is also expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonimity set of all users of the mixer.  
+We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users to make bigger than the denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is also expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 In order to make the usage of the post-mix wallet less painful the wallet MAY also implement some kind of coin control feature, but with the above restriction. The wallet MAY also offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
 
 #### Uniform ScriptPubKeys - Use Segregated Witness
@@ -163,7 +163,7 @@ At the time of writing there are three types of wallet architechtures those don'
 - Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also not store hundreds of gigabytes of blockchain data, they throws away what they don't need. There are currently 3 implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
 - [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
   
-The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumain CoinJoin transactions and all its AnonWork compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
+The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumain CoinJoin transactions and all its HiddenLink compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
 
 #### Private Transaction Broadcasting
 
@@ -172,10 +172,10 @@ Private transaction broadcasting is a tricky topic.
 As [Dandelion: Privacy-Preserving Transaction Propagationg](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
 > Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
 
-It gets even worse harder. If an AnonWork compliant wallet is not a full node an does not constantly relaying, it is not a full node and only connects to other nodes on the network to broadcast its transactions that would result in privacy breach for sure.  
+It gets even worse harder. If an HiddenLink compliant wallet is not a full node an does not constantly relaying, it is not a full node and only connects to other nodes on the network to broadcast its transactions that would result in privacy breach for sure.  
 
-Therefore AnonWork compliant wallets MUST connect to Tor hidden service nodes and broadcast the transactions to them.  
-AnonWork compliant wallets SHOULD also change Tor circuit between every transaction broadcasts.  
+Therefore HiddenLink compliant wallets MUST connect to Tor hidden service nodes and broadcast the transactions to them.  
+HiddenLink compliant wallets SHOULD also change Tor circuit between every transaction broadcasts.  
 
 It might also be a sufficiently private way to push transactions to a public API over Tor. This would definitely be easier to implement, but this external dependency cannot be expected to be relied on by all post-mix wallet implementations and all of them should use the same way of broadcasting transactions.  
 
