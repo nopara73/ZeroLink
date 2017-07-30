@@ -22,8 +22,9 @@ Furthermore the authors are also committed to build and deploy a production read
 
 I. [Introduction](#i-introduction)  
 II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
-&nbsp;&nbsp;&nbsp;A. [Protocol](#a-protocol)  
+&nbsp;&nbsp;&nbsp;A. [Simplified Protocol](#a-simplified-protocol)  
 &nbsp;&nbsp;&nbsp;B. [Attacks](#b-attacks)  
+&nbsp;&nbsp;&nbsp;C. [Full Protocol](#c-full-protocol)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
@@ -45,7 +46,7 @@ Every mix made via Chaumian CoinJoin comes with a guarantee that Tumbler can nei
 
 ### Distributed CoinJoin
 
-It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumian CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The server is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
+It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumian CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The Tumbler is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
 As Maxwell noted:  
 >  I don't know if there is, or ever would be, a reason to bother with a fully distributed version with full privacy, but it's certainly possible.  
 
@@ -101,9 +102,35 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 
 ## II. Chaumian CoinJoin
 
-### A. Protocol
+### A. Simplified Protocol
+
+Alice and Bob are same user, but the Tumbler does not know about that.  
+
+![Chaumian CoinJoin](http://i.imgur.com/eVUVM6i.png)
+
+#### 1. Input Registration Phase
+
+Many Alices register their 
+ - utxos as the inputs of the CoinJoin,
+ - proofs that they can spend those utxos (signed messages with the corresponding private keys),
+ - their desired change outputs,
+ - and blinded outputs to the Tumbler.
+
+Tumbler checks if inputs have enough coins, are unspent and proofs are valid, then sign the blinded output.  
+Alices unblind their signed and blinded outputs.
+
+#### 2. Output Registration Phase
+
+Bobs registers their signed outputs to the Tumbler.
+
+#### 3. Signing Phase
+
+Tumbler builds the unsigned CoinJoin transaction and gives it to Alices for signing.  
+When all the Alices signed arrive, the Tumbler combines the signatures and propagates the CoinJoin on the network.
 
 ### B. Attacks
+
+### C. Full Protocol
 
 ## III. Wallet Privacy Framework
 
