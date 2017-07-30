@@ -138,10 +138,14 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going, directly through a secure connection or through the sharing of the post-mix wallet's [extpubkey](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallet must be also online while mixing is in process. In the latter case pre-mix wallet MUST NOT share the extpubkey or any of its derived keys of the post-mix wallet with any third party.  
-Pre-mix and post-mix wallets MAY also be just separate wallet accounts within the same wallet.  
 Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, which not only enables cheaper fees, but also enables achieving higher theoretical anonymity set.  
 
-If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what address to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want acquire all the Chaumian CoinJoin transactions ever happened in the Blockchain. In this case it SHOULD also acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address, what can happen if the same post-mix wallet extpubkey is feeded into another wallet for mixing.
+If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what address to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want acquire all the Chaumian CoinJoin transactions ever happened in the Blockchain. In this case it SHOULD also acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address, what can happen if the same post-mix wallet extpubkey is feeded into another wallet for mixing.  
+
+Pre-mix and post-mix wallets MAY also be just separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
+
+![HiddenWalletTumbleBit1](http://i.imgur.com/xT0Ezvm.png)  
+![HiddenWalletTumbleBit2](http://i.imgur.com/rdOGZKG.png)
 
 ### B. Post-Mix Wallet
 
