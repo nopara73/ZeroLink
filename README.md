@@ -71,7 +71,7 @@ If one user of the mix gets deanonymized the real anonymity set of the rest of t
 
 ### Transactions And Transaction Chains
 
-Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](www.coinjoinsudoku.com).  
+Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com).  
 This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
