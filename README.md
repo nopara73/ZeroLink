@@ -6,25 +6,24 @@
 [TumbleBit](https://github.com/NTumbleBit/NTumbleBit), [HiddenWallet](https://github.com/nopara73/HiddenWallet),  
 adam.ficsor73@gmail.com
 
-## Donating
+## Support
 
 186n7me3QKajQZJnUsVsezVhVrSwyFCCZ  
 [![QR Code](http://i.imgur.com/grc5fBP.png)](https://www.smartbit.com.au/address/186n7me3QKajQZJnUsVsezVhVrSwyFCCZ)
 
 ## Abstract
 
-[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 countless fungibility improvements have been proposed, implemented, deployed and used. Some of them builds on top of Bitcoin, some of them invented their own cryptocurrencies to address the privacy issue. As of today, 2017 no proposal, including privacy centric altcoins addressed the problem in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, we are still not able to transact in a fully anonymous way. The Bitcoin Fungibility Framework is the first attempt to do that. It evaluates all the research and techniques, known to date and combines them in a practical and coherent way.  
-The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) gets deployed and adopted, the entrance and exit transactions will always happen on-chain.  
-**The main goal of ZeroLink is to make a set of coins unlinkable to another set of coins.**  
-Furthermore the authors are also committed to build and deploy a production ready implementation, therefore not get stuck in the research phase.  
+[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 numerous fungibility improvements have been proposed, implemented, deployed and used. Some of them build on top of Bitcoin, some of them created their own cryptocurrencies. Up until now no proposal, including privacy centric altcoins addressed the privacy issue in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, it is not possible to transact with cryptocurrencies in a fully anonymous way. ZeroLink is the first attempt to do that. It evaluates all the research and techniques known to date and combines them in a practical and coherent way.  
+The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) or privacy centric [sidechains](https://elementsproject.org/sidechains/) or [drivechains](http://www.drivechain.info/) become widely adopted, at the end of the day, the entrance and exit transactions will always have to be settled on-chain.  
+ZeroLink does not alter the Bitcoin protocol, it does not attempt to make every Bitcoin transaction indistinguishable from each other in the name of fungibility. Such goal would be unrealistic. **ZeroLink's sole objective is to completely break all links between a set of coins and another set of coins.**  
+Furthermore the authors are fully committed to build a production ready implementation and deploy it, therefore not get stuck in the research phase.  
 
 ## Table Of Contents
 
 I. [Introduction](#i-introduction)  
 II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
-&nbsp;&nbsp;&nbsp;A. [Simplified Protocol](#a-simplified-protocol)  
+&nbsp;&nbsp;&nbsp;A. [Protocol](#a-protocol)  
 &nbsp;&nbsp;&nbsp;B. [Issues](#b-issues)  
-&nbsp;&nbsp;&nbsp;C. [Full Protocol](#c-full-protocol)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
@@ -34,23 +33,23 @@ IV. [Conclusions](#iv-conclusions)
 
 ### CoinJoin
 
-The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input intended to fund which of these outputs.  
-CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques.  
-There is no limit for the maximum theoretical anonimity set. While a natural limiting factor would be the maximum standard transaction size, in which case it goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), it can be surpassed, as Maxwell notes:  
+The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell on Bitcointalk. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
+CoinJoin based privacy techniques are the most Blockchain space efficient, therefore the also the cheapest on-chain solutions.  
+There is practical limit to what anonimity set they can achieve. While a natural limiting factor would be the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), but it can be surpassed, as Maxwell notes:  
 > If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
 
-For practical reasons, this document will not attempt to incorporate such switching network into its design, it rather lets the implementator to scale up if the need ever arises.
+For practical reasons, ZeroLink does not attempt to incorporate such switching network into its design, instead it lets the implementer to scale up if the need ever arises.
 
 ### Chaumian CoinJoin
 
 Chaumian CoinJoin was also briefly described by Maxwell:  
 > Using chaum blind signatures: The users connect and provide inputs (and change addresses) and a cryptographically-blinded version of the address they want their private coins to go to; the server signs the tokens and returns them. The users anonymously reconnect, unblind their output addresses, and return them to the server. The server can see that all the outputs were signed by it and so all the outputs had to come from valid participants. Later people reconnect and sign.  
 
-Every mix made via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Chaumian CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
+Every mix via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Furtheremore Chaumian CoinJoin is by no means complex. Its simplicity allows to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
 
 ### Distributed CoinJoin
 
-It is certainly possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumian CoinJoin is fairly straightforward, therefore existing wallets can easily implement it. The Tumbler is untrusted, so it does not have the risk of coin stealing, nor the risk of privacy breaching, therefore distributing this system might not be fully justified from a practical point of view.  
+It is possible to distribute this scheme. Tim Ruffing's [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf) and [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) are novel attempts to do so. However distributed systems are hard to get right and their maintenance is problematic: they require various tradeoffs, they are more complex, they open the door for various attacks, updating or upgrading them are difficult. The implementation of Chaumian CoinJoin is straightforward, thus existing wallets can easily implement it. The Tumbler is untrusted, consequently it does not have the risk of coin stealing, nor the risk of privacy breaching, and so distributing this system might not be fully justified from a practical point of view.  
 As Maxwell noted:  
 >  I don't know if there is, or ever would be, a reason to bother with a fully distributed version with full privacy, but it's certainly possible.  
 
@@ -59,30 +58,32 @@ Of course distributed systems are more resilient, therefore distribution should 
 ### P2P anonymous communication protocols
 
 As Maxwell noted:  
-> Any transaction privacy system that hopes to hide user's addresses should start with some kind of anonymity network. This is no different. Fortunately networks like Tor, I2P, Bitmessage, and Freenet all already exist and could all be used for this. (Freenet would result in rather slow transactions, however)  
+> Any transaction privacy system that hopes to hide user's addresses should start with some kind of anonymity network. This is no different. Fortunately networks like [Tor](https://www.torproject.org/), [I2P](https://geti2p.net/), [Bitmessage](https://bitmessage.org/), and [Freenet](https://freenetproject.org/) all already exist and could all be used for this. (Freenet would result in rather slow transactions, however)  
 
-Another advantage of CoinShuffle++ is that it does not require such anonymity network as an external dependency, rather it implements its own P2P mixing protocol, DiceMix:  
+Another advantage of [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) is that it does not require such anonymity network as an external dependency, rather it implements its own P2P mixing protocol, DiceMix:  
 >  We conceptualize these P2P anonymous communication protocols as P2P mixing, and present a novel P2P mixing protocol, DiceMix, that needs only four communication rounds in the best case, and 4 + 2f rounds in the worst case with f malicious peers.  
 
-ZeroLink requires such P2P anonymous protocols at mixing and at transaction broadcasting. [Tor](https://www.torproject.org/) is the most widely deployed such protocol, therefore ZeroLink chooses to rely on it. Note also an ZeroLink compliant application should not use a Tor proxy to the clearnet, but rather stay inside the Tor network and constrain its communication with [hidden services](https://www.torproject.org/docs/hidden-services.html.en). This is to protect against of various [attacks](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Weaknesses).  
+ZeroLink requires such P2P anonymous protocols at mixing and at transaction broadcasting. [Tor](https://www.torproject.org/) is the most widely deployed such protocol, therefore ZeroLink chooses to rely on it.  
+Note also a ZeroLink compliant application should not use a Tor proxy to the clearnet, but rather stay inside the Tor network and constrain its communication with [hidden services](https://www.torproject.org/docs/hidden-services.html.en). This constrain is needed in order to dodge various [attacks](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Weaknesses).  
 
-Elimination of Tor dependency should be an interest of future research.  
+Elimination of the Tor dependency should be an interest of future research.  
  
 ### Privacy Is Teamwork
 
-The theoretical anonymity set of a mixing technique is misleading. As an example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a central server is already aware of all its wallet addresses, so it knows the link between an input and an output of a mix. 
+The theoretical anonymity set of a mixing technique is misleading. For example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a third party can re-estabilish the links through other channels, as it was the case with Mycelium's undeployed CoinShuffle implementation: [ShufflePuff](https://github.com/DanielKrawisz/Shufflepuff).  
 If one user of the mix gets deanonymized the real anonymity set of the rest of the users gets lower, too, therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
 
 ### Transactions And Transaction Chains
 
 Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-estabilish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin) (service "temporarily" cancelled due to awareness of its privacy limitations and reports of stuck transactions.)  
-This notion leads to multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
+This notion leads to mixing in multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
 
-For example if our post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
+When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
+If our post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-estabilish links between pre-mix and post-mix wallets.  
 
-If [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue".
+It is also worth to note if [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
 
 ### Theoretical And Real Anonymity Set
 
@@ -106,7 +107,7 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 
 ## II. Chaumian CoinJoin
 
-### A. Simplified Protocol
+### A. Protocol
 
 Alice and Bob are same user, but the Tumbler does not know about that.  
 
@@ -178,8 +179,6 @@ Achieving initial liquidity might be problematic. We can set desired minimum ano
 
 A simple alghoritm can work, but more sophisticated ones can be applied too:  
 Choose the minimum anonimity set to 3 and the maximum to 300. What was the previous desired anonimity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonimity set, otherwise increment it.
-
-### C. Full Protocol
 
 ## III. Wallet Privacy Framework
 
