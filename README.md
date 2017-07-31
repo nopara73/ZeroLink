@@ -82,7 +82,7 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If our post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
-It is also worth to note if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
+It is also worth noting that if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
 
 ### Theoretical And Real Anonymity Set
 
@@ -136,7 +136,7 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 #### DoS attacks
 
-There are various ways malicious users can paralyze a round. With Tumbler as new attacks are being executed it MUST adopt and implement protections against. However there are some obvious DoS attacks we address and recommend countermeasures.
+There are various ways malicious users can paralyze a round. As new attacks are being executed the Tumbler MUST adopt and implement protections against. However there are some obvious DoS attacks we address and recommend countermeasures.
 
 ##### DoS 1: What if an Alice spends her input immaturely?
 
@@ -144,7 +144,7 @@ If it happens at input registration phase the Tumbler SHOULD ban the malicious A
 
 If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
 
-Clients MUST not ever register withh the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
+Clients MUST not ever register with the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
 
 ##### DoS 2: What if an Alice refuses to sign?
 
