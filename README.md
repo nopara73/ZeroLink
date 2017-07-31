@@ -26,8 +26,7 @@ II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)
 &nbsp;&nbsp;&nbsp;B. [Issues](#b-issues)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
-&nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
-IV. [Conclusions](#iv-conclusions)  
+&nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)
 
 ## I. Introduction
 
@@ -261,5 +260,3 @@ ZeroLink compliant wallets SHOULD also change Tor circuit between every transact
 It might also be a sufficiently private way to push transactions to a public API over Tor. This would definitely be easier to implement, but this external dependency cannot be expected to be relied on by all post-mix wallet implementations and all of them should use the same way of broadcasting transactions.  
 
 Private transaction broadcasting should be an interest of future research.
-
-## IV. Conclusions
