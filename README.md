@@ -35,7 +35,11 @@ IV. [Conclusions](#iv-conclusions)
 ### CoinJoin
 
 The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input intended to fund which of these outputs.  
-CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques. The maximum reachable theoretical anonymity set goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091).
+CoinJoin based techniques are generally the most Blockchain space efficient, therefore the cheapest on-chain Bitcoin privacy techniques.  
+There is no limit for the maximum theoretical anonimity set. While a natural limiting factor would be the maximum standard transaction size, in which case it goes [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), it can be surpassed, as Maxwell notes:  
+> If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
+
+For practical reasons, this document will not attempt to incorporate such switching network into its design, it rather lets the implementator to scale up if the need ever arises.
 
 ### Chaumian CoinJoin
 
@@ -169,7 +173,7 @@ Pre-mix and post-mix wallets MAY also be just separate wallet accounts within th
 
 ### B. Post-Mix Wallet
 
-The requirements of the post-mix wallet are much stronger, than the pre-mix wallet's.  
+The privacy requirements of the post-mix wallet are much stronger, than the pre-mix wallet's.  
 It is not only important for the post-mix wallet to work in a way that doesn't breach privacy, but it is also important that it works in only one way. As an example if the post-mix wallet enables its users to use both [P2WPKH and P2WSH](https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki), then a set of users will naturally converge to one type of usage that would lead an observer to valuable conclusions.  
 When in the future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing ZeroLink deployments it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
 
@@ -214,7 +218,9 @@ At the time of writing there are three types of wallet architechtures those don'
 - Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also not store hundreds of gigabytes of blockchain data, they throws away what they don't need. There are currently 3 implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
 - [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
   
-The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.
+The good news are there is an easier, user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since there input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result drastically better user experience, because it does not need to wait hours for blockchain syncing.  
+
+Furthermore, because of every time when CJ transaction fails, new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. 21 to 100 would be probably sufficient.
 
 #### Private Transaction Broadcasting
 
