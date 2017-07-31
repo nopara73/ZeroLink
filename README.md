@@ -14,7 +14,7 @@ adam.ficsor73@gmail.com
 ## Abstract
 
 [Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008 numerous fungibility improvements have been proposed, implemented, deployed and used. Some of them build on top of Bitcoin, some of them created their own cryptocurrencies. Up until now no proposal, including privacy centric altcoins addressed the privacy issue in its full scale. No proposal attempted to provide protections against all the different ways a user's privacy can be breached. As a result, it is not possible to transact with cryptocurrencies in a fully anonymous way. ZeroLink is the first attempt to do that. It evaluates all the research and techniques known to date and combines them in a practical and coherent way.  
-The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf) or privacy centric [sidechains](https://elementsproject.org/sidechains/) or [drivechains](http://www.drivechain.info/) become widely adopted, at the end of the day, the entrance and exit transactions will always have to be settled on-chain.  
+The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf), [Mimblewimble](https://github.com/ignopeverell/grin) or privacy centric [sidechains](https://elementsproject.org/sidechains/) or [drivechains](http://www.drivechain.info/) become widely adopted, at the end of the day, the entrance and exit transactions will always have to be settled on-chain.  
 ZeroLink does not alter the Bitcoin protocol, it does not attempt to make every Bitcoin transaction indistinguishable from each other in the name of fungibility. Such goal would be unrealistic. **ZeroLink's sole objective is to completely break all links between a set of coins and another set of coins.**  
 Furthermore the authors are fully committed to build a production ready implementation and deploy it, therefore not get stuck in the research phase.  
 
@@ -83,23 +83,23 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If our post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-estabilish links between pre-mix and post-mix wallets.  
 
-It is also worth to note if [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
+It is also worth to note if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
 
 ### Theoretical And Real Anonymity Set
 
-We refer to theoretical anonymity set as the anonymity set that is achieved by a bitcoin mixing technique within one round and does not weigh in in external factors, like flawed wallet architechture.  
-We refer to real anonymity set when these these external factors are weighted in and transaction chains are analyzed.  
+We refer to theoretical anonymity set as the anonymity set that is achieved by a bitcoin mixing technique within one round and does not weigh in external factors, like flawed wallet architechture or network analysis.  
+We refer to real anonymity set when these external factors are weighted in and transaction chains are analyzed.  
 
 ### Alternative On-Chain Mixing
 
-TumbleBit Classic Tumbler mode and [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example while TumbleBit requires 4 transactions, therefore 4 times transaction fees, CoinJoin requires only 1. While TumbleBit requires hours to complete a round, CoinJoin minutes.  
-CoinShuffle and [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we omit to discuss it here.  
-JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive for bigger anonymity sets and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' mixed coins.  
-Finally there's also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed Confidential Transacions.  
+Ethan Heilman's [TumbleBit Classic Tumbler](https://eprint.iacr.org/2016/575.pdf) mode and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit's Classic Tumbler](https://github.com/NTumbleBit/NTumbleBit) implementation requires 4 transactions, therefore roughly 4 times transaction fees, CoinJoin requires only 1. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
+CoinShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we omit to discuss it here.  
+JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive quickly as the anonymity set grows and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour.  
+Finally, there is also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed [Confidential Transacions](https://elementsproject.org/elements/confidential-transactions/).  
 
-When in the future [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin, CoinJoin based techniques will get even more Blockchain space efficient, therefore cheaper.
+It is also worth to note when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future CoinJoin based techniques will get even more Blockchain space efficient.
 
-Find more detailed comparisons [here](https://medium.com/@nopara73/tumblebit-vs-coinjoin-15e5a7d58e3).  
+More detailed comparisons can be found in the article: [TumbleBit vs CoinJoin](https://medium.com/@nopara73/tumblebit-vs-coinjoin-15e5a7d58e3).  
 
 ### RFC2119
 
