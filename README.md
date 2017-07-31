@@ -23,7 +23,7 @@ Furthermore the authors are also committed to build and deploy a production read
 I. [Introduction](#i-introduction)  
 II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
 &nbsp;&nbsp;&nbsp;A. [Simplified Protocol](#a-simplified-protocol)  
-&nbsp;&nbsp;&nbsp;B. [Attacks](#b-attacks)  
+&nbsp;&nbsp;&nbsp;B. [Issues](#b-issues)  
 &nbsp;&nbsp;&nbsp;C. [Full Protocol](#c-full-protocol)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
@@ -128,7 +128,27 @@ Bobs registers their signed outputs to the Tumbler.
 Tumbler builds the unsigned CoinJoin transaction and gives it to Alices for signing.  
 When all the Alices signed arrive, the Tumbler combines the signatures and propagates the CoinJoin on the network.
 
-### B. Attacks
+### B. Issues
+
+#### DoS attacks
+
+There are various ways malicious users can paralyze a round. The Tumbler as new attacks are being executed it MUST adopt and implement protections against. However there are some obvious DoS attacks we address and recommend countermeasures.
+
+##### DoS 1: What if an Alice spends her input immaturely?
+
+If it happens at input registration phase the Tumbler SHOULD ban the malicious Alice's provided inputs, if there still are some unspent, and the outputs of the provided inputs spending transaction. The ban SHOULD have a one month timeout.  
+
+If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
+
+Clients MUST not ever register twice the same CJ output, even if the round fails, otherwise the Tumbler could work with that information.  
+
+##### DoS 2: What if an Alice refuses to sign?
+
+The same strategy applied as in DoS 1.
+
+##### DoS 3: What if a Bob does not provide output?
+
+The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their link outputs.
 
 ### C. Full Protocol
 
