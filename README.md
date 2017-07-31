@@ -154,6 +154,31 @@ The same strategy applied as in DoS 1.
 
 The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their link outputs.
 
+#### When to change between phases?
+
+We could stuck the phases into timeframes, but in practice, if a wallet software does not have enough liquidity, that would often result in low, even zero anonimity set rounds, also fixed timeframes would lead to unnecessarily long rounds, therefore a more sophisticated solution is needed:  
+
+##### Long rounds
+
+To solve the unnecessarily long timeframe issue it's the most efficient if we let the Tumbler to make the decisions when to switch between phases when every information successfully arrived. Otherwise time out a phase with one minute.  
+However this makes various timing attacks by the Tumbler possible those could deanonymize some Alices.  
+To make sure the Tumbler is honest about its phases all clients must setup another identity, let's call it Satoshi that monitors the phases, so the Tumbler does not know who to lie to.  
+
+##### Low anonimity set rounds
+
+When Tumbler reached a desired anonimity set at input registration phase, another connection confirmation phase follows. This phase is intended to sort out disconnected Alices. This will also prevent banning disconnected Alices, who do not indend to malicously not register their signed outputs later, but fail to due to their connectivity.
+
+In order to identify Alices at input registration phase the Tumbler must assign unique identifiers to all Alices, with those unique identifiers Alices can confirm their connection. Note, depending on the anonimity network used, IP addresses are not good way to identify Alices.  
+
+If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonimity set is not reached, so we fall back to input registration phase.  
+
+#### Dynamically growing and shrinking anonimity sets
+
+Achieving initial liquidity might be problematic. We can set desired minimum anonimity set. Without reaching this number the round does not switches out of input registration phase, but how should that desired minimum anonimity set number be chosen?  
+
+A simple alghoritm can work, but more sophisticated ones can be applied too:  
+Choose the minimum anonimity set to 3 and the maximum to 300. What was the previous desired anonimity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonimity set, otherwise increment it.
+
 ### C. Full Protocol
 
 ## III. Wallet Privacy Framework
