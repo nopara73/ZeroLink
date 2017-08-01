@@ -152,7 +152,9 @@ We propose a scheme to the first method:
 When ban is needed we propose banning the registered utxos, all the transaction outputs of the transactions those utxos are present. All first child utxos down the transaction chain (even if they are not yet been created) and all the childs of the parent transactions of those utxos, according to the following illustration:  
 
 ![DoS Protection](http://i.imgur.com/pgBnd07.png)  
-  
+
+If the output being used to attack is coming out of tumbling the Tumbler SHOULD proceed with the banning normally. It is not a problem to ban tumbled outputs, becase they SHOULD NOT be tumbled again. Tumbling them again would mean those outputs are being joined together with other outputs, what SHOULD NOT be allowed with a post-mix wallet. More on this later.  
+
 Such ban SHOULD time out after 1 month.  
 
 IP address ban SHOULD NOT be utilized, because of the nature of typical anonimity networks, which tend to reuse IP addresses.  
