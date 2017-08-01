@@ -32,7 +32,12 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 
 ### CoinJoin
 
-The idea of [CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was introduced in 2013 by Gregory Maxwell on Bitcointalk. When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
+[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was first detailed in 2013 by Gregory Maxwell on Bitcointalk. When multiple participants add inputs and outputs to a common CJ transaction, it confuses blockchain observers.  
+[![Wikipedia: CoinJoin](https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/CoinJoinExample.svg/640px-CoinJoinExample.svg.png)](https://en.wikipedia.org/wiki/CoinJoin)
+
+A stronger variant is, if the non-change outputs have the same value, no one can tell which input was intended to fund which of these non-change outputs.  
+
+When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
 CoinJoin based privacy techniques are the most Blockchain space efficient, therefore they are also the cheapest on-chain solutions.  
 There is practical limit to what anonimity set they can achieve. While a natural limiting factor would be the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), but it can be surpassed, as Maxwell notes:  
 > If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
@@ -108,7 +113,7 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 
 ### A. Protocol
 
-Alice and Bob are same user, but the Tumbler does not know this.  
+Alice and Bob are the same user, but the Tumbler does not know this.  
 
 ![Chaumian CoinJoin](http://i.imgur.com/eVUVM6i.png)
 
