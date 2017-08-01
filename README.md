@@ -124,7 +124,7 @@ Many Alices register their
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
-Tumbler checks if inputs have enough coins, are unspent and confirmed and proofs are valid, then signs the blinded output.  
+Tumbler checks if inputs have enough coins, are unspent, confirmed, weren't registered twice and that the provided proofs are valid, then signs the blinded output.  
 Alices unblind their signed and blinded outputs.
 
 #### 2. Output Registration Phase
@@ -140,11 +140,17 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 #### DoS attacks
 
-There are various ways malicious users can paralyze a round. As new attacks are being executed the Tumbler MUST adopt and implement protections against. However there are some obvious DoS attacks we address and recommend countermeasures.
+There are various ways malicious users can abort a round.  
+If malice detected banning the re-registration of provided utxos are the most straightforward way to defend against DoS attacks. Another obvious way is banning IP addresses, however, because of the nature of typical anonimity networks, which tend to reuse them, IP addresses SHOULD NOT be banned by the Tumbler. The Tumbler operator MUST evolve the strictness and sophistication of such protections over time. When ban is needed we propose banning the registered utxos, all the transaction outputs of the transactions those utxos are present. All first child utxos down the transaction chain (even if they are not yet been created) and all the childs of the parent transactions of those utxos, according to the following illustration:  
+
+![DoS Protection](http://i.imgur.com/pgBnd07.png)  
+  
+Such ban SHOULD time out after 1 month.  
+In the rest of the document we simply refer to this ban as "bannig Alice".  
 
 ##### DoS 1: What if an Alice spends her input immaturely?
 
-If it happens at input registration phase the Tumbler SHOULD ban the malicious Alice's provided inputs if there still are some unspent, and the outputs of the provided inputs spending transaction. The ban SHOULD have a one month timeout.  
+If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
 
 If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
 
@@ -156,7 +162,7 @@ The same strategy applied as in DoS 1.
 
 ##### DoS 3: What if a Bob does not provide output?
 
-The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their link outputs.
+The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned simply reveal their registered outputs in a new Blame Phase.
 
 #### When to change between phases?
 
@@ -182,6 +188,18 @@ Achieving initial liquidity might be problematic. We can set desired minimum ano
 
 A simple alghoritm can work, but more sophisticated ones can be applied too:  
 Choose the minimum anonimity set to 3 and the maximum to 300. What was the previous desired anonimity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonimity set, otherwise increment it.
+
+#### How long a round takes?  
+
+The first phase: Input Registration, using our recommended dynamic anonimity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
+
+If actors disconnect during Input Registration, Connection Confirmation will time out after 1 minute, otherwise this phase should execute quickly.  
+
+The remaining phases, assuming no malicious actors, optimal anonimity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
+
+Assuming sophisticated malicious actors at Output Registration, the round aborts within 2 minutes, because the phase's timeout is 1 minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
+
+Assuming worst case sphisticated malicous actors at Signing, the round aborts within 3 minutes, because the timeout of signing phase is 1 minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
 
 ## III. Wallet Privacy Framework
 
