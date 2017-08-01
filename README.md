@@ -82,7 +82,7 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If our post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
-It is also worth noting that if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue". Tim Ruffing's [ValueSuffle](https://eprint.iacr.org/2017/238.pdf) is such scheme that utilizes CT.
+It is also worth noting that if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "denomination issue".
 
 ### Theoretical And Real Anonymity Set
 
@@ -94,7 +94,7 @@ We refer to real anonymity set when these external factors are weighted in and t
 Ethan Heilman's [TumbleBit Classic Tumbler](https://eprint.iacr.org/2016/575.pdf) mode and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit's Classic Tumbler](https://github.com/NTumbleBit/NTumbleBit) implementation requires 4 transactions, therefore roughly 4 times transaction fees, CoinJoin requires only 1. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
 CoinShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed the former previously, so we need not go in depth here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. This of course gets expensive quickly as the anonymity set grows and it rather achieves plausability, than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour.  
-Finally, there is also [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is still a CoinJoin based technique, however it requires the not yet deployed [Confidential Transacions](https://elementsproject.org/elements/confidential-transactions/).  
+Finally, there is Tim Ruffing's [ValueShuffle](https://eprint.iacr.org/2017/238.pdf) which is CoinShuffle with the not yet deployed [Confidential Transacions](https://elementsproject.org/elements/confidential-transactions/).  
 
 It is also worth noting that when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future, CoinJoin based techniques will get even more Blockchain space efficient.
 
