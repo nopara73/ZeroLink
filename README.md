@@ -154,7 +154,6 @@ When ban is needed we propose banning the registered utxos, all the transaction 
 ![DoS Protection](http://i.imgur.com/pgBnd07.png)  
   
 Such ban SHOULD time out after 1 month.  
-In the rest of the document we simply refer to this ban as "bannig Alice".  
 
 IP address ban SHOULD NOT be utilized, because of the nature of typical anonimity networks, which tend to reuse IP addresses.  
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.
