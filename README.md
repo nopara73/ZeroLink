@@ -140,13 +140,24 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 #### DoS attacks
 
-There are various ways malicious users can abort a round.  
-If malice detected banning the re-registration of provided utxos are the most straightforward way to defend against DoS attacks. Another obvious way is banning IP addresses, however, because of the nature of typical anonimity networks, which tend to reuse them, IP addresses SHOULD NOT be banned by the Tumbler. The Tumbler operator MUST evolve the strictness and sophistication of such protections over time. When ban is needed we propose banning the registered utxos, all the transaction outputs of the transactions those utxos are present. All first child utxos down the transaction chain (even if they are not yet been created) and all the childs of the parent transactions of those utxos, according to the following illustration:  
+There are various ways malicious users can abort a round and there are various ways to defend against it if malice detected:  
+  
+1. Banning the re-registration of provided utxos and the utxos of its related transactions. 
+2. Banning IP addresses.  
+3. Complete with subset.  
+  
+The Tumbler operator MUST evolve the strictness and sophistication of such protections over time.  
+
+We propose a scheme to the first method:  
+When ban is needed we propose banning the registered utxos, all the transaction outputs of the transactions those utxos are present. All first child utxos down the transaction chain (even if they are not yet been created) and all the childs of the parent transactions of those utxos, according to the following illustration:  
 
 ![DoS Protection](http://i.imgur.com/pgBnd07.png)  
   
 Such ban SHOULD time out after 1 month.  
 In the rest of the document we simply refer to this ban as "bannig Alice".  
+
+IP address ban SHOULD NOT be utilized, because of the nature of typical anonimity networks, which tend to reuse IP addresses.  
+The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.
 
 ##### DoS 1: What if an Alice spends her input immaturely?
 
