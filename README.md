@@ -115,12 +115,12 @@ Alice and Bob are same user, but the Tumbler does not know this.
 #### 1. Input Registration Phase
 
 Many Alices register their 
- - utxos as the inputs of the CoinJoin,
+ - confirmed utxos as the inputs of the CoinJoin,
  - proofs that they can spend those utxos (signed messages with the corresponding private keys),
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
-Tumbler checks if inputs have enough coins, are unspent and proofs are valid, then signs the blinded output.  
+Tumbler checks if inputs have enough coins, are unspent and confirmed and proofs are valid, then signs the blinded output.  
 Alices unblind their signed and blinded outputs.
 
 #### 2. Output Registration Phase
