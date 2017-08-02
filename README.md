@@ -74,12 +74,12 @@ Elimination of the Tor dependency should be an interest of future research.
  
 ### Privacy Is Teamwork
 
-The theoretical anonymity set of a mixing technique is misleading. For example it matters little what tracks the user leaves on the Blockchain if, due to the architechture of its wallet, a third party can re-establish the links through other channels, as it was the case with Mycelium's undeployed CoinShuffle implementation: [ShufflePuff](https://github.com/DanielKrawisz/Shufflepuff).  
+The theoretical anonymity set of a mixing technique is misleading. A good example is Mycelium's undeployed CoinShuffle implementation: [ShufflePuff](https://github.com/DanielKrawisz/Shufflepuff). It matters little what tracks users leave on the Blockchain and how effective a the implemented mixing technique is if, due to the architechture of their wallets, a third party can re-establish the links.  
 If one user of the mix gets deanonymized the real anonymity set of the rest of the users gets lower, too. Therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
 
 ### Transactions And Transaction Chains
 
-Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-establish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin) (service "temporarily" cancelled due to awareness of its privacy limitations and reports of stuck transactions.)  
+Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-establish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin). Since the service has been discontinued.
 This notion leads to mixing in multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
