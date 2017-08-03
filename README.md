@@ -150,7 +150,8 @@ Due to the nature of anonymity networks, which tend to reuse IP addresses, banni
 
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
 
-We present a DoS defense based on the utxo registration banning technique. This model makes it economically infeasible to execute DoS attacks in today. It is not impossible that in the future such high volume services emerge those can be utilized by a well funded attacker to bypass this defense model. For this, DoS protection should not be considered as a given, but the Tumbler operator MUST evolve the strictness and sophistication of such protections if the need arises.  
+We present a DoS defense based on the utxo registration banning technique. This model makes it economically infeasible to execute DoS attacks.  
+We should also note that DoS protection should not be considered as a given, but the Tumbler operator MUST evolve the strictness and sophistication of such protections if the need arises.  
 
 Such protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. We will cover the identification in detail later, for now let's consider it given.  
 
