@@ -39,7 +39,7 @@ A stronger variant is, if the non-change outputs have the same value, no one can
 
 When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
 CoinJoin based privacy techniques are the most Blockchain space efficient, therefore they are also the cheapest on-chain solutions.  
-There is practical limit to what anonimity set they can achieve. While a natural limiting factor would be the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), but it can be surpassed, as Maxwell notes:  
+There is practical limit to what anonymity set they can achieve. While a natural limiting factor would be the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091), but it can be surpassed, as Maxwell notes:  
 > If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
 
 For practical reasons, ZeroLink does not attempt to incorporate such switching network into its design, instead it lets the implementer to scale up if the need ever arises.
@@ -157,7 +157,7 @@ If the output being used to attack is coming out of tumbling the Tumbler SHOULD 
 
 Such ban SHOULD time out after 1 month.  
 
-IP address ban SHOULD NOT be utilized, because of the nature of typical anonimity networks, which tend to reuse IP addresses.  
+IP address ban SHOULD NOT be utilized, because of the nature of typical anonymity networks, which tend to reuse IP addresses.  
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.
 
 ##### DoS 1: What if an Alice spends her input immaturely?
@@ -178,7 +178,7 @@ The same strategy applied as in DoS 1 and DoS 2, but with the difference that Al
 
 #### When to change between phases?
 
-We could stick the phases into timeframes, but in practice, if a wallet software does not have enough liquidity, that would often result in low, even zero anonimity set rounds. Also fixed timeframes would lead to unnecessarily long rounds, therefore a more sophisticated solution is needed:  
+We could stick the phases into timeframes, but in practice, if a wallet software does not have enough liquidity, that would often result in low, even zero anonymity set rounds. Also fixed timeframes would lead to unnecessarily long rounds, therefore a more sophisticated solution is needed:  
 
 ##### Long rounds
 
@@ -186,28 +186,28 @@ To solve the unnecessarily long timeframe issue it's the most efficient if we le
 However this makes various timing attacks by the Tumbler possible those could deanonymize some Alices.  
 To make sure the Tumbler is honest about its phases all clients must setup another identity, let's call it Satoshi that monitors the phases, so the Tumbler does not know who to lie to.  
 
-##### Low anonimity set rounds
+##### Low anonymity set rounds
 
-When Tumbler has reached a desired anonimity set at input registration phase, another connection confirmation phase follows. This phase is intended to sort out disconnected Alices. This will also prevent banning disconnected Alices, who do not intend to malicously not register their signed outputs later, but fail to due to their connectivity.
+When Tumbler has reached a desired anonymity set at input registration phase, another connection confirmation phase follows. This phase is intended to sort out disconnected Alices. This will also prevent banning disconnected Alices, who do not intend to malicously not register their signed outputs later, but fail to due to their connectivity.
 
-In order to identify Alices at input registration phase the Tumbler must assign unique identifiers to all Alices, with those unique identifiers Alices can confirm their connection. Note, depending on the anonimity network used, IP addresses are not good ways to identify Alices.  
+In order to identify Alices at input registration phase the Tumbler must assign unique identifiers to all Alices, with those unique identifiers Alices can confirm their connection. Note, depending on the anonymity network used, IP addresses are not good ways to identify Alices.  
 
-If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonimity set is not reached, so we fall back to input registration phase.  
+If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, so we fall back to input registration phase.  
 
-#### Dynamically growing and shrinking anonimity sets
+#### Dynamically growing and shrinking anonymity sets
 
-Achieving initial liquidity might be problematic. We can set desired minimum anonimity set. Without reaching this number the round does not switch out of the input registration phase, but how should that desired minimum anonimity set number be chosen?  
+Achieving initial liquidity might be problematic. We can set desired minimum anonymity set. Without reaching this number the round does not switch out of the input registration phase, but how should that desired minimum anonymity set number be chosen?  
 
 A simple alghoritm can work, but more sophisticated ones can be applied too:  
-Choose the minimum anonimity set to 3 and the maximum to 300. What was the previous desired anonimity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonimity set, otherwise increment it.
+Choose the minimum anonymity set to 3 and the maximum to 300. What was the previous desired anonymity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonymity set, otherwise increment it.
 
 #### How long a round takes?  
 
-The first phase: Input Registration, using our recommended dynamic anonimity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
+The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
 
 If actors disconnect during Input Registration, Connection Confirmation will time out after 1 minute, otherwise this phase should execute quickly.  
 
-The remaining phases, assuming no malicious actors, optimal anonimity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
+The remaining phases, assuming no malicious actors, optimal anonymity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
 
 Assuming sophisticated malicious actors at Output Registration, the round aborts within 2 minutes, because the phase's timeout is 1 minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
 
