@@ -159,7 +159,7 @@ In order to explain this scheme we define the term generation according to the f
 
 ![Generations](http://i.imgur.com/RIwvRvL.png) 
 
-When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1), 0. and 1. generation related outputs. Of course only unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
+When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1)., 0. and 1. generation related outputs. Of course only unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
 
 This should be sufficient to prevent most attacker from trying, however a sophisticated attacker could make another transaction, so its outputs falls into the 2. generation, where the ban is not extended.  
 If such technique is used to distrupt another round the Tumbler SHOULD extend its ban to all generations of outputs from 0. to infinity. In this case the 0. generation outputs are not the malicious outputs's generation those are used to disrupt a round the second time, but the first time.  
@@ -171,7 +171,7 @@ A ban SHOULD time out after 1 month.
 There is a way for a both persistent and sophisticated attacker to still disrupt the Tumbling.  
 As it will be detailed later, the most sophisticated attacker can delay the execution of a round to maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker have to disrupt.  
 
-To execute the first attack the attacker must posess approximately `480/2=`240 bitcoins, assuming 1 bitcoin Tumbler denomination. The attacker first have to pre-divide its reserves into 1 bitcoin outputs, then make another transactions, so when the attack is executed the outputs don't come from the same (-1.), but (-2.) generation, which is not banned. Assuming $1 transaction fees, it would take approximately $500 dollar to disrupt the mixing for half a day, by not signing in the end. However the attacker could also make 2 other transactions per malicious outputs, so they end up in the 2. generation, which is not banned, and keep up the attack fo another half a day. This also costs the attacker $500, therefor **keeping up a DoS attack for 1 day would costs approximately $1000 dollar**.  
+To execute the first attack the attacker must posess approximately `480/2=`240 bitcoins, assuming 1 bitcoin Tumbler denomination. The attacker first have to pre-divide its reserves into 1 bitcoin outputs, then make another transactions, so when the attack is executed the outputs don't come from the same (-1)., but (-2). generation, which is not banned. Assuming $1 transaction fees, it would take approximately $500 dollar to disrupt the mixing for half a day, by not signing in the end. However the attacker could also make 2 other transactions per malicious outputs, so they end up in the 2. generation, which is not banned, and keep up the attack fo another half a day. This also costs the attacker $500, therefor **keeping up a DoS attack for 1 day would costs approximately $1000 dollar**.  
 
 Because of the 1 month ban time out, it is possible to keep up such attack forever if the attacker has `240*31=`7440 bitcoin reserves for this purpose and willing to pay the $1000 daily attack cost.  
 
