@@ -159,10 +159,10 @@ In order to explain this scheme we define the term generation according to the f
 
 ![Generations](http://i.imgur.com/RIwvRvL.png) 
 
-When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1)., 0. and 1. generation related outputs. Of course only unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
+When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1)., 0. and 1. generation related outputs. Of course only the ban of unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
 
-This should be sufficient to prevent most attacker from trying, however a sophisticated attacker could make another transaction, so its outputs falls into the 2. generation, where the ban is not extended.  
-If such technique is used to distrupt another round the Tumbler SHOULD extend its ban to all generations of outputs from 0. to infinity. In this case the 0. generation outputs are not the malicious outputs's generation those are used to disrupt a round the second time, but the first time.  
+This should be sufficient to prevent most attackers from trying, however a sophisticated attacker could make another transaction, so its outputs falls into the 2. generation, where the ban is not extended.  
+If such technique is used to distrupt another round the Tumbler SHOULD extend its ban to all generations of outputs from 0. to infinity. In this case the 0. generation outputs are not the malicious outputs' generation those are used to disrupt a round the second time, but the first time.  
 
 A ban SHOULD time out after 1 month.  
 
@@ -299,7 +299,7 @@ At this time there are three types of wallet architechtures, those don't breach 
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for blockchain syncing.  
 
-Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. 21 to 100 would be probably sufficient.
+Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for 2 days.
 
 #### Private Transaction Broadcasting
 
