@@ -140,25 +140,46 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 #### DoS attacks
 
-There are various ways malicious users can abort a round and there are various ways to defend against it if malice detected:  
-  
-1. Banning the re-registration of provided utxos and the utxos of its related transactions. 
-2. Banning IP addresses.  
-3. Complete with subset.  
-  
-The Tumbler operator MUST evolve the strictness and sophistication of such protections over time.  
+There are various ways malicious users can abort a round and there are various ways to defend against it:
 
-We propose a scheme to the first method:  
-When ban is needed we propose banning the registered utxos, all the transaction outputs of the transactions those utxos are present. All first child utxos down the transaction chain (even if they are not yet been created) and all the childs of the parent transactions of those utxos, according to the following illustration:  
+1. Banning IP addresses,  
+2. Complete with subset,  
+3. Banning the registration of provided utxos and related utxos of malicious Alice.  
 
-![DoS Protection](http://i.imgur.com/pgBnd07.png)  
+Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
 
-If the output being used to attack is coming out of tumbling the Tumbler SHOULD proceed with the banning normally. It is not a problem to ban tumbled outputs, becase they SHOULD NOT be tumbled again. Tumbling them again would mean those outputs are being joined together with other outputs, what SHOULD NOT be allowed with a post-mix wallet. More on this later.  
+The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
 
-Such ban SHOULD time out after 1 month.  
+We present a DoS defense based on the utxo registration banning technique. This model makes it economically infeasible to execute DoS attacks in today. It is not impossible that in the future such high volume services emerge those can be utilized by a well funded attacker to bypass this defense model. For this, DoS protection should not be considered as a given, but the Tumbler operator MUST evolve the strictness and sophistication of such protections if the need arises.  
 
-IP address ban SHOULD NOT be utilized, because of the nature of typical anonymity networks, which tend to reuse IP addresses.  
-The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.
+Such protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. We will cover the identification in detail later, for now let's consider it given.  
+
+In order to explain this scheme we define the term generation according to the following illustration:
+
+![Generations](http://i.imgur.com/RIwvRvL.png) 
+
+When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1), 0. and 1. generation related outputs. Of course only unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
+
+This should be sufficient to prevent most attacker from trying, however a sophisticated attacker could make another transaction, so its outputs falls into the 2. generation, where the ban is not extended.  
+If such technique is used to distrupt another round the Tumbler SHOULD extend its ban to all generations of outputs from 0. to infinity. In this case the 0. generation outputs are not the malicious outputs's generation those are used to disrupt a round the second time, but the first time.  
+
+A ban SHOULD time out after 1 month.  
+
+##### Why is this defense is effective?
+
+There is a way for a both persistent and sophisticated attacker to still disrupt the Tumbling.  
+As it will be detailed later, the most sophisticated attacker can delay the execution of a round to maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker have to disrupt.  
+
+To execute the first attack the attacker must posess approximately `480/2=`240 bitcoins, assuming 1 bitcoin Tumbler denomination. The attacker first have to pre-divide its reserves into 1 bitcoin outputs, then make another transactions, so when the attack is executed the outputs don't come from the same (-1.), but (-2.) generation, which is not banned. Assuming $1 transaction fees, it would take approximately $500 dollar to disrupt the mixing for half a day, by not signing in the end. However the attacker could also make 2 other transactions per malicious outputs, so they end up in the 2. generation, which is not banned, and keep up the attack fo another half a day. This also costs the attacker $500, therefor **keeping up a DoS attack for 1 day would costs approximately $1000 dollar**.  
+
+Because of the 1 month ban time out, it is possible to keep up such attack forever if the attacker has `240*31=`7440 bitcoin reserves for this purpose and willing to pay the $1000 daily attack cost.  
+
+Using an exchange or a bitcoin mixer to bypass the commitment to huge initial bitcoin reserves is also possible, but hardly feasible. This would put the attacker's bitcoins into third party risk and bring additional costs. 
+
+##### What if the malicous output is directly coming out of a mix?
+
+If the output being used to attack is coming out of tumbling the Tumbler SHOULD proceed normally.  
+It is not a problem to ban tumbled outputs, becase they SHOULD NOT be tumbled again. Tumbling them again would mean those outputs are being joined together with other outputs, what SHOULD NOT be allowed in a post-mix wallet. More on this later.  
 
 ##### DoS 1: What if an Alice spends her input immaturely?
 
@@ -174,7 +195,7 @@ The same strategy applied as in DoS 1.
 
 ##### DoS 3: What if a Bob does not provide output?
 
-The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned simply reveal their registered outputs in a new Blame Phase.
+The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their registered outputs in a new Blame Phase.
 
 #### When to change between phases?
 
