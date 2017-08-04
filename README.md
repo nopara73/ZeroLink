@@ -22,8 +22,10 @@ Furthermore the authors are fully committed to build a production ready implemen
 
 I. [Introduction](#i-introduction)  
 II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)  
-&nbsp;&nbsp;&nbsp;A. [Protocol](#a-protocol)  
-&nbsp;&nbsp;&nbsp;B. [Issues](#b-issues)  
+&nbsp;&nbsp;&nbsp;A. [Simplified Protocol](#a-simplified-protocol)  
+&nbsp;&nbsp;&nbsp;B. [Achieving Liquidity](#b-achieving-liquidity)  
+&nbsp;&nbsp;&nbsp;C. [Optimizing Performance](#c-optimizing-performance)  
+&nbsp;&nbsp;&nbsp;D. [Defending Against DoS Attacks](#d-defending-against-dos-attacks)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)
@@ -110,7 +112,7 @@ The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT" and "MAY" in this docum
 
 ## II. Chaumian CoinJoin
 
-### A. Protocol
+### A. Simplified Protocol
 
 Alice and Bob are the same user, but the Tumbler does not know this.  
 
@@ -136,9 +138,39 @@ Bobs register their signed outputs to the Tumbler.
 Tumbler builds the unsigned CoinJoin transaction and gives it to Alices for signing.  
 When all the Alices signed arrive, the Tumbler combines the signatures and propagates the CoinJoin on the network.
 
-### B. Issues
+### B. Achieving Liquidity
 
-#### DoS attacks
+When a round does not have enough liquidity, that would often result in low, even zero anonymity set rounds. We solve this in the following way:  
+When Tumbler has reached a desired anonymity set at Input Registration phase, another Connection Confirmation phase follows. This phase is intended to sort out disconnected Alices.  
+In order to identify Alices: at Input Registration phase the Tumbler must assign unique identifiers to them. Using these unique identifiers Alices can confirm their connection at Connection Confirmation phase.  
+If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, in consequence we fall back to Input Registration phase.  
+
+How should the desired minimum anonymity set be chosen? Manually or utilizing a dynamic algorithm:  
+Choose the minimum anonymity set to 3 and the maximum to 300. If the previous non-fallback Input Registration phase took more than 3 minutes then decrement this round's desired anonymity set relative to the previous desired anonimity set, otherwise increment it.  
+More sophisticated algorithms may be applied, too.
+
+### C. Optimizing Performance
+
+When to change between phases?  
+The phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even blocks.  
+Nonetheless it results unnecessarily long rounds.  
+Another way of doing it is to stick the phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonimity network by the clients one minute should be enough to conveniently complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
+Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity, we call it Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
+In addition every phase must times out after one minute. This will happen when malicious or disconnected Alice is detected.
+
+#### How long a round takes?  
+
+The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
+
+If actors disconnect during Input Registration, Connection Confirmation will time out after 1 minute, otherwise this phase should execute quickly.  
+
+The remaining phases, assuming no malicious actors, optimal anonymity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
+
+Assuming sophisticated malicious actors at Output Registration, the round aborts within 2 minutes, because the phase's timeout is 1 minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
+
+Assuming worst case sphisticated malicous actors at Signing, the round aborts within 3 minutes, because the timeout of signing phase is 1 minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
+
+### D. Defending Against DoS Attacks
 
 There are various ways malicious users can abort a round and there are various ways to defend against it:
 
@@ -166,7 +198,7 @@ If such technique is used to distrupt another round the Tumbler SHOULD extend it
 
 A ban SHOULD time out after 1 month.  
 
-##### Why is this defense is effective?
+#### Why is this defense is effective?
 
 There is a way for a both persistent and sophisticated attacker to still disrupt the Tumbling.  
 As it will be detailed later, the most sophisticated attacker can delay the execution of a round to maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker have to disrupt.  
@@ -177,12 +209,12 @@ Because of the 1 month ban time out, it is possible to keep up such attack forev
 
 Using an exchange or a bitcoin mixer to bypass the commitment to huge initial bitcoin reserves is also possible, but hardly feasible. This would put the attacker's bitcoins into third party risk and bring additional costs. 
 
-##### What if the malicous output is directly coming out of a mix?
+#### What if the malicous output is directly coming out of a mix?
 
 If the output being used to attack is coming out of tumbling the Tumbler SHOULD proceed normally.  
 It is not a problem to ban tumbled outputs, becase they SHOULD NOT be tumbled again. Tumbling them again would mean those outputs are being joined together with other outputs, what SHOULD NOT be allowed in a post-mix wallet. More on this later.  
 
-##### DoS 1: What if an Alice spends her input immaturely?
+#### DoS 1: What if an Alice spends her input immaturely?
 
 If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
 
@@ -190,50 +222,13 @@ If it happens at later phases the round falls back to input registration phase, 
 
 Clients MUST not ever register with the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
 
-##### DoS 2: What if an Alice refuses to sign?
+#### DoS 2: What if an Alice refuses to sign?
 
 The same strategy applied as in DoS 1.
 
-##### DoS 3: What if a Bob does not provide output?
+#### DoS 3: What if a Bob does not provide output?
 
 The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their registered outputs in a new Blame Phase.
-
-#### When to change between phases?
-
-We could stick the phases into timeframes, but in practice, if a wallet software does not have enough liquidity, that would often result in low, even zero anonymity set rounds. Also fixed timeframes would lead to unnecessarily long rounds, therefore a more sophisticated solution is needed:  
-
-##### Long rounds
-
-To solve the unnecessarily long timeframe issue it's the most efficient if we let the Tumbler to make the decisions when to switch between phases when all information has successfully arrived. Otherwise time out a phase with one minute.  
-However this makes various timing attacks by the Tumbler possible those could deanonymize some Alices.  
-To make sure the Tumbler is honest about its phases all clients must setup another identity, let's call it Satoshi that monitors the phases, so the Tumbler does not know who to lie to.  
-
-##### Low anonymity set rounds
-
-When Tumbler has reached a desired anonymity set at input registration phase, another connection confirmation phase follows. This phase is intended to sort out disconnected Alices. This will also prevent banning disconnected Alices, who do not intend to malicously not register their signed outputs later, but fail to due to their connectivity.
-
-In order to identify Alices at input registration phase the Tumbler must assign unique identifiers to all Alices, with those unique identifiers Alices can confirm their connection. Note, depending on the anonymity network used, IP addresses are not good ways to identify Alices.  
-
-If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, so we fall back to input registration phase.  
-
-#### Dynamically growing and shrinking anonymity sets
-
-Achieving initial liquidity might be problematic. We can set desired minimum anonymity set. Without reaching this number the round does not switch out of the input registration phase, but how should that desired minimum anonymity set number be chosen?  
-
-A simple alghoritm can work, but more sophisticated ones can be applied too:  
-Choose the minimum anonymity set to 3 and the maximum to 300. What was the previous desired anonymity set? If the previous input registration phase took more than 3 minutes then decrement this round's desired anonymity set, otherwise increment it.
-
-#### How long a round takes?  
-
-The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
-
-If actors disconnect during Input Registration, Connection Confirmation will time out after 1 minute, otherwise this phase should execute quickly.  
-
-The remaining phases, assuming no malicious actors, optimal anonymity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
-
-Assuming sophisticated malicious actors at Output Registration, the round aborts within 2 minutes, because the phase's timeout is 1 minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
-
-Assuming worst case sphisticated malicous actors at Signing, the round aborts within 3 minutes, because the timeout of signing phase is 1 minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
 
 ## III. Wallet Privacy Framework
 
