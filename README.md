@@ -120,7 +120,7 @@ Alice and Bob are the same user, but the Tumbler does not know this.
 
 Many Alices register their 
  - confirmed utxos as the inputs of the CoinJoin,
- - proofs that they can spend those utxos (signed messages with the corresponding private keys),
+ - proofs that they can spend those utxos (messages signed with the corresponding private keys),
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
