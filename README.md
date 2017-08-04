@@ -51,7 +51,7 @@ For practical reasons, ZeroLink does not attempt to incorporate such switching n
 Chaumian CoinJoin was also briefly described by Maxwell:  
 > Using chaum blind signatures: The users connect and provide inputs (and change addresses) and a cryptographically-blinded version of the address they want their private coins to go to; the server signs the tokens and returns them. The users anonymously reconnect, unblind their output addresses, and return them to the server. The server can see that all the outputs were signed by it and so all the outputs had to come from valid participants. Later people reconnect and sign.  
 
-Every mix via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Furtheremore Chaumian CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes. 
+Every mix via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Furtheremore Chaumian CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes.  
 
 ### Distributed CoinJoin
 
@@ -158,7 +158,7 @@ Another way of doing it is to stick the phases into timeframes. Assuming perform
 Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity, we call it Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
 In addition every phase must times out after one minute. This will happen when malicious or disconnected Alice is detected.
 
-#### How long a round takes?  
+#### How long does a round take?  
 
 The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
 
@@ -179,56 +179,99 @@ There are various ways malicious users can abort a round and there are various w
 3. Banning the registration of provided utxos and related utxos of malicious Alice.  
 
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
-
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
+This document recommends a DoS defense based on the utxo registration banning technique, whcih makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
+This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. Let's examine the various types of possible DoS attacks and see how we inentify the malicous utxos.
 
-We present a DoS defense based on the utxo registration banning technique. This model makes it economically infeasible to execute DoS attacks.  
-We should also note that DoS protection should not be considered as a given, but the Tumbler operator MUST evolve the strictness and sophistication of such protections if the need arises.  
-
-Such protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. We will cover the identification in detail later, for now let's consider it given.  
-
-In order to explain this scheme we define the term generation according to the following illustration:
-
-![Generations](http://i.imgur.com/RIwvRvL.png) 
-
-When malicious Alice is detected Tumbler SHOULD ban all the outputs Alice registered with and all their (-1)., 0. and 1. generation related outputs. Of course only the ban of unspent utxos are needed, spent ones cannot be registered anyway. Tumbler SHOULD also extend the bans to future, not yet created outputs.  
-
-This should be sufficient to prevent most attackers from trying, however a sophisticated attacker could make another transaction, so its outputs falls into the 2. generation, where the ban is not extended.  
-If such technique is used to distrupt another round the Tumbler SHOULD extend its ban to all generations of outputs from 0. to infinity. In this case the 0. generation outputs are not the malicious outputs' generation those are used to disrupt a round the second time, but the first time.  
+**DoS 1: What if an Alice spends her input immaturely?**  
+If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
+If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
+Clients MUST not ever register with the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
+**DoS 2: What if an Alice refuses to sign?**  
+The same strategy applied as in DoS 1.  
+**DoS 3: What if a Bob does not provide output?**  
+The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their registered outputs in a new Blame Phase.
 
 A ban SHOULD time out after 1 month.  
 
-#### Why is this defense is effective?
+To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. We calculete these metrics by assuming 1btc Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
+The most sophisticated attacker can delay the execution of a round maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
+For simplicity we will assume a malicious Alice only registered one utxo. The same ban applies to all the other utxos, if any, Alice registered with.
 
-There is a way for a both persistent and sophisticated attacker to still disrupt the Tumbling.  
-As it will be detailed later, the most sophisticated attacker can delay the execution of a round to maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker have to disrupt.  
+#### Severity 0: No utxo banning
 
-To execute the first attack the attacker must posess approximately `480/2=`240 bitcoins, assuming 1 bitcoin Tumbler denomination. The attacker first have to pre-divide its reserves into 1 bitcoin outputs, then make another transactions, so when the attack is executed the outputs don't come from the same (-1)., but (-2). generation, which is not banned. Assuming $1 transaction fees, it would take approximately $500 dollar to disrupt the mixing for half a day, by not signing in the end. However the attacker could also make 2 other transactions per malicious outputs, so they end up in the 2. generation, which is not banned, and keep up the attack fo another half a day. This also costs the attacker $500, therefor **keeping up a DoS attack for 1 day would costs approximately $1000 dollar**.  
+![](http://i.imgur.com/dVMnVLO.png)
 
-Because of the 1 month ban time out, it is possible to keep up such attack forever if the attacker has `240*31=`7440 bitcoin reserves for this purpose and willing to pay the $1000 daily attack cost.  
+At 0 severity the attacker can re-register and disrupt a round as many times as it wants.
 
-Using an exchange or a bitcoin mixer to bypass the commitment to huge initial bitcoin reserves is also possible, but hardly feasible. This would put the attacker's bitcoins into third party risk and bring additional costs. 
+Attack|Initial Bitcoin Requirements|Attack Costs
+------|----------------------------|---------------
+1     |1btc                        |$0
 
-#### What if the malicous output is directly coming out of a mix?
+#### Severity 1: Banning the malicious utxo
 
-If the output being used to attack is coming out of tumbling the Tumbler SHOULD proceed normally.  
-It is not a problem to ban tumbled outputs, becase they SHOULD NOT be tumbled again. Tumbling them again would mean those outputs are being joined together with other outputs, what SHOULD NOT be allowed in a post-mix wallet. More on this later.  
+![](http://i.imgur.com/SBqVPwb.png)
 
-#### DoS 1: What if an Alice spends her input immaturely?
+In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
 
-If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
+The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within 10 minutes, the attacker must have around 4 bitcoins to begin with. If we omit the predivison, in this case the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
 
-If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
+Attack|Initial Bitcoin Requirements|Attack Costs
+------|----------------------------|---------------
+1     |480btc                      |$96
+2     |4btc                        |$476
 
-Clients MUST not ever register with the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
+#### Severity 2: Banning the malicious utxo and all its sibling utxos
 
-#### DoS 2: What if an Alice refuses to sign?
+![](http://i.imgur.com/AqmaimX.png)
 
-The same strategy applied as in DoS 1.
+The first attack, where the attacker holds 480btc does not work anymore. Because of the predivision, all the utxos would be banned:
 
-#### DoS 3: What if a Bob does not provide output?
+![](http://i.imgur.com/Uz8uw80.png)
 
-The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their registered outputs in a new Blame Phase.
+Therefore what the attacker would have to do is to predivide its coins in a different way. It cannot create one big transaction, but it can create 480 transactions, thus its attack cost is $480.  
+
+The second attack results in exactly 480 transactions, too.  
+
+Attack|Initial Bitcoin Requirements|Attack Costs
+------|----------------------------|---------------
+1     |480btc                      |$480
+2     |4btc                        |$480
+
+#### Severity 3,4,5,6...
+
+To impose additional costs to the second type of attack the Tumbler can ban the outputs of the transaction that spends the malicious output.
+
+![](http://i.imgur.com/BURPSWP.png)
+
+In this case the attacker has to do one extra transaction to be able to use its coins for attacking again. After the predivision the attacker can disrupt 4 rounds, spends its banned malicious outputs, each one twice. Note, spending an unconfirmed output is valid. That results in `2*4=`8 transactions. It disrupts 4 more rounds, then spends 8 more transactions and so on... The final transaction count will be `(480-4)*2=`952.
+
+Attack|Initial Bitcoin Requirements|Attack Costs
+------|----------------------------|---------------
+1     |480btc                      |$480
+2     |4btc                        |$952
+
+As we reach higher and higher severity so do the Attack Costs grow.  
+
+![](http://i.imgur.com/YFuYI8d.png)
+
+The issue is increasing severity might result in banning honest actors out of the mix: if honest actors get their coins from malicious ones, therefore severity should be kept at level 2 and only to be increased if needed.  
+
+#### Imposing additional Attack Costs to attackers with huge Initial Bitcoin Reserves
+
+Moving the other direction on the transaction chain, towards the parents of the malicious utxo and banning them and their childs to participate in further mixes imposes additional costs to attackers with huge Initial Bitcoin Reserves. Such strategies should be used only if needed because it assumes the parent utxos and their childs are controlled by the attacker. This assumption increases the possibility of banning honest actors.
+
+#### Lowering denomination
+
+By calculating our metrics the Tumbler denomination of 1btc was assumed. Lowering this does not affect the Attack Costs, it only affects the Initial Bitcoin Requirements. 
+
+#### Dependence on high Bitcoin transaction fees
+
+By calculating our metrics we assumed $1 Bitcoin transaction fees. Our proposed DoS defense does not work in a zero fee environment.
+
+#### Can this system be bypassed with Bitcoin exchanges/mixers or similar services?
+
+The Attack Costs cannot be bypassed. Using such service would only impose additional costs on the attacker and introduce third party risk.
 
 ## III. Wallet Privacy Framework
 
