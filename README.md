@@ -86,19 +86,19 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
 
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
-If our post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
+If the post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
 Moreover if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) are introduced to Bitcoin in the future, it could potentially solve the "common denomination issue". Such technique is Tim Ruffing's [ValueShuffle](https://eprint.iacr.org/2017/238.pdf), which is CoinShuffle with Confidential Transactions.
 
 ### Theoretical And Real Anonymity Set
 
-We refer to theoretical anonymity set as the anonymity set that is achieved by a bitcoin mixing technique within one round and does not weigh in external factors, like flawed wallet architechture or network analysis.  
-We refer to real anonymity set when these external factors are weighted in and transaction chains are analyzed.  
+Theoretical anonymity set refers to the anonymity set that is achieved by a bitcoin mixing technique within one round and does not weigh in external factors, like flawed wallet architechture or network analysis.  
+Real anonymity set is when these external factors are weighted in and transaction chains are analyzed.  
 
 ### Alternative On-Chain Mixing
 
 The Classic Tumbler mode of Ethan Heilman's [TumbleBit](https://eprint.iacr.org/2016/575.pdf) and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based, on-chain privacy techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit](https://github.com/NTumbleBit/NTumbleBit): TumbleBit Classic Tumbler implementation requires four transactions, therefore approximately four times transaction fees, CoinJoin requires only one. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
-Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed Ruffing's techniques previously, so we need not go in depth here.  
+Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. Ruffing's techniques were previously discussed, thus there is need not go in depth here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CoinJoin transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. A single JoinMarket style CoinJoin of course gets expensive quickly as the anonymity set grows and it achieves plausible deniability rather than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour. In addition JoinMarket provides more complex techniques, like `patientsendpayment.py` and `tumbler.py`. Gibson's detailed analysis of `tumbler.py` can be found in his GitHub: [Analysis of tumbler privacy](https://github.com/AdamISZ/JMPrivacyAnalysis/blob/master/tumbler_privacy.md).  
 
 Moreover when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future, CoinJoin based techniques will get even more Blockchain space efficient.
@@ -139,10 +139,10 @@ When all the Alices signed arrive, the Tumbler combines the signatures and propa
 
 ### B. Achieving Liquidity
 
-When a round does not have enough liquidity, that would often result in low, even zero anonymity set rounds. We solve this in the following way:  
-When Tumbler has reached a desired anonymity set at Input Registration phase, another Connection Confirmation phase follows. This phase is intended to sort out disconnected Alices.  
+When a round does not have enough liquidity, that would often result in low, even zero anonymity set rounds.  
+The solution is when Tumbler has reached a desired anonymity set at Input Registration phase, another Connection Confirmation phase follows. This phase is intended to sort out disconnected Alices.  
 In order to identify Alices: at Input Registration phase the Tumbler must assign unique identifiers to them. Using these unique identifiers Alices can confirm their connection at Connection Confirmation phase.  
-If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, in consequence we fall back to Input Registration phase.  
+If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, in consequence the round falls back to Input Registration phase.  
 
 How should the desired minimum anonymity set be chosen? Manually or utilizing a dynamic algorithm:  
 Choose the minimum anonymity set to three and the maximum to 300. If the previous non-fallback Input Registration phase took more than three minutes then decrement this round's desired anonymity set relative to the previous desired anonimity set, otherwise increment it.  
@@ -154,12 +154,12 @@ When to change between phases?
 The phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even blocks.  
 Nonetheless it results unnecessarily long rounds.  
 Another way of doing it is to stick the phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonimity network by the clients one minute should be enough to conveniently complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
-Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity, we call it Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
+Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity, Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
 In addition every phase must times out after one minute. This will happen when malicious or disconnected Alice is detected.
 
 #### How long does a round take?  
 
-The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to three minutes, at high liquidity it will run within a few seconds.  
+The first phase: Input Registration, using the recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to three minutes, at high liquidity it will run within a few seconds.  
 
 If actors disconnect during Input Registration, Connection Confirmation will time out after one minute, otherwise this phase should execute quickly.  
 
@@ -180,7 +180,7 @@ There are various ways malicious users can abort a round and there are various w
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
 This document recommends a DoS defense based on the utxo registration banning technique, whcih makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
-This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. By examining all types of possible DoS attacks we identify these malicous utxos.  
+This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. The identification of malicious utxos is explained by examining all possible variations of DoS attacks.
 
 **DoS 1: What if an Alice spends her input immaturely?**  
 If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
@@ -193,9 +193,9 @@ The same strategy is applied as in DoS 1 and DoS 2. The only difference is that 
 
 A ban SHOULD time out after one month.  
 
-To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. We calculete these metrics by assuming one bitcoin Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
+To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. These metrics are calculated in this document by assuming one bitcoin Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
 The most sophisticated attacker can delay the execution of a round maxiumum up to three minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
-For simplicity we will assume a malicious Alice only registered one utxo. The same ban applies to all the other utxos, if any, Alice registered with.
+For simplicity this document assumes a malicious Alice only registered one utxo. If there are any other utxos Alice registered with, the same ban applies to them.  
 
 #### Severity 0: No utxo banning
 
@@ -213,7 +213,7 @@ I.    |1btc                        |$0
 
 In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
 
-The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. If we omit the predivison, in this case the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
+The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. By not factoring in the predivison, the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
@@ -250,7 +250,7 @@ Attack|Initial Bitcoin Requirements|Attack Costs
 I.    |480btc                      |$480
 II.   |4btc                        |$952
 
-As we reach higher and higher severity so do the Attack Costs grow.  
+The higher the severity is, the higher the Attack Costs are.
 
 ![](http://i.imgur.com/YFuYI8d.png)
 
@@ -262,11 +262,11 @@ Moving the other direction on the transaction chain, towards the parents of the 
 
 #### Lowering denomination
 
-By calculating our metrics the Tumbler denomination of one bitcoin was assumed. Lowering this does not affect the Attack Costs, it only affects the Initial Bitcoin Requirements. 
+By calculating the metrics the Tumbler denomination of one bitcoin was assumed. Lowering this does not affect the Attack Costs, it only affects the Initial Bitcoin Requirements. 
 
 #### Dependence on high Bitcoin transaction fees
 
-By calculating our metrics we assumed $1 Bitcoin transaction fees. Our proposed DoS defense does not work in a zero fee environment.
+Attack Cost calculation assumed $1 Bitcoin transaction fees. The proposed DoS defense in a zero fee environment is not sufficient.
 
 #### Can this system be bypassed with Bitcoin exchanges/mixers or similar services?
 
@@ -296,9 +296,9 @@ In future multiple implementations are created for post-mix wallets, those will 
 #### Coin Selection
 
 If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
-We could add coin control feature to the post-mix wallet account, as Bitcoin Core does. While that would result in more conscious post-mix wallet management. In the end, users would eventually join inputs together.  
+Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management, but users would eventually still join inputs together.  
 ![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
-We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
+It is better to prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 In order to make the usage of the post-mix wallet more user friendly the wallet MAY implement some kind of coin control feature. The wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
 
 #### Uniform ScriptPubKeys
