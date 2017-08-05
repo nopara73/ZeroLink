@@ -125,7 +125,7 @@ Many Alices register their
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
-Tumbler checks if inputs have enough coins, are unspent, confirmed, weren't registered twice and that the provided proofs are valid, then signs the blinded output.  
+Tumbler checks if inputs have enough coins, are unspent, confirmed, were not registered twice and that the provided proofs are valid, then signs the blinded output.  
 Alices unblind their signed and blinded outputs.
 
 #### 2. Output Registration Phase
@@ -180,7 +180,7 @@ There are various ways malicious users can abort a round and there are various w
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
 This document recommends a DoS defense based on the utxo registration banning technique, whcih makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
-This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. Let's examine the various types of possible DoS attacks and see how we inentify the malicous utxos.
+This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. By examining all types of possible DoS attacks we identify these malicous utxos.  
 
 **DoS 1: What if an Alice spends her input immaturely?**  
 If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
@@ -329,9 +329,9 @@ It is possible to spend the output of a transaction that did not confirm yet. Po
 #### Retrieving Transaction Information
 
 Retrieving private transaction information from the blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
-At this time there are three types of wallet architechtures, those don't breach the privacy of the users:
-- Full Nodes: Since they download all the transactions the network has nobody can tell who's interested in what transactions.  
-- Full Block Downloading SPV Wallets: Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of blockchain data. They throw away what they do not need. There are currently three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
+At this time there are three types of wallet architechtures, those do not breach the privacy of the users:
+- Full Nodes: Since they download all the transactions the network has nobody can tell who is interested in what transactions.  
+- Full Block Downloading SPV Wallets: Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of blockchain data. They throw away what they do not need. There are currently three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), Ádám Ficsór's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
 - [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21): Which only exists as an idea to date.  
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for blockchain syncing.  
