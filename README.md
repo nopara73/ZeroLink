@@ -2,7 +2,7 @@
 
 ## Authors
 
-Ádám Ficsór (nopara73),  
+Ádám Ficsór,  
 [TumbleBit](https://github.com/NTumbleBit/NTumbleBit), [HiddenWallet](https://github.com/nopara73/HiddenWallet),  
 adam.ficsor73@gmail.com
 
@@ -34,12 +34,12 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 
 ### CoinJoin
 
-[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) (CJ) was first detailed in 2013 by Gregory Maxwell on Bitcointalk. When multiple participants add inputs and outputs to a common CJ transaction, it confuses blockchain observers.  
+[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) was first detailed in 2013 by Gregory Maxwell on Bitcointalk. When multiple participants add inputs and outputs to a common CoinJoin transaction, it confuses blockchain observers.  
 [![Wikipedia: CoinJoin](https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/CoinJoinExample.svg/640px-CoinJoinExample.svg.png)](https://en.wikipedia.org/wiki/CoinJoin)
 
 A stronger variant is, if the non-change outputs have the same value, no one can tell which input was intended to fund which of these non-change outputs.  
 
-When multiple participants add inputs to a common CJ transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
+When multiple participants add inputs to a common CoinJoin transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
 CoinJoin based privacy techniques are the most Blockchain space efficient, therefore they are the cheapest on-chain solutions.  
 The limiting factor of CoinJoin's anonimity set is the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091). Altough it can be surpassed, as Maxwell notes:  
 > If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
@@ -88,7 +88,7 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If our post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
-Moreover if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) (CT) are introduced to Bitcoin in the future, it could potentially solve the "common denomination issue". Such technique is Tim Ruffing's [ValueShuffle](https://eprint.iacr.org/2017/238.pdf), which is CoinShuffle with CT.
+Moreover if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) are introduced to Bitcoin in the future, it could potentially solve the "common denomination issue". Such technique is Tim Ruffing's [ValueShuffle](https://eprint.iacr.org/2017/238.pdf), which is CoinShuffle with Confidential Transactions.
 
 ### Theoretical And Real Anonymity Set
 
@@ -98,8 +98,8 @@ We refer to real anonymity set when these external factors are weighted in and t
 ### Alternative On-Chain Mixing
 
 The Classic Tumbler mode of Ethan Heilman's [TumbleBit](https://eprint.iacr.org/2016/575.pdf) and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based, on-chain privacy techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit](https://github.com/NTumbleBit/NTumbleBit): TumbleBit Classic Tumbler implementation requires four transactions, therefore approximately four times transaction fees, CoinJoin requires only one. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
-Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) (JM) are CoinJoin based techniques. We detailed Ruffing's techniques previously, so we need not go in depth here.  
-JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. A single JM style CJ of course gets expensive quickly as the anonymity set grows and it achieves plausible deniability rather than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour. In addition JoinMarket provides more complex techniques, like `patientsendpayment.py` and `tumbler.py`. Gibson's detailed analysis of `tumbler.py` can be found in his GitHub: [Analysis of tumbler privacy](https://github.com/AdamISZ/JMPrivacyAnalysis/blob/master/tumbler_privacy.md).  
+Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. We detailed Ruffing's techniques previously, so we need not go in depth here.  
+JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CoinJoin transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. A single JoinMarket style CoinJoin of course gets expensive quickly as the anonymity set grows and it achieves plausible deniability rather than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour. In addition JoinMarket provides more complex techniques, like `patientsendpayment.py` and `tumbler.py`. Gibson's detailed analysis of `tumbler.py` can be found in his GitHub: [Analysis of tumbler privacy](https://github.com/AdamISZ/JMPrivacyAnalysis/blob/master/tumbler_privacy.md).  
 
 Moreover when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future, CoinJoin based techniques will get even more Blockchain space efficient.
 
@@ -121,7 +121,7 @@ Alice and Bob are the same user, however the Tumbler does not know this.
 
 Many Alices register their 
  - confirmed utxos as the inputs of the CoinJoin,
- - proofs that they can spend those utxos (messages signed with the corresponding private keys),
+ - proofs, those are messages signed with the corresponding private keys,
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
@@ -184,8 +184,8 @@ This protection requires the Tumbler to identify the malicious Alice's utxos it 
 
 **DoS 1: What if an Alice spends her input immaturely?**  
 If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
-If it happens at later phases the round falls back to input registration phase, and all the so far provided CJ outputs SHOULD be banned by the Tumbler.  
-Clients MUST not ever register with the same CJ output twice, even if the round fails, otherwise the Tumbler could work with that information.  
+If it happens at later phases the round falls back to input registration phase, and all the so far provided CoinJoin outputs SHOULD be banned by the Tumbler.  
+Clients MUST not ever register with the same CoinJoin output twice, even if the round fails, otherwise the Tumbler could work with that information.  
 **DoS 2: What if an Alice refuses to sign?**  
 The same strategy applied as in DoS 1.  
 **DoS 3: What if a Bob does not provide output?**  
@@ -280,7 +280,7 @@ A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going directly through a secure connection or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallets must be online while mixing is in process. In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
 Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, what on the one hand it enables cheaper fees and on the other hand it enables achieving higher theoretical anonymity set.  
 
-If the pre-mix wallet normally uses a privacy breaching way to query its address balances (eg. centralized server or bloom filters) and it is using the post mix wallets' extended public key to decide what addresses to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want to acquire all the Chaumian CoinJoin transactions that ever happened in the Blockchain. In this case it SHOULD acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address which is what can happen if the same post-mix wallet extended public key is fed into another wallet for mixing.  
+If the pre-mix wallet normally uses a privacy breaching way to query its address balances, for instance public web APIs or bloom filters, and it is using the post mix wallets' extended public key to decide what addresses to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be a number of ways to solve this. For example the pre-mix wallet might want to acquire all the Chaumian CoinJoin transactions that ever happened in the Blockchain. In this case it SHOULD acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address which is what can happen if the same post-mix wallet extended public key is fed into another wallet for mixing.  
 
 Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
 
@@ -336,7 +336,7 @@ At this time there are three types of wallet architechtures, those do not breach
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for blockchain syncing.  
 
-Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for two days.
+Furthermore, because  every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for two days.
 
 #### Transaction Broadcasting
 
