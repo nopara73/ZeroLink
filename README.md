@@ -82,7 +82,7 @@ If one user of the mix gets deanonymized the real anonymity set of the rest of t
 ### Transactions And Transaction Chains
 
 Any Bitcoin mixing techique must use a common denomination, otherwise simple amount analysis can re-establish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin). Since the service has been discontinued.
-This notion leads to mixing in multiple rounds. For example if a user wants to mix 8 bitcoins and the mixing denomination is 1 bitcoin, then it must use 8 mixing rounds.  
+This notion leads to mixing in multiple rounds. For example if a user wants to mix eight bitcoins and the mixing denomination is one bitcoin, then it must use eight mixing rounds.  
 As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
 > The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
 
@@ -98,7 +98,7 @@ We refer to real anonymity set when these external factors are weighted in and t
 
 ### Alternative On-Chain Mixing
 
-The Classic Tumbler mode of Ethan Heilman's [TumbleBit](https://eprint.iacr.org/2016/575.pdf) and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based, on-chain privacy techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit](https://github.com/NTumbleBit/NTumbleBit): TumbleBit Classic Tumbler implementation requires 4 transactions, therefore roughly 4 times transaction fees, CoinJoin requires only 1. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
+The Classic Tumbler mode of Ethan Heilman's [TumbleBit](https://eprint.iacr.org/2016/575.pdf) and Gregory Maxwell's [CoinSwap](https://bitcointalk.org/index.php?topic=321228.0) are not CoinJoin based, on-chain privacy techniques. They are both multiple times more expensive and slower than Chaumian CoinJoin. For example Nicolas Dorier's [NTumbleBit](https://github.com/NTumbleBit/NTumbleBit): TumbleBit Classic Tumbler implementation requires four transactions, therefore approximately four times transaction fees, CoinJoin requires only one. While NTumbleBit's Classic Tumbler requires hours to complete a round, CoinJoin minutes.  
 Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) (JM) are CoinJoin based techniques. We detailed Ruffing's techniques previously, so we need not go in depth here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CJ transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. A single JM style CJ of course gets expensive quickly as the anonymity set grows and it achieves plausible deniability rather than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour. JM also provides more complex techniques, like `patientsendpayment.py` and `tumbler.py`. Gibson's detailed analysis of `tumbler.py` can be found in his GitHub: [Analysis of tumbler privacy](https://github.com/AdamISZ/JMPrivacyAnalysis/blob/master/tumbler_privacy.md).  
 
@@ -146,7 +146,7 @@ In order to identify Alices: at Input Registration phase the Tumbler must assign
 If some Alices did not confirm their registration within the input confirmation phase timeout, then the desired anonymity set is not reached, in consequence we fall back to Input Registration phase.  
 
 How should the desired minimum anonymity set be chosen? Manually or utilizing a dynamic algorithm:  
-Choose the minimum anonymity set to 3 and the maximum to 300. If the previous non-fallback Input Registration phase took more than 3 minutes then decrement this round's desired anonymity set relative to the previous desired anonimity set, otherwise increment it.  
+Choose the minimum anonymity set to three and the maximum to 300. If the previous non-fallback Input Registration phase took more than three minutes then decrement this round's desired anonymity set relative to the previous desired anonimity set, otherwise increment it.  
 More sophisticated algorithms may be applied, too.
 
 ### C. Optimizing Performance
@@ -160,15 +160,15 @@ In addition every phase must times out after one minute. This will happen when m
 
 #### How long does a round take?  
 
-The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to 3 minutes, at high liquidity it will run within a few seconds.  
+The first phase: Input Registration, using our recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to three minutes, at high liquidity it will run within a few seconds.  
 
-If actors disconnect during Input Registration, Connection Confirmation will time out after 1 minute, otherwise this phase should execute quickly.  
+If actors disconnect during Input Registration, Connection Confirmation will time out after one minute, otherwise this phase should execute quickly.  
 
 The remaining phases, assuming no malicious actors, optimal anonymity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the whole round should execute within a couple of seconds.  
 
-Assuming sophisticated malicious actors at Output Registration, the round aborts within 2 minutes, because the phase's timeout is 1 minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
+Assuming sophisticated malicious actors at Output Registration, the round aborts within two minutes, because the phase's timeout is one minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
 
-Assuming worst case sphisticated malicous actors at Signing, the round aborts within 3 minutes, because the timeout of signing phase is 1 minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
+Assuming worst case sphisticated malicous actors at Signing, the round aborts within three minutes, because the timeout of signing phase is one minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
 
 ### D. Defending Against DoS Attacks
 
@@ -192,21 +192,21 @@ The same strategy applied as in DoS 1.
 **DoS 3: What if a Bob does not provide output?**  
 The same strategy applied as in DoS 1 and DoS 2, but with the difference that Alices who do not wish to be banned reveal their registered outputs in a new Blame Phase.
 
-A ban SHOULD time out after 1 month.  
+A ban SHOULD time out after one month.  
 
-To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. We calculete these metrics by assuming 1btc Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
-The most sophisticated attacker can delay the execution of a round maxiumum up to 3 minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
+To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. We calculete these metrics by assuming one bitcoin Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
+The most sophisticated attacker can delay the execution of a round maxiumum up to three minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
 For simplicity we will assume a malicious Alice only registered one utxo. The same ban applies to all the other utxos, if any, Alice registered with.
 
 #### Severity 0: No utxo banning
 
 ![](http://i.imgur.com/dVMnVLO.png)
 
-At 0 severity the attacker can re-register and disrupt a round as many times as it wants.
+At level zero severity the attacker can re-register and disrupt a round as many times as it wants.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-1     |1btc                        |$0
+I.    |1btc                        |$0
 
 #### Severity 1: Banning the malicious utxo
 
@@ -214,12 +214,12 @@ Attack|Initial Bitcoin Requirements|Attack Costs
 
 In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
 
-The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within 10 minutes, the attacker must have around 4 bitcoins to begin with. If we omit the predivison, in this case the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
+The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. If we omit the predivison, in this case the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-1     |480btc                      |$96
-2     |4btc                        |$476
+I.    |480btc                      |$96
+II.   |4btc                        |$476
 
 #### Severity 2: Banning the malicious utxo and all its sibling utxos
 
@@ -235,8 +235,8 @@ The second attack results in exactly 480 transactions, too.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-1     |480btc                      |$480
-2     |4btc                        |$480
+I.    |480btc                      |$480
+II.   |4btc                        |$480
 
 #### Severity 3,4,5,6...
 
@@ -244,18 +244,18 @@ To impose additional costs to the second type of attack the Tumbler can ban the 
 
 ![](http://i.imgur.com/BURPSWP.png)
 
-In this case the attacker has to do one extra transaction to be able to use its coins for attacking again. After the predivision the attacker can disrupt 4 rounds, spends its banned malicious outputs, each one twice. Note, spending an unconfirmed output is valid. That results in `2*4=`8 transactions. It disrupts 4 more rounds, then spends 8 more transactions and so on... The final transaction count will be `(480-4)*2=`952.
+In this case the attacker has to do one extra transaction to be able to use its coins for attacking again. After the predivision the attacker can disrupt four rounds, spends its banned malicious outputs, each one twice. Note, spending an unconfirmed output is valid. That results in `2*4=`8 transactions. It disrupts four more rounds, then spends eight more transactions and so on... The final transaction count will be `(480-4)*2=`952.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-1     |480btc                      |$480
-2     |4btc                        |$952
+I.    |480btc                      |$480
+II.   |4btc                        |$952
 
 As we reach higher and higher severity so do the Attack Costs grow.  
 
 ![](http://i.imgur.com/YFuYI8d.png)
 
-The issue is increasing severity might result in banning honest actors out of the mix: if honest actors get their coins from malicious ones, therefore severity should be kept at level 2 and only to be increased if needed.  
+The issue is increasing severity might result in banning honest actors out of the mix: if honest actors get their coins from malicious ones, therefore severity should be kept at level two and only to be increased if needed.  
 
 #### Imposing additional Attack Costs to attackers with huge Initial Bitcoin Reserves
 
@@ -263,7 +263,7 @@ Moving the other direction on the transaction chain, towards the parents of the 
 
 #### Lowering denomination
 
-By calculating our metrics the Tumbler denomination of 1btc was assumed. Lowering this does not affect the Attack Costs, it only affects the Initial Bitcoin Requirements. 
+By calculating our metrics the Tumbler denomination of one bitcoin was assumed. Lowering this does not affect the Attack Costs, it only affects the Initial Bitcoin Requirements. 
 
 #### Dependence on high Bitcoin transaction fees
 
@@ -332,12 +332,12 @@ It is possible to spend the output of a transaction that did not confirm yet. Po
 Retrieving private transaction information from the blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [also not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
 At this time there are three types of wallet architechtures, those don't breach the privacy of the users:
 - Full Nodes - Since they download all the transactions the network has nobody can tell who's interested in what transactions.  
-- Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also do not store hundreds of gigabytes of blockchain data. They throw away what they don't need. There are currently 3 implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
+- Full Block Downloading SPV Wallets - Such wallets also download all transactions the network has, but from the creation of the wallet, so they don't need weeks for Initial Block Downloading and they also do not store hundreds of gigabytes of blockchain data. They throw away what they don't need. There are currently three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
 - [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for blockchain syncing.  
 
-Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for 2 days.
+Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for two days.
 
 #### Private Transaction Broadcasting
 
