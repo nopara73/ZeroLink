@@ -293,7 +293,7 @@ The privacy requirements of the post-mix wallet are much stronger, than the pre-
 A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in only one way. As an example if the post-mix wallet enables its users to use both [P2WPKH and P2WSH](https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki), then a set of users will naturally converge to one type of usage that would lead an observer to valuable conclusions.  
 In future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing ZeroLink deployments as it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
 
-#### Coin Selection - Disable Input Joining
+#### Coin Selection
 
 If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
 We could add coin control feature to the post-mix wallet account, as Bitcoin Core does. While that would result in more conscious post-mix wallet management. In the end, users would eventually join inputs together.  
@@ -301,19 +301,19 @@ We could add coin control feature to the post-mix wallet account, as Bitcoin Cor
 We rather prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, for example a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 In order to make the usage of the post-mix wallet more user friendly the wallet MAY implement some kind of coin control feature. The wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
 
-#### Uniform ScriptPubKeys - Use Segregated Witness
+#### Uniform ScriptPubKeys
 
 Post-mix wallets MUST use P2WPKH outputs as defined in [BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Witness_program).  
 If post-mix wallets would enable the usage of different scriptpubkeys, then some groups of users would naturally tend to use one way more often than others, leading blockchain observers to various conclusions.
 
-#### Indexing Of Transaction Inputs And Outputs - Use BIP69
+#### Indexing Of Transaction Inputs And Outputs
 
 A post-mix wallet MUST use Lexicographical Indexing of Outputs, as defined in [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).  
 A post-mix wallet, due to its design, will only have one input and maximum two outputs at all times.  
 Uniform indexing is necessary in order for multiple post-mix wallet implementations to look the same.  
 Lexiographical indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
 
-#### Fee Estimation, RBF
+#### Fee Estimation, Replace by Fee
 
 Another common way blockchain analysis applies to figure out which wallet a transaction was constructed with, is by examining the fee  and its fee patterns. Therefore post-mix wallet implementations MUST use unified fee estimating algorithm.  
 If post-mix wallets would enable the selection of transaction fees some users would tend to always use one type of transacion while others would use different ones.  
@@ -326,19 +326,19 @@ Creation of a user independent algorithmic utilization of RBF should be an inter
 
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It leads some users to use it more often, than others.
 
-#### Retrieving Private Transaction Information
+#### Retrieving Transaction Information
 
 Retrieving private transaction information from the blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
 At this time there are three types of wallet architechtures, those don't breach the privacy of the users:
-- Full Nodes - Since they download all the transactions the network has nobody can tell who's interested in what transactions.  
-- Full Block Downloading SPV Wallets - Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of blockchain data. They throw away what they do not need. There are currently three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
-- [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21) - Which only exists as an idea to date.  
+- Full Nodes: Since they download all the transactions the network has nobody can tell who's interested in what transactions.  
+- Full Block Downloading SPV Wallets: Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of blockchain data. They throw away what they do not need. There are currently three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), nopara73's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
+- [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21): Which only exists as an idea to date.  
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for blockchain syncing.  
 
 Furthermore, because  every time a CJ transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, neverthless a post-mix wallet is recommended to monitor 1000 clean addressess after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continously for two days.
 
-#### Private Transaction Broadcasting
+#### Transaction Broadcasting
 
 Private transaction broadcasting is a tricky topic.  
 
