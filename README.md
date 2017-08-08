@@ -7,7 +7,8 @@ nopara73,
 adam.ficsor73@gmail.com
 
 TDevD,  
-[Samourai Wallet](https://github.com/Samourai-Wallet)
+[Samourai Wallet](https://github.com/Samourai-Wallet),  
+[PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
 ## Support
 
@@ -355,3 +356,55 @@ ZeroLink compliant post-mix wallets SHOULD broadcast every transaction on differ
 Broadcasting transactions through a public web API over Tor SHOULD NOT be used. All post-mix wallet implementations SHOULD use the same way of broadcasting. Although it is sufficiently private and simpler to implement, this external dependency cannot be imposed to all post-mix wallet implementations.  
 
 Private transaction broadcasting should be an interest of future research.
+
+### C. Stealth Addresses
+
+#### A Short History
+
+Stealth addresses were described in detail by Peter Todd and the subject was assigned to [BIP63] (https://github.com/genjix/bips/blob/master/bip-stealth.mediawiki) although it was never published in the BIP repository.
+The concept was popularised by [Dark Wallet] (https://github.com/darkwallet/darkwallet) which combined stealth addresses and coin mixing.
+The Dark Wallet project ground to a halt and, despite a couple of attempts at relaunching it, it remains inactive to this day.
+
+BIP47 stealth addresses were proposed by Justus Ranvier and described in [BIP47] (https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki).
+
+BIP47 stealth addresses differ from Dark Wallet stealth addresses in that both sides of a BIP47 payment channel handle address detection and synchronisation rather than relying on any server-assisted blockchain scanning. BIP47 provides the privacy advantages of Dark Wallet-style stealth addresses to Simplfied Payment Verification and other light clients without necessitating the use a trusted full node.
+
+Following the publishing of the BIP, BIP47 stealth addresses were [implemented] (https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet] (https://samouraiwallet.com) and have since gained traction through real usage with over 420 active channels having been created by privacy-seeking users.
+
+It should be noted that Dark Wallet started work on [their own] (https://github.com/darkwallet/darkwallet/commits/pcodes) BIP47 implementation during a short period in early 2016 when their project was momentarily revived. 
+
+#### Chaumian Coinjoin and stealth addressing
+
+##### Background
+
+For the purposes of this proposal for combining Chaumian Coinjoin and stealth addressing, BIP47 will be used. Pre-mix and post-mix wallets will need to use the same protocol. As decribed above, it is a Bitcoin first-layer solution that operates on-chain and has been implemented using existing production-ready code bases and librairies and as such, does not introduce any significant overhead to the overall scheme.
+
+BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-a-vis Alice.
+
+There is no need to exchange or publish individual addresses, public keys or extended public keys before any transaction. In this way, the individual derived addresses will remain off the radar of blockchain analytics and surveillance services in the event of any leaked data.
+
+The disadvantages of extended public key-based solutions are:
+
+* address reuse can occur fairly easily due to various parties not being synchronised. Address spaces based on BIP47 payment codes can easily be kept synchronised becaue there are only two parties involved and transactions can be followed in lockstep.
+
+* extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
+
+Payment codes can be exchanged, distributed, and published without compromising the secrecy and privacy of any individual address generated from the same payment codes thereafter.
+
+##### Application
+
+Stealth addresses generated from BIP47 payment codes can be used within the Wallet Privacy Framework described above.
+
+Rather than relying on post-mix wallet extended public keys, pre-mix and post-mix wallets exchange payment codes and derive addresses on an "as needed" basis. Synchronisation between wallets is simplified as address lookahead is greatly reduced.
+
+Payment codes can be included in the Chaumian encrypted payload. In this way, the server will have no knowledge of which payment codes have been matched with each other. Note that even with knowledge of which payment codes are paired with each other, there is still no knowledge of derived individual addresses or transactions because the server never has any private keys required for address calculating.
+
+Since BIP47 payment codes are used to derive compressed public keys, payments can be made to P2WPKH addresses. Chaumian Coinjoin transactions using BIP47 stealth addressing will not be identifiable on the bitcoin blockchain.
+
+Pre-mix and post-mix wallets do not need to be online at the same time.
+
+Note that BIP47 [notification transactions] (https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki#Notification_Transaction) can be ignored for this application. Notification transactions allow payment codes to be communicated encrypted over the blockchain and be recoverable in the event of a wallet restore and subsequent address rediscovery and synchronisation. For this application, payment codes will be relayed within the Chaumian encrypted payload. If a post-mix wallet loses its own metadata containing the payment code and associated indexes the necessary information can be recalculated the next time, if ever, that the same payment code is received by the post-mix wallet.
+
+##### Pseudonymous repositories
+
+BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, can be served up pseudonymously from a [repository] (https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
