@@ -16,10 +16,12 @@ TDevD,
 
 ## Abstract
 
-[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Since the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) in 2008, numerous fungibility improvements have been proposed, implemented, deployed and used. Some of them build on top of Bitcoin, some of them created their own cryptocurrencies. Up until now no proposal, including privacy centric altcoins, addressed the privacy issue in its full scale. No proposal attempted to offer protections against all the different ways a user's privacy can be breached. As a result, it is not possible to transact with cryptocurrencies in a fully anonymous way. ZeroLink is the first attempt to do that. It evaluates all the research and techniques known to date and combines them in a practical and coherent way.  
-The scope of ZeroLink is limited to Bitcoin's first layer. As long as the Bitcoin network is being used, there will always be need for on-chain privacy. Even if an off-chain privacy solution, like the [TumbleBit Payment Hub](https://eprint.iacr.org/2016/575.pdf), [Mimblewimble](https://github.com/ignopeverell/grin) or privacy centric [sidechains](https://elementsproject.org/sidechains/) or [drivechains](http://www.drivechain.info/) become widely adopted, at the end of the day, the entrance and exit transactions will always have to be settled on-chain.  
-ZeroLink does not alter the Bitcoin protocol, it does not attempt to make every Bitcoin transaction indistinguishable from each other in the name of fungibility. Such goal would be unrealistic. **ZeroLink's aim is to completely break all links between a set of coins and another set of coins.**  
-Furthermore the authors are fully committed to build a production ready implementation and deploy it, therefore not get stuck in the research phase.  
+[Fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money. Following the invention of [Bitcoin](https://bitcoin.org/bitcoin.pdf) numerous fungibility improvements were proposed. However none of them, including Bitcoin incompatible proposals addressed privacy in its full scale. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached.  
+The scope of ZeroLink is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
+Ideal fungibility requires making every Bitcoin transaction indistinguishable from each other, yet it is an unrealistic goal. ZeroLink's objective is to break all links between a set of coins and another set of coins.  
+ZeroLink presents the Wallet Privacy Framework coupled with Chaumian CoinJoin, first introduced in 2013 by Gregory Maxwell.  
+A mixing round runs within seconds, its anonimity set can go beyond a single CoinJoin transaction's and its DoS resilience presumes above $1 Bitcoin transaction fee environment.  
+It is hoped that ZeroLink will enable the usage of Bitcoin in a fully anonymous way for the first time.  
 
 ## Table Of Contents
 
