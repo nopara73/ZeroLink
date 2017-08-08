@@ -2,9 +2,12 @@
 
 ## Authors
 
-Ádám Ficsór,  
-[TumbleBit](https://github.com/NTumbleBit/NTumbleBit), [HiddenWallet](https://github.com/nopara73/HiddenWallet),  
+nopara73,  
+[Hidden Wallet](https://github.com/nopara73/HiddenWallet),  
 adam.ficsor73@gmail.com
+
+TDevD,  
+[Samourai Wallet](https://github.com/Samourai-Wallet)
 
 ## Support
 
