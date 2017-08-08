@@ -7,7 +7,8 @@ nopara73,
 adam.ficsor73@gmail.com
 
 TDevD,  
-[Samourai Wallet](https://github.com/Samourai-Wallet)
+[Samourai Wallet](https://github.com/Samourai-Wallet),  
+[PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
 ## Support
 
