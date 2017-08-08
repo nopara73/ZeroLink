@@ -21,7 +21,7 @@ TDevD,
 The scope of ZeroLink is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
 Ideal fungibility requires making every Bitcoin transaction to be indistinguishable from each other, yet it is an unrealistic goal. ZeroLink's objective is to break all links between a set of coins and another set of coins.  
 ZeroLink presents the Wallet Privacy Framework coupled with Chaumian CoinJoin, first introduced in 2013 by Gregory Maxwell.  
-A mixing round runs within seconds, its anonimity set can go beyond a single CoinJoin transaction's and its DoS resilience presumes above $1 Bitcoin transaction fee environment.  
+A mixing round runs within seconds, its anonimity set can go beyond a single CoinJoin transaction's if needed and its DoS resilience presumes above $1 Bitcoin transaction fee environment.  
 It is hoped that ZeroLink will enable the usage of Bitcoin in a fully anonymous way for the first time.  
 
 ## Table Of Contents
@@ -39,13 +39,11 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 ## I. Introduction
 
 ### CoinJoin
-
-[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) was first detailed in 2013 by Gregory Maxwell on BitcoinTalk. When multiple participants add inputs and outputs to a common CoinJoin transaction, it confuses Blockchain observers.  
 [![Wikipedia: CoinJoin](https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/CoinJoinExample.svg/640px-CoinJoinExample.svg.png)](https://en.wikipedia.org/wiki/CoinJoin)
 
-A stronger variant is, if the non-change outputs have the same value, no one can tell which input was intended to fund which of these non-change outputs.  
+[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) was first detailed in 2013 by Gregory Maxwell on BitcoinTalk. When multiple participants add inputs and outputs to a common transaction, it confuses Blockchain observers.  
+A stronger variant is, if the non-change outputs have the same value, no one can tell which input intended to fund which of these non-change outputs.  
 
-When multiple participants add inputs to a common CoinJoin transaction and some of the outputs have the same value no one can tell which input was intended to fund which of these outputs.  
 CoinJoin based privacy techniques are the most Blockchain space efficient, therefore they are the cheapest on-chain solutions.  
 The limiting factor of CoinJoin's anonymity set is the [maximum standard transaction size](https://bitcoin.stackexchange.com/a/35882/26859), in which case it goes approximately [from 350 to 470](https://bitcoin.stackexchange.com/questions/57073/what-is-the-maximum-anonimity-set-of-a-coinjoin-transaction/57091). Although it can be surpassed, as Maxwell notes:  
 > If you can build transactions with m participants per transaction you can create a sequence of m*3 transactions which form a three-stage [switching network](https://en.wikipedia.org/wiki/Clos_network) that permits any of m^2 final outputs to have come from any of m^2 original inputs (e.g. using three stages of 32 transactions with 32 inputs each 1024 users can be joined with a total of 96 transactions).  This allows the anonymity set to be any size, limited only by participation.
