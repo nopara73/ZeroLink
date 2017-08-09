@@ -34,7 +34,8 @@ II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)
 &nbsp;&nbsp;&nbsp;D. [Defending Against DoS Attacks](#d-defending-against-dos-attacks)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
-&nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)
+&nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
+&nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
 
 ## I. Introduction
 
