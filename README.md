@@ -3,12 +3,16 @@
 ## Authors
 
 nopara73,  
-[Hidden Wallet](https://github.com/nopara73/HiddenWallet),  
+[Hidden Wallet](https://github.com/nopara73/HiddenWallet), [TumbleBit](https://github.com/NTumbleBit/NTumbleBit),  
 adam.ficsor73@gmail.com
 
 TDevD,  
 [Samourai Wallet](https://github.com/Samourai-Wallet),  
 [PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
+
+### Acknowledgements
+
+Special thanks for Adam Gibson from JoinMarket for his invaluable feedbacks.
 
 ## Support
 
