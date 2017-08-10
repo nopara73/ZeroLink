@@ -153,6 +153,10 @@ How should the desired minimum anonymity set be chosen? Manually or utilizing a 
 Choose the minimum anonymity set to three and the maximum to 300. If the previous non-fallback Input Registration phase took more than three minutes then decrement this round's desired anonymity set relative to the previous desired anonymity set, otherwise increment it.  
 More sophisticated algorithms may be applied, too.
 
+#### No need for multiple mixing rounds
+
+If the denomination is one bitcoin and the user wants to mix eight bitcoins it must participate in eight mixing rounds. By allowing the user to register eight outputs within one round, this issue can be bypassed, resulting eight times cheaper and faster mixing. The drawbacks are weaker anonymity set, less liquidity, more complex implementation and longer mixing rounds. This improvement should be considered to be implemented when a Tumbler achieved massive liquidity. In depth discussion and specification can be found under the issue: [Bypass the need for multiple mixing rounds](https://github.com/nopara73/ZeroLink/issues/21).
+
 ### C. Optimizing Performance
 
 When to change between phases?  
