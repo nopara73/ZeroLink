@@ -378,15 +378,15 @@ It should be noted that Dark Wallet started work on [their own](https://github.c
 
 ##### Background
 
-For the purposes of this proposal for combining Chaumian Coinjoin and stealth addressing, BIP47 will be used. Pre-mix and post-mix wallets will need to use the same protocol. As decribed above, it is a Bitcoin first-layer solution that operates on-chain and has been implemented using existing production-ready code bases and librairies and as such, does not introduce any significant overhead to the overall scheme.
+For the purposes of this proposal of combining Chaumian Coinjoin and stealth addressing, BIP47 will be used. Pre-mix and post-mix wallets will need to use the same protocol. As described above, it is a Bitcoin first-layer solution that operates on-chain and has been implemented using existing production-ready code bases and librairies and, as such, does not introduce any significant overhead to the overall Chaumian Coinjoin workflow.
 
-BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-a-vis Alice.
+BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
 
 There is no need to exchange or publish individual addresses, public keys or extended public keys before any transaction. In this way, the individual derived addresses will remain off the radar of blockchain analytics and surveillance services in the event of any leaked data.
 
 The disadvantages of extended public key-based solutions are:
 
-* address reuse can occur fairly easily due to various parties not being synchronised. Address spaces based on BIP47 payment codes can easily be kept synchronised becaue there are only two parties involved and transactions can be followed in lockstep.
+* address reuse can occur fairly easily due to various parties not being synchronised. Address spaces based on BIP47 payment codes can easily be kept synchronised becaue there are only two parties involved in any channel and transactions can be followed in lockstep.
 
 * extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
 
@@ -404,7 +404,7 @@ Since BIP47 payment codes are used to derive compressed public keys, payments ca
 
 Pre-mix and post-mix wallets do not need to be online at the same time.
 
-Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki#Notification_Transaction) can be ignored for this application. Notification transactions allow payment codes to be communicated encrypted over the blockchain and be recoverable in the event of a wallet restore and subsequent address rediscovery and synchronisation. For this application, payment codes will be relayed within the Chaumian encrypted payload. If a post-mix wallet loses its own metadata containing the payment code and associated indexes the necessary information can be recalculated the next time, if ever, that the same payment code is received by the post-mix wallet.
+Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki#Notification_Transaction) can be ignored for this application. Notification transactions allow payment codes to be communicated encrypted over the blockchain and be recoverable in the event of a wallet restore and the subsequent address rediscovery and synchronisation. For this application, payment codes will be relayed within the Chaumian encrypted payload. If a post-mix wallet loses its own metadata containing the payment code and associated indexes the necessary information can be recalculated the next time, if ever, that the same payment code is received by the post-mix wallet.
 
 ##### Pseudonymous repositories
 
