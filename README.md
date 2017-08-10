@@ -305,7 +305,7 @@ In future multiple implementations are created for post-mix wallets, those will 
 #### Coin Selection
 
 If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
-Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management, but users would eventually still join inputs together.  
+Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless users would eventually still join inputs together.  
 ![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
 It is better to prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 To make the usage of the post-mix wallet is more user-friendly the wallet MAY implement coin control feature. The wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet.  
@@ -366,7 +366,7 @@ Private transaction broadcasting should be an interest of future research.
 
 #### History
 
-Stealth addresses were described in detail by Peter Todd and the subject was assigned to [BIP63](https://github.com/genjix/bips/blob/master/bip-stealth.mediawiki) although it was never published in the BIP repository.
+Stealth addresses were described in detail by Peter Todd and the subject was assigned to [BIP63](https://github.com/genjix/bips/blob/master/bip-stealth.mediawiki), although it was never published in the BIP repository.
 The concept was popularized by [Dark Wallet](https://github.com/darkwallet/darkwallet) which combined stealth addresses and coin mixing.
 The Dark Wallet project ground to a halt and, despite a couple of attempts at relaunching it, it remains inactive to this day.
 
