@@ -12,7 +12,7 @@ TDevD,
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson from JoinMarket for his invaluable feedbacks.
+Special thanks for Adam Gibson from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) for his invaluable feedbacks.
 
 ## Support
 
