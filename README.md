@@ -1,5 +1,7 @@
 # ZeroLink: The Bitcoin Fungibility Framework
 
+![](http://i.imgur.com/nwwUEnD.png)
+
 ## Authors
 
 nopara73,  
