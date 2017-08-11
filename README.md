@@ -97,6 +97,8 @@ As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcN
 When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If the post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
+![](http://i.imgur.com/AqnwKMr.png)
+
 Moreover if Gregory Maxwell's [Confidential Transactions](https://elementsproject.org/elements/confidential-transactions/) are introduced to Bitcoin in the future, it could potentially solve the "common denomination issue". Such technique is Tim Ruffing's [ValueShuffle](https://eprint.iacr.org/2017/238.pdf), which is CoinShuffle with Confidential Transactions.
 
 ### Theoretical And Real Anonymity Set
