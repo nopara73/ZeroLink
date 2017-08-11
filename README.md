@@ -86,8 +86,7 @@ Elimination of the Tor dependency should be an interest of future research.
  
 ### Privacy Is Teamwork
 
-The theoretical anonymity set of a mixing technique is misleading. A good example is Mycelium's undeployed CoinShuffle implementation: [ShufflePuff](https://github.com/DanielKrawisz/Shufflepuff). It matters little what tracks users leave on the Blockchain and how effective a the implemented mixing technique is if, due to the architecture of their wallets, a third party can re-establish the links.  
-If one user of the mix gets deanonymized the real anonymity set of the rest of the users gets lower, too. Therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
+The theoretical anonymity set of a mixing technique is misleading. If one user of the mix gets deanonymized, the real anonymity set of the rest of the users drops. For instance, if one user participates in the mix through a full node and the rest through a web wallet, the anonymity set of the full node user against the web wallet company is zero. Therefore it is not acceptable that a set of users are using a mixing technique in a flawed way.
 
 ### Transactions And Transaction Chains
 
