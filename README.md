@@ -195,7 +195,7 @@ The "complete-with-subset" model MAY be implemented, however it is not clear if 
 This document recommends a DoS defense based on the utxo registration banning technique, which makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
 This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. The identification of malicious utxos is explained by examining all possible variations of DoS attacks.
 
-**DoS 1: What if an Alice spends her input immaturely?**  
+**DoS 1: What if an Alice spends her input prematurely?**  
 If it happens at Input Registration phase the Tumbler SHOULD ban the malicious Alice.  
 If it happens at later phases the round falls back to input registration phase, and all the so far provided CoinJoin outputs SHOULD be banned by the Tumbler.  
 Clients MUST not ever register with the same CoinJoin output twice, even if the round fails, otherwise the Tumbler could work with that information.  
