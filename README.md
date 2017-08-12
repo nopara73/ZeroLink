@@ -48,7 +48,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 ### CoinJoin
 [![Wikipedia: CoinJoin](https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/CoinJoinExample.svg/640px-CoinJoinExample.svg.png)](https://en.wikipedia.org/wiki/CoinJoin)
 
-[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) was first detailed in 2013 by Gregory Maxwell on BitcoinTalk. When multiple participants add inputs and outputs to a common transaction, it confuses Blockchain observers.  
+[CoinJoin](https://bitcointalk.org/index.php?topic=279249.0) was first detailed in 2013 by Gregory Maxwell on BitcoinTalk. When multiple participants add inputs and outputs to a common transaction, it obfuscates the transaction graph.  
 A stronger variant is, if the non-change outputs have the same value, no one can tell which input intended to fund which of these non-change outputs.  
 
 CoinJoin based privacy techniques are the most Blockchain space efficient, therefore they are the cheapest on-chain solutions.  
@@ -167,11 +167,11 @@ If the denomination is one bitcoin and the user wants to mix eight bitcoins it m
 ### C. Optimizing Performance
 
 When to change between phases?  
-The phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even blocks.  
-Nonetheless it results unnecessarily long rounds.  
-Another way of doing it is to stick the phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonymity network by the clients one minute should be enough to conveniently complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
-Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity, Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
-In addition every phase must times out after one minute. This will happen when malicious or disconnected Alice is detected.
+Phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even block.  
+Nonetheless it results unnecessarily long mixing rounds.  
+Another way of doing is to stick phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonymity network by the clients, one minute is enough to complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
+Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is: various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity: Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
+In addition every phase must time out after one minute. Timeout happens when malicious or disconnected Alice is detected.
 
 #### How long does a round take?  
 
