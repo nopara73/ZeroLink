@@ -5,7 +5,7 @@
 ## Authors
 
 nopara73,  
-[Hidden Wallet](https://github.com/nopara73/HiddenWallet), [TumbleBit](https://github.com/NTumbleBit/NTumbleBit),  
+[Hidden Wallet](https://github.com/nopara73/HiddenWallet),  
 adam.ficsor73@gmail.com
 
 TDevD,  
@@ -14,7 +14,7 @@ TDevD,
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) for his invaluable feedbacks.
+Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their invaluable suggestions and feedbacks.
 
 ## Support
 
