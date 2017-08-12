@@ -113,9 +113,10 @@ The Classic Tumbler mode of Ethan Heilman's [TumbleBit](https://eprint.iacr.org/
 Tim Ruffing's CoinShuffle, CoinShuffle++, ValueShuffle and Chris Belcher's and Adam Gibson's [JoinMarket](https://github.com/JoinMarket-Org/joinmarket) are CoinJoin based techniques. Ruffing's techniques were previously discussed, thus there is need not go in depth here.  
 JoinMarket introduced a novel maker-taker concept, where market makers are waiting until a taker wants to execute a CoinJoin transaction and asks market-makers to provide liquidity for his CoinJoin for a small fee. A single JoinMarket style CoinJoin of course gets expensive quickly as the anonymity set grows and it achieves plausible deniability rather than unlinkability, because how the makers use their coins after the mix will noticeably differ from the takers' behaviour. In addition JoinMarket provides more complex techniques, like `patientsendpayment.py` and `tumbler.py`. Gibson's detailed analysis of `tumbler.py` can be found in his GitHub: [Analysis of tumbler privacy](https://github.com/AdamISZ/JMPrivacyAnalysis/blob/master/tumbler_privacy.md).  
 
-Moreover when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future, CoinJoin based techniques will get even more Blockchain space efficient.
-
+Moreover when [Schnorr signatures](https://www.elementsproject.org/elements/schnorr-signatures/) are introduced to Bitcoin in the future, CoinJoin based techniques will get even more Blockchain space efficient.  
 More detailed comparisons can be found in the article: [TumbleBit vs CoinJoin](https://medium.com/@nopara73/tumblebit-vs-coinjoin-15e5a7d58e3).  
+
+Furthermore it is possible to plug CoinShuffle, CoinShuffle++ or TumbleBit's Classic Tumbler mode into ZeroLink, instead of Chaumian CoinJoin.  
 
 ### RFC2119
 
@@ -191,10 +192,11 @@ There are various ways malicious users can abort a round and there are various w
 
 1. Banning IP addresses,  
 2. Complete with subset,  
-3. Banning the registration of provided utxos and related utxos of malicious Alice.  
+3. Close sourcing DoS proteciton,  
+4. Banning the registration of provided utxos and related utxos of malicious Alice.  
 
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
-The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity.  
+The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity. A Tumbler MAY close source its DoS protection algorytm, thus forcing attackers into reverse engineering.  
 This document recommends a DoS defense based on the utxo registration banning technique, which makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
 This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. The identification of malicious utxos is explained by examining all possible variations of DoS attacks.
 
