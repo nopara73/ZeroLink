@@ -90,12 +90,11 @@ The theoretical anonymity set of a mixing technique is misleading. If one user o
 
 ### Transactions And Transaction Chains
 
+![](http://i.imgur.com/8DYjaqq.png)
+
 Any Bitcoin mixing technique must use a common denomination, otherwise simple amount analysis can re-establish the links, as Kristov Atlas did in his [CoinJoin Sudoku](http://www.coinjoinsudoku.com) analysis of Blockchain.info's [SharedCoin](https://github.com/sharedcoin/Sharedcoin). Since the service has been discontinued.
 This notion leads to mixing in multiple rounds. For example if a user wants to mix eight bitcoins and the mixing denomination is one bitcoin, then it must use eight mixing rounds.  
-As Mike Hearn [put it](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ):
-> The problem starts when we realise that what we actually care about is not transactions but rather transaction chains.  
-
-When a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
+Additionally when a Bitcoin wallet does not find enough value on an unspent transaction output (utxo), then it joins together that utxo with another utxo the wallet contains.  
 If the post-mix wallet would function as a normal Bitcoin wallet too, the observer would notice post-mix transactions. Those are joining together mixed outputs. Since pre-mix wallets naturally divide and join utxos in order to fund a mixing round with the correct amount, similarly to CoinJoin Sudoku, a simple amount analysis on transactions chains, instead of transactions could re-establish links between pre-mix and post-mix wallets.  
 
 ![](http://i.imgur.com/AqnwKMr.png)
@@ -171,7 +170,7 @@ When to change between phases?
 Phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even block.  
 Nonetheless it results unnecessarily long mixing rounds.  
 Another way of doing is to stick phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonymity network by the clients, one minute is enough to complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
-Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is: various timing attacks can deanonymize users. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity: Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
+Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is: Tumbler can execute various timing attacks, those result in user deanonymization. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity: Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
 In addition every phase must time out after one minute. Timeout happens when malicious or disconnected Alice is detected.
 
 #### How long does a round take?  
@@ -312,6 +311,8 @@ A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in only o
 In future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing ZeroLink deployments as it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
 
 #### Coin Selection
+
+![](http://i.imgur.com/BbSM9N4.png)
 
 If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
 Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless users would eventually still join inputs together.  
