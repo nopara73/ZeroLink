@@ -362,6 +362,7 @@ While the recommended strict coin selection properly separates mixed coins from 
 To encourage more cautious user behavior post-mix wallet MAY implement a transaction labeling system, so users can decide manually what purcheses it does not care about if they are connected together by third party observers.  
 
 Furthermore it is possible to completely defeat the dead change attack for the first transaction after the mix, the post-mix wallets MAY make the users' first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who and it cannot come to conclusions about the changes either.  
+In this case the Chaumian CoinJoin technique must be modified in a way that the active CoinJoin output must be provided in a separate phase, otherwise the change attack defense would not work against the Tumbler.
 
 ![](http://i.imgur.com/kyqH9wy.png)
 
