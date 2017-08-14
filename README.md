@@ -294,15 +294,31 @@ The Attack Costs cannot be bypassed. Using such service would only impose additi
 ### A. Pre-Mix Wallet
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
-Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet where the mixed coins are going directly through a secure connection or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the former case the post-mix wallets must be online while mixing is in process. In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
+Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
 Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, what on the one hand it enables cheaper fees and on the other hand it enables achieving higher theoretical anonymity set.  
-
-If the pre-mix wallet normally uses a privacy breaching way to query its address balances, for instance public web APIs or bloom filters, and it is using the post mix wallets' extended public key to decide what addresses to mix to, then it bumps into the issue of how it can query the balances of those addresses in a not privacy breaching way. There might be some ways to solve this. For example the pre-mix wallet might want to acquire all the Chaumian CoinJoin transactions that ever happened in the Blockchain. In this case it SHOULD acquire all the future Chaumian CoinJoin transactions, in order to avoid mixing twice to the same address which is what can happen if the same post-mix wallet extended public key is fed into another wallet for mixing.  
 
 Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
 
 ![HiddenWalletTumbleBit1](http://i.imgur.com/xT0Ezvm.png)  
 ![HiddenWalletTumbleBit2](http://i.imgur.com/rdOGZKG.png)
+
+#### Retrieving Transaction Information  
+
+A pre-mix wallet can use a privacy breaching way to retrieve transaction and balance information, for instance it can query its address balances through a web API. In this case the web API knows about all the addresses the user possesses. However a post-mix wallet MUST NOT use a privacy breaching way to acquire information about the childs of the extended public key, otherwise it would expose the post-mix wallet to a third party. An additional problem is that the pre-mix wallet cannot ever register the same addresses twice a Tumbler. Therefore the pre-mix wallet must always register the next unused extended public key child, that was not registered before.  
+
+A user to use the same extended public key in multiple pre-mix wallets should be discouraged. Therefore a pre-mix wallet MUST keep records which derived keys it already registered before and never acquire their balances. This approach brings additional issues at wallet recovery.  
+
+Another way to solve this is to have a server that tells the pre-mix wallet all the addresses those have ever been used in CoinJoin transactions. In this case the pre-mix wallet does not expose which addresses it is interested in, because it gets all the addresses a any pre-mix wallet can be interested in. Additionally a pre-mix wallet MUST keep records which derived keys it already registered before.  
+This approach is reliable, it can handle proper wallet recovery and the case if multiple pre-mix wallets use the same extended public keys. Some information leak is still possible, however it is unlikely.  
+Information leak happens if:  
+- a malicious attacker disrupted a round that the user is participated in
+- AND the user either decides to recover its wallet OR is using the same extended public keys in another pre-mix wallet right after the disrupted round  
+- AND the Tumbler does not reject the already registered, but unused address  
+- AND the Tumbler is malicious.
+
+If all the above conditions are true, the Tumbler may be able to deanonymize the user.
+
+The Tumbler MAY be the third party who serves the addresses. In this case the Tumbler could serve the already registered, but unused addresses, too.
 
 ### B. Post-Mix Wallet
 
@@ -355,7 +371,8 @@ At this time there are three types of wallet architectures, those do not breach 
   
 The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for Blockchain syncing.  
 
-Furthermore, because  every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.
+Furthermore, because  every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.  
+Alternatively, if the Tumbler serves already registered, but unused addresses the post-mix wallet can use this to avoid monitoring huge depth.  
 
 #### Transaction Broadcasting
 
