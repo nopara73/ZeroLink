@@ -363,7 +363,7 @@ To encourage more cautious user behavior post-mix wallet MAY implement a transac
 
 Furthermore it is possible to completely defeat the dead change attack for the first transaction after the mix, the post-mix wallets MAY make the users' first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who and it cannot come to conclusions about the changes either.  
 
-![](blob:http://imgur.com/9fc395f5-3b36-4fd4-b7b6-a3ce2db3bc76)
+![](http://i.imgur.com/kyqH9wy.png)
 
 #### Uniform ScriptPubKeys
 
