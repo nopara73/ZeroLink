@@ -62,6 +62,12 @@ For practical reasons, ZeroLink does not attempt to incorporate such switching n
 Chaumian CoinJoin was briefly described by Maxwell:  
 > Using chaum blind signatures: The users connect and provide inputs (and change addresses) and a cryptographically-blinded version of the address they want their private coins to go to; the server signs the tokens and returns them. The users anonymously reconnect, unblind their output addresses, and return them to the server. The server can see that all the outputs were signed by it and so all the outputs had to come from valid participants. Later people reconnect and sign.  
 
+Simplified workflow:  
+1. User provides its **input** and a **blinded output** to the Tumbler.  
+2. Tumbler signs the **blinded output** and gives it back to the User.
+3. User unblinds the **signed blinded output** and provides the server the **signed output** through a different anonymity network identity.  
+4. The Tumbler constructs the **CoinJoin transaction** and gives out to the Users for signing.
+
 Every mix via Chaumian CoinJoin comes with a guarantee that Tumbler can neither violate anonymity, nor steal bitcoins. Furthermore Chaumian CoinJoin is by no means complex. Its simplicity allows it to be one of the most, if not the most performant on-chain mixing technique. A mixing round can be measured in seconds or minutes.  
 
 ### Distributed CoinJoin
@@ -388,6 +394,11 @@ ZeroLink compliant post-mix wallets SHOULD broadcast every transaction on differ
 Broadcasting transactions through a public web API over Tor SHOULD NOT be used. All post-mix wallet implementations SHOULD use the same way of broadcasting. Although it is sufficiently private and simpler to implement, this external dependency cannot be imposed to all post-mix wallet implementations.  
 
 Private transaction broadcasting should be an interest of future research.
+
+#### Moving Money Between Post And Pre-Mix Wallets
+
+The user MAY send transactions from pre-mix to post-mix wallet directly, because joining inputs are not allowed in post-mix wallets, therefore the coins will be separated.  
+The user SHOULD NOT send transactions from post-mix to pre-mix wallet directly, because pre-mix wallets join inputs together. If an observer notices any connection between pre-mix coins and post-mix coins, it may re-estabilish a link in the CoinJoin transaction.
 
 ### C. Stealth Addresses
 
