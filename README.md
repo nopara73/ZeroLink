@@ -50,7 +50,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 
 ZeroLink defines a pre-mix and a post-mix wallet and a mixing technique.  
 Pre-mix wallet functionality can be added to any Bitcoin wallet without much overhead. Post-mix wallets on the other hand have strong privacy requirements, regarding coin selection, private transaction and balance retrieval, transaction input and output indexing and broadcasting. The requirements and recommendations for pre and post-mix wallets together define the Wallet Privacy Framework.  
-Coins from pre-mix wallets to post-mix wallets are moved by mixing. Most on-chain mixing techniques, like [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf),  [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) or [TumbleBit's Classic Tumler mode](https://eprint.iacr.org/2016/575.pdf) can be used. However ZeroLink defines its own mixing technique: Chaumian CoinJoin.
+Coins from pre-mix wallets to post-mix wallets are moved by mixing. Most on-chain mixing techniques, like [CoinShuffle](http://crypsys.mmci.uni-saarland.de/projects/CoinShuffle/coinshuffle.pdf),  [CoinShuffle++](https://crypsys.mmci.uni-saarland.de/projects/FastDC/draft-paper.pdf) or [TumbleBit's Classic Tumbler mode](https://eprint.iacr.org/2016/575.pdf) can be used. However ZeroLink defines its own mixing technique: Chaumian CoinJoin.
 
 ### CoinJoin
 [![Wikipedia: CoinJoin](https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/CoinJoinExample.svg/640px-CoinJoinExample.svg.png)](https://en.wikipedia.org/wiki/CoinJoin)
