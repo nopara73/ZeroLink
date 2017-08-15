@@ -308,7 +308,7 @@ The Attack Costs cannot be bypassed. Using such service would only impose additi
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
-Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, what on the one hand it enables cheaper fees and on the other hand it enables achieving higher theoretical anonymity set.  
+Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, thus enabling lower transaction fees overall, and allows for a higher theoretical anonymity set.   
 
 Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
 
