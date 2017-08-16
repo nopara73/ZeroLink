@@ -36,7 +36,8 @@ II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)
 &nbsp;&nbsp;&nbsp;A. [Simplified Protocol](#a-simplified-protocol)  
 &nbsp;&nbsp;&nbsp;B. [Achieving Liquidity](#b-achieving-liquidity)  
 &nbsp;&nbsp;&nbsp;C. [Optimizing Performance](#c-optimizing-performance)  
-&nbsp;&nbsp;&nbsp;D. [Defending Against DoS Attacks](#d-defending-against-dos-attacks)  
+&nbsp;&nbsp;&nbsp;D. [DoS Attack](#d-dos-attac)  
+&nbsp;&nbsp;&nbsp;E. [Sybil Attack](#e-dos-attack)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
@@ -198,7 +199,7 @@ Assuming sophisticated malicious actors at Output Registration, the round aborts
 
 Assuming worst case sophisticated malicious actors at Signing, the round aborts within three minutes, because the timeout of signing phase is one minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
 
-### D. Defending Against DoS Attacks
+### D. DoS Attack
 
 There are various ways malicious users can abort a round and there are various ways to defend against it:
 
@@ -301,6 +302,16 @@ Attack Cost calculation assumed $1 Bitcoin transaction fees. The proposed DoS de
 #### Can this system be bypassed with Bitcoin exchanges/mixers or similar services?
 
 The Attack Costs cannot be bypassed. Using such service would only impose additional costs on the attacker and introduce third party risk.
+
+### E. Sybil Attack
+
+![](http://i.imgur.com/oQyrzqc.png)
+
+It is possible to deanonymize a user if every participant of the mix is the attacker, except the user. The cost of this attack grows as the liquidity grows. This attack is only feasible if the Tumbler is the attacker. If the attacker is not the Tumbler, it would have to figure out exactly in which rounds the targeted user participates and it must make sure nobody else gets to participate in that mix. However executing a covert Sybil attack as a Tumbler is not evident, it depends on the protocol implementation. Overt Sybil attack as a Tumbler is always possible, however in that case the Tumbler is accountable.  
+
+To execute this attack: when Tumbler notices an input is registered that it wants to deanonymize, it must refuse all following input registration and all the input confirmation that has already been registered and is not from the target. Refusing input registration can happen for many raeason, therefore it can be done in a covert way, however refusing input conformination cannot. It can only happen if the input has been spent, therefore malicious Tumbler can be noticed. Clients whose input confirmations are refused and they did not prematurely spent their inputs SHOULD NOT use the Tumbler anymore.  
+
+There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attack should be an interest of future research.
 
 ## III. Wallet Privacy Framework
 
