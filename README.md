@@ -206,10 +206,13 @@ There are various ways malicious users can abort a round and there are various w
 1. Banning IP addresses,  
 2. Complete with subset,  
 3. Close sourcing DoS proteciton,  
-4. Banning the registration of provided utxos and related utxos of malicious Alice.  
+4. Utilization of fidelity bond,  
+5. Banning the registration of provided utxos and related utxos of malicious Alice.
+
 
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
 The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity. A Tumbler MAY close source its DoS protection algorytm, thus forcing attackers into reverse engineering.  
+[Utilization of fidelity bonds](https://github.com/nopara73/ZeroLink/issues/6#issuecomment-321662470) SHOULD NOT be utilized. It ruins user experience and results in longer rounds.  
 This document recommends a DoS defense based on the utxo registration banning technique, which makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
 This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. The identification of malicious utxos is explained by examining all possible variations of DoS attacks.
 
