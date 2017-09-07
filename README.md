@@ -21,6 +21,8 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 186n7me3QKajQZJnUsVsezVhVrSwyFCCZ  
 [![QR Code](http://i.imgur.com/grc5fBP.png)](https://www.smartbit.com.au/address/186n7me3QKajQZJnUsVsezVhVrSwyFCCZ)
 
+## [Publicity And External Resources](PublicityExternalResources.md)
+
 ## Abstract
 
 While [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. The scope of ZeroLink is not limited to a single transaction, it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
