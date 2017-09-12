@@ -207,7 +207,7 @@ There are various ways malicious users can abort a round and there are various w
 
 1. Banning IP addresses,  
 2. Complete with subset,  
-3. Close sourcing DoS proteciton,  
+3. Closed source DoS protection,  
 4. Utilization of fidelity bond,  
 5. Banning the registration of provided utxos and related utxos of malicious Alice.
 
