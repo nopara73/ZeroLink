@@ -398,6 +398,11 @@ Random indexing is not exclusively beneficial for post-mix wallet uniformity, co
 
 It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorytm, while random indexing leaves no tracks.
 
+#### Mirroring Output ScriptPubKeys For Change
+
+When a wallet sends a transaction from a P2WPKH to a P2PKH, it will generate a P2WPKH change. A blockchain observer will know exactly which is the change. In order to avoid such privacy breach post-mix wallets MUST mirror the active output's type. For instance if the active output is P2SH, then the change must be P2SH, too.  
+While such behaviour can reveal transaction had been sent with a post-mix wallet in some cases, it is more important to hide the change output.
+
 #### Fee Estimation, Replace by Fee
 
 Another common way Blockchain analysis applies to figure out which wallet a transaction was constructed with, is by examining the fee  and its fee patterns. Therefore post-mix wallet implementations MUST use unified fee estimating algorithm.  
