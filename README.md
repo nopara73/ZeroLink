@@ -201,6 +201,13 @@ Assuming sophisticated malicious actors at Output Registration, the round aborts
 
 Assuming worst case sophisticated malicious actors at Signing, the round aborts within three minutes, because the timeout of signing phase is one minute and they could potentially delay their connection confirmation and output registration up to 0:59 seconds after the start of Connection Confirmation and Output Registration phases.
 
+#### Speeding Up Mixing
+
+All Chaumian CoinJoin input MUST be Segregated Witness input. This prevents the transaction to be malleated, as a result the Tumbler can accept unconfirmed Chaumian CoinJoin change outputs from the user in the next round.
+
+#### Accepting Zero Confirmation
+If a 
+
 ### D. DoS Attack
 
 There are various ways malicious users can abort a round and there are various ways to defend against it:
@@ -327,7 +334,7 @@ There are various other ways to address Tumbler Sybil attacks in expense of the 
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
-Pre-mix wallets SHOULD be mixing from Segregated Witness outputs. This lowers the size of the transaction, thus enabling lower transaction fees overall, and allows for a higher theoretical anonymity set.   
+Pre-mix wallets MUST be mixing from Segregated Witness outputs. This lowers the size of the transaction, thus enabling lower transaction fees overall, allows for a higher theoretical anonymity set and enables faster mixing by not needing to wait for confirmation when the input is an output of a Chaumian CoinJoin transaction, because the transaction will not be malleated.   
 
 Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
 
