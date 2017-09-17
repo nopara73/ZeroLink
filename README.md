@@ -396,13 +396,15 @@ A post-mix wallet, due to its design, will only have one input and a maximum of 
 
 Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
 
-It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorytm, while random indexing leaves no tracks.
+It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.
 
-#### Fee Estimation, Replace by Fee
+#### Fee Estimation
 
-Another common way Blockchain analysis applies to figure out which wallet a transaction was constructed with, is by examining the fee  and its fee patterns. Therefore post-mix wallet implementations MUST use unified fee estimating algorithm.  
-If post-mix wallets would enable the selection of transaction fees some users would tend to always use one type of transaction while others would use different ones.  
-Post-mix wallets MUST use the result of Bitcoin Core RPC's [`estimatefee 2`](https://bitcoin.org/en/developer-reference#estimatefee) for dynamic fee estimation. To obtain the result of course querying a public API is sufficient too.  
+Another way Blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee and its fee patterns. Therefore post-mix wallet implementations MUST use unified fee estimations.  
+Previous ZeroLink recommendation was to keep up with Bitcoin Core's fee estimation, however Bitcoin Core v0.15 [introduced fundamental changes and complexity](https://bitcointechtalk.com/whats-new-in-bitcoin-core-v0-15-part-4-7c01c553783e) to its fee estimation API.  
+`estimatefee` is deprecated in favor of using only `estimatesmartfee`. However `estimatesmartfee` will slightly vary node, based on how long the node was running and what mempool information is available to it. Generally if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API it will either implements its own fee estimation algorithm or use a public API. While previously it was sufficient for a ZeroLink compliant post-mix wallet to use either Bitcoin Core's RPC API or a public API that is built on top of it, now that the results of the fee estimations vary node by node, it is not allowed anymore. Therefore all post mix wallets MUST use a same public API, that is built on top of Bitcoin Core's `estimatesmartfee`'s RPC command. The first implementation of the post mix wallet will define the API and the following ones MUST use it.
+
+#### Replace by Fee
 
 Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand it opens the door for users to use it in many different ways, therefore post-mix wallets MUST not utilize this feature.  
 Creation of a user independent algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
