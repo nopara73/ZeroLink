@@ -383,7 +383,7 @@ To encourage more cautious user behavior post-mix wallet MAY implement a transac
 
 A post-mix wallet MAY offer to make a user's first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination so additional anonymity set can be achieved. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who, it can only figure out which change belongs to which active output.  
 
-![](http://i.imgur.com/kyqH9wy.png)
+![](https://i.imgur.com/1IotuiI.png)
 
 #### Uniform ScriptPubKeys
 
