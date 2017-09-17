@@ -379,8 +379,9 @@ To enhance useability of a post-mix wallet
 While the recommended strict coin selection properly separates mixed coins from each other, it does not protect against the [dead change attack](https://www.dash.org/forum/threads/dead-change-an-anonymity-issue.3019/). Change outputs will be used for different purposes, therefore it is possible to connect those payments together. Fortunately it does not affect the anonymity set of other users who participated in the mix, but it does affect individual privacy.  
 To encourage more cautious user behavior post-mix wallet MAY implement a transaction labeling system, so users can decide manually what purcheses it does not care about if they are connected together by third party observers.  
 
-Furthermore it is possible to completely defeat the dead change attack for the first transaction after the mix, the post-mix wallets MAY make the users' first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who and it cannot come to conclusions about the changes either.  
-In this case the Chaumian CoinJoin technique must be modified in a way that the active CoinJoin output must be provided in a separate phase, otherwise the change attack defense would not work against the Tumbler.
+##### Additional Anonymity Set
+
+A post-mix wallet MAY offer to make a user's first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination so additional anonymity set can be achieved. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who, it can only figure out which change belongs to which active output.  
 
 ![](http://i.imgur.com/kyqH9wy.png)
 
