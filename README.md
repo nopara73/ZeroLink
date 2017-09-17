@@ -392,10 +392,11 @@ If post-mix wallets would enable the usage of different scriptpubkeys, then some
 
 #### Indexing Of Transaction Inputs And Outputs
 
-A post-mix wallet MUST use Lexicographical Indexing of Outputs, as defined in [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).  
-A post-mix wallet, due to its design, will only have one input and maximum two outputs at all times.  
-Uniform indexing is necessary in order for multiple post-mix wallet implementations to look the same.  
-Lexicographical indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
+A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet MUST use random indexing of outputs.
+
+Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
+
+It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorytm, while random indexing leaves no tracks.
 
 #### Fee Estimation, Replace by Fee
 
