@@ -424,20 +424,25 @@ It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-006
 #### Fee Rate Estimation	
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-|-|Post-mix wallet SHOULD retrieve fee rate through the same web API that is used by all other post-mix wallet software.|
+|-|Post-mix wallet SHOULD utilize fee rate sanity check through the same web API that is used by all other post-mix wallet software.|
 
 Blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee patterns. Therefore post-mix wallet implementations SHOULD use unified fee estimations.  
 
-Bitcoin Core v0.15 [introduced fundamental changes and complexity](https://bitcointechtalk.com/whats-new-in-bitcoin-core-v0-15-part-4-7c01c553783e) to its fee estimation API.  
-`estimatefee` is deprecated in favor of using only `estimatesmartfee`. However `estimatesmartfee` will slightly vary node, based on how long the node was running and what mempool information is available to it. Generally if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API it will either implements its own fee estimation algorithm or use a public API. While previously it was sufficient for a ZeroLink compliant post-mix wallet to use either Bitcoin Core's RPC API or a public API that is built on top of it, now that the results of the fee estimations vary node by node, it is not allowed anymore. 
+Bitcoin Core `estimatesmartfee` may differ node by node, based on how much information is available to the node. Usually if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API, it either implements its own fee estimation algorithm or uses a public API.  
 
-Post-mix wallet SHOULD retrieve fee rate through the same web API that is used by all other post-mix wallet software, that is built on top of Bitcoin Core's `estimatesmartfee`'s RPC command. The first implementation of the post mix wallet will set precedent.  
-In order to avoid the identification of the transaction by timing attack, executed by the web api, post-mix wallets SHOULD either retrieve fee rate periodically from every three to ten minutes or query the fee-rate over an anonymity network.  
+Post-mix wallet SHOULD utilize fee rate sanity check through the same web API that is used by all other post-mix wallet software.  
+The first implementation of the post mix wallet will set precedent. This sanity check should range from Bitcoin Core's RPC's `estimatesmartfee 1 CONSERVATIVE` to `estimatesmartfee 1008 ECONOMICAL`.  
+Post-mix wallet SHOULD be able to produce any integer satoshi/byte fee rate that falls between the sanity check. It can be done, for instance salting results with randomization or from the UI with a slider, where the steps are integer numbers.  
+![](https://i.imgur.com/JDF48aM.png)
+  
+In order to avoid the identification of the transaction by timing attack, executed by the web api, post-mix wallets SHOULD retrieve sanity check from the common web API randomly from every 3 to 10 minutes.  
 
 #### Fee Calculation
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-|-|Post-mix wallet should calculate the final fee from `vsize` in an imprecise way.|
+|-|Post-mix wallet SHOULD calculate the final fee with `vsize` and make sure the final fee falls into sanity check.|  
+
+If any post-mix wallet produces a fee that does not fall into the sanity check, the post-mix wallet can be identified by blockchain analysis.  
 
 #### Replace-by-Fee
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
