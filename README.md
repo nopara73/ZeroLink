@@ -44,6 +44,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
 &nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
+IV. [ZeroLink Compliance Checklist](#iv-zerolink-compliance-checklist)  
 
 ## I. Introduction
 
@@ -454,8 +455,13 @@ Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used featu
 Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
 
 #### Spending Unconfirmed Transactions
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+||Post-mix wallet SHOULD let its users to spend unconfirmed outputs.|
 
-It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It leads some users to use it more often, than others.
+It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallet SHOULD let its users to spend unconfirmed transactions.  
+If a post-mix wallet software does not let its users to spend unconfirmed outputs, and Blockchain analysis finds a post-mix transaction that spends an unconfirmed output, it knows that output cannot come from that the post-mix wallet software.  
+Since spending unconfrimed outputs can be dangerous, post-mix wallets MAY discourage the user to do so, for instance with a warning.  
 
 #### Retrieving Transaction Information
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -547,3 +553,53 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 ##### Pseudonymous Repositories
 
 BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
+
+## IV. ZeroLink Comlpiance Checklist
+
+It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet requirements aim to make sure that after-mix privacy loss does not happen.  
+
+### Bitcoin Wallets Interested In ZeroLink 
+
+|              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
+|:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
+| [Transaction Broadcasting][1]           |    Basic    | |                        |               |
+| [Transaction Broadcasting][1]           |  Uniformity | |                        |               |
+| [Retrieving Transaction Information][2] |    Basic    | |                        |               |
+| [Coin Selection][3]                     |    Basic    | |                        |               |
+| [Spending Unconfirmed Transactions][4]  |  Uniformity | |                        |               |
+| [Change ScriptPubKey][5]                |  Uniformity | |                        |               |
+| [Active SriptPubKey][6]                 |  Uniformity | |                        |               |
+| [Output Indexing][7]                    |  Uniformity | |                        |               |
+| [Fee Rate Estimation][8]                |  Uniformity | |                        |               |
+| [Fee Calculation][9]                    |  Uniformity | |                        |               |
+| [Replace-by-Fee][10]                    |  Uniformity | |                        |               |
+
+### Popular Bitcoin Wallets
+
+|              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
+|:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
+| [Transaction Broadcasting][1]           |    Basic    |          |            |          |                 |          |
+| [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
+| [Retrieving Transaction Information][2] |    Basic    |          |            |          |                 |          |
+| [Coin Selection][3]                     |    Basic    |          |            |          |                 |          |
+| [Spending Unconfirmed Transactions][4]  |  Uniformity |          |            |          |                 |          |
+| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 |          |
+| [Active SriptPubKey][6]                 |  Uniformity |          |            |          |                 |          |
+| [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
+| [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
+| [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
+| [Replace-by-Fee][10]                    |  Uniformity |          |            |          |                 |          |
+
+[1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
+[2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
+[3]:https://github.com/nopara73/ZeroLink#coin-selection
+[4]:https://github.com/nopara73/ZeroLink#spending-unconfirmed-transactions
+[5]:https://github.com/nopara73/ZeroLink#change-scriptpubkeys 
+[6]:https://github.com/nopara73/ZeroLink#active-sriptpubkeys
+[7]:https://github.com/nopara73/ZeroLink#transaction-output-indexing
+[8]:https://github.com/nopara73/ZeroLink#fee-rate-estimation
+[9]:https://github.com/nopara73/ZeroLink#fee-calculation
+[10]:https://github.com/nopara73/ZeroLink#replace-by-fee
+[11]:https://github.com/Samourai-Wallet/
+[12]:https://github.com/stratisproject/Breeze
+[13]:https://github.com/nopara73/HiddenWallet
