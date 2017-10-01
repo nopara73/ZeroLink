@@ -361,18 +361,22 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 
 ### B. Post-Mix Wallet
 
-The privacy requirements of the post-mix wallet are much stronger, than the pre-mix wallet's.  
-A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in only one way. As an example if the post-mix wallet enables its users to use both [P2WPKH and P2WSH](https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki), then a set of users will naturally converge to one type of usage that would lead an observer to valuable conclusions.  
-In future multiple implementations are created for post-mix wallets, those will want to use the liquidity of existing ZeroLink deployments as it is important, these implementations are indistinguishable from the first implementation. For example, when they are sending a transaction they MUST order the outputs of in the same way as the first implementation does.  
+The privacy requirements of the post-mix wallet are stronger, than the pre-mix wallet's.  
+A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example if only one wallet software is used as a post-mix wallet and it supports Replace-by-Fee (https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki) Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
+The first implementation of post-mix wallet will set precedents. In the future, when multiple implementations are created, it is important that these implementations are indistinguishable from the first implementation.  
+
+**Basic Post-Mix Wallet Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is the only wallet software that is used as a post-mix wallet of a specific mix.  
+**Post-Mix Wallet Uniformity Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is NOT the only wallet software that is used as a post-mix wallet of a specific mix.  
 
 #### Coin Selection
+**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST prevent joining inputs together.*  
 
 ![](http://i.imgur.com/BbSM9N4.png)
 
-If the post-mix wallet would function as a normal Bitcoin wallet, too, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
-Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless users would eventually still join inputs together.  
+If the post-mix wallet would function as a normal Bitcoin wallet, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
+Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless, users would eventually still join inputs together.  
 ![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
-It is better to prevent input joining in post-mix wallets altogether. This of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
+It is better to prevent input joining in post-mix wallets altogether. This, of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 
 To enhance useability of a post-mix wallet
 - the wallet MAY implement coin control feature, 
@@ -392,14 +396,18 @@ A post-mix wallet MAY offer to make a user's first purchase to be a regular Coin
 
 ![](https://i.imgur.com/1IotuiI.png)
 
-#### Uniform ScriptPubKeys
+#### Change ScriptPubKeys
+**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transction.*  
 
-Post-mix wallets MUST use P2WPKH outputs as defined in [BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Witness_program).  
-If post-mix wallets would enable the usage of different scriptpubkeys, then some groups of users would naturally tend to use one way more often than others, leading Blockchain observers to various conclusions.
+#### Active SriptPubKeys
+**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD be able to build transactions to P2PKH, P2WPKH, P2SH and P2WSH active outputs.*  
 
-#### Indexing Of Transaction Inputs And Outputs
+If all post-mix wallet software would only be able to send to P2PKH active outputs, except one post-mix wallet software, that supports P2WPKH active outputs, too, then Blockchain analysis can identify the outlier post-mix wallet software.  
 
-A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet MUST use random indexing of outputs.
+#### Transaction Output Indexing
+**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD index its built transaction outputs randomly.*  
+
+A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.
 
 Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
 
@@ -411,42 +419,46 @@ Another way Blockchain analysis attempts to figure out which wallet a transactio
 Previous ZeroLink recommendation was to keep up with Bitcoin Core's fee estimation, however Bitcoin Core v0.15 [introduced fundamental changes and complexity](https://bitcointechtalk.com/whats-new-in-bitcoin-core-v0-15-part-4-7c01c553783e) to its fee estimation API.  
 `estimatefee` is deprecated in favor of using only `estimatesmartfee`. However `estimatesmartfee` will slightly vary node, based on how long the node was running and what mempool information is available to it. Generally if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API it will either implements its own fee estimation algorithm or use a public API. While previously it was sufficient for a ZeroLink compliant post-mix wallet to use either Bitcoin Core's RPC API or a public API that is built on top of it, now that the results of the fee estimations vary node by node, it is not allowed anymore. Therefore all post mix wallets MUST use a same public API, that is built on top of Bitcoin Core's `estimatesmartfee`'s RPC command. The first implementation of the post mix wallet will define the API and the following ones MUST use it.
 
-#### Replace by Fee
+#### Replace-by-Fee
+**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD prevent its users to utilize RBF.*
 
-Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand it opens the door for users to use it in many different ways, therefore post-mix wallets MUST not utilize this feature.  
-Creation of a user independent algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
+Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
 
 #### Spending Unconfirmed Transactions
 
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It leads some users to use it more often, than others.
 
 #### Retrieving Transaction Information
+**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST retrieve transaction information in a private way.*
 
-Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing any wallet that aims to not breach its users' privacy. Querying the balances of a central server obviously shares private information with that central server. Bloom filtering SPV wallets are [not a sufficient](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) way to go.  
-At this time there are three types of wallet architectures, those do not breach the privacy of the users:
-- Full Nodes: Since they download all the transactions the network has nobody can tell who is interested in what transactions.  
-- Full Block Downloading SPV Wallets: Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of Blockchain data. They throw away what they do not need. There are three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), Ádám Ficsór's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
-- [Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21): Which only exists as an idea to date.  
+Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not a sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ), either.  
+
+There are four types of wallet architectures, ZeroLink classifies a private:    
+1. **Full Nodes:** Since they download all the transactions the network has nobody can tell who is interested in what transactions.  
+2. **Full Block Downloading SPV Wallets:** Such wallets download all transactions the network has from the creation of the wallet, consequently they do not need to wait weeks for [Initial Block Downloading](https://bitcoin.org/en/glossary/initial-block-download) and they do not store hundreds of gigabytes of Blockchain data. They throw away what they do not need. There are three implementations of such wallet, all in the testing phase: [Jonas Schnelli's PR to Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/9483), Ádám Ficsór's [HiddenWallet](https://github.com/nopara73/HiddenWallet) and Stratis' [BreezeWallet](https://github.com/stratisproject/Breeze).
+3. **[Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21):** Which only exists as an idea to date.  
+4. **ZeroLink Specific Transaction Retrieval:** There is an easier and more user friendly way to achieve it: The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other transaction. This would result in drastically better user experience, because it does not need to wait hours for Blockchain syncing.  
   
-The good news is that there is an easier and user friendly way to achieve it. The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other information. This would result in drastically better user experience, because it does not need to wait hours for Blockchain syncing.  
-
 Furthermore, because  every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.  
 Alternatively, if the Tumbler serves already registered, but unused addresses the post-mix wallet can use this to avoid monitoring huge depth.  
 
 #### Transaction Broadcasting
-
-Private transaction broadcasting is a tricky topic.  
+**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST broadcast transactions in a private way.*
+**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software.*
 
 As [Dandelion: Privacy-Preserving Transaction Propagation](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
 > Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
 
-It gets even harder. If a ZeroLink compliant wallet is not a full node and constantly relaying, it is not a full node and only connects to other nodes on the network to broadcast its transactions and that would result in privacy breach for sure.  
-Therefore ZeroLink compliant post-mix wallets SHOULD connect to Tor hidden service nodes and broadcast the transactions to them.  
-ZeroLink compliant post-mix wallets SHOULD broadcast every transaction on different Tor circuit.  
+Dandelion's explanation only applies to full nodes. Most wallet softwares are not constantly relaying transactions, for instance when the wallet software only connects to other nodes on the network to broadcast its transactions.  
 
-Broadcasting transactions through a public web API over Tor SHOULD NOT be used. All post-mix wallet implementations SHOULD use the same way of broadcasting. Although it is sufficiently private and simpler to implement, this external dependency cannot be imposed to all post-mix wallet implementations.  
+ZeroLink classifies broadcasting transactions over an anonymity network to the Bitcoin network as private.  
+Tus in order to fulfil Basic Post-Mix Wallet Requirement post-mix wallet MUST broadcast transactions in a private way.  
+Post-mix wallet SHOULD change anonymity network indentity between every transaction broadcast.  
+In order to fulfil the Post-Mix Wallet Uniformity Requirement post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software. 
+Post-mix wallet SHOULD broadcast every transaction on different Tor circuit.  
 
-Private transaction broadcasting should be an interest of future research.
+Private transaction broadcasting, especially Dandelion, should be an interest of future research.
 
 #### Moving Money Between Post And Pre-Mix Wallets
 
