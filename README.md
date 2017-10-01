@@ -369,7 +369,9 @@ The first implementation of post-mix wallet will set precedents. In the future, 
 **Post-Mix Wallet Uniformity Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is NOT the only wallet software that is used as a post-mix wallet of a specific mix.  
 
 #### Coin Selection
-**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST prevent joining inputs together.*  
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+|Post-mix wallet MUST prevent joining inputs together.||
 
 ![](http://i.imgur.com/BbSM9N4.png)
 
@@ -397,15 +399,21 @@ A post-mix wallet MAY offer to make a user's first purchase to be a regular Coin
 ![](https://i.imgur.com/1IotuiI.png)
 
 #### Change ScriptPubKeys
-**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transction.*  
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+||Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transction.|
 
 #### Active SriptPubKeys
-**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD be able to build transactions to P2PKH, P2WPKH, P2SH and P2WSH active outputs.*  
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+||Post-mix wallet SHOULD be able to build transactions to P2PKH, P2WPKH, P2SH and P2WSH active outputs.|  
 
 If all post-mix wallet software would only be able to send to P2PKH active outputs, except one post-mix wallet software, that supports P2WPKH active outputs, too, then Blockchain analysis can identify the outlier post-mix wallet software.  
 
 #### Transaction Output Indexing
-**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD index its built transaction outputs randomly.*  
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+||Post-mix wallet SHOULD index its built transaction outputs randomly.|
 
 A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.
 
@@ -413,14 +421,28 @@ Random indexing is not exclusively beneficial for post-mix wallet uniformity, co
 
 It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.
 
-#### Fee Estimation
+#### Fee Rate Estimation	
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+|-|Post-mix wallet SHOULD retrieve fee rate through the same web API that is used by all other post-mix wallet software.|
 
-Another way Blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee and its fee patterns. Therefore post-mix wallet implementations MUST use unified fee estimations.  
-Previous ZeroLink recommendation was to keep up with Bitcoin Core's fee estimation, however Bitcoin Core v0.15 [introduced fundamental changes and complexity](https://bitcointechtalk.com/whats-new-in-bitcoin-core-v0-15-part-4-7c01c553783e) to its fee estimation API.  
-`estimatefee` is deprecated in favor of using only `estimatesmartfee`. However `estimatesmartfee` will slightly vary node, based on how long the node was running and what mempool information is available to it. Generally if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API it will either implements its own fee estimation algorithm or use a public API. While previously it was sufficient for a ZeroLink compliant post-mix wallet to use either Bitcoin Core's RPC API or a public API that is built on top of it, now that the results of the fee estimations vary node by node, it is not allowed anymore. Therefore all post mix wallets MUST use a same public API, that is built on top of Bitcoin Core's `estimatesmartfee`'s RPC command. The first implementation of the post mix wallet will define the API and the following ones MUST use it.
+Blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee patterns. Therefore post-mix wallet implementations SHOULD use unified fee estimations.  
+
+Bitcoin Core v0.15 [introduced fundamental changes and complexity](https://bitcointechtalk.com/whats-new-in-bitcoin-core-v0-15-part-4-7c01c553783e) to its fee estimation API.  
+`estimatefee` is deprecated in favor of using only `estimatesmartfee`. However `estimatesmartfee` will slightly vary node, based on how long the node was running and what mempool information is available to it. Generally if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API it will either implements its own fee estimation algorithm or use a public API. While previously it was sufficient for a ZeroLink compliant post-mix wallet to use either Bitcoin Core's RPC API or a public API that is built on top of it, now that the results of the fee estimations vary node by node, it is not allowed anymore. 
+
+Post-mix wallet SHOULD retrieve fee rate through the same web API that is used by all other post-mix wallet software, that is built on top of Bitcoin Core's `estimatesmartfee`'s RPC command. The first implementation of the post mix wallet will set precedent.  
+In order to avoid the identification of the transaction by timing attack, executed by the web api, post-mix wallets SHOULD either retrieve fee rate periodically from every three to ten minutes or query the fee-rate over an anonymity network.  
+
+#### Fee Calculation
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+|-|Post-mix wallet should calculate the final fee from `vsize` in an imprecise way.|
 
 #### Replace-by-Fee
-**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD prevent its users to utilize RBF.*
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+||Post-mix wallet SHOULD prevent its users to utilize RBF.|
 
 Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
 Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
@@ -430,7 +452,9 @@ Creation of a common algorithmic utilization of RBF should be an interest of fut
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallets MUST not do such thing. It leads some users to use it more often, than others.
 
 #### Retrieving Transaction Information
-**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST retrieve transaction information in a private way.*
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+|Post-mix wallet MUST retrieve transaction information in a private way.||
 
 Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not a sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ), either.  
 
@@ -444,8 +468,9 @@ Furthermore, because  every time a CoinJoin transaction fails a new post-mix wal
 Alternatively, if the Tumbler serves already registered, but unused addresses the post-mix wallet can use this to avoid monitoring huge depth.  
 
 #### Transaction Broadcasting
-**Basic Post-Mix Wallet Requirement:** *Post-mix wallet MUST broadcast transactions in a private way.*
-**Post-Mix Wallet Uniformity Requirement:** *Post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software.*
+|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
+|---------------------------------|--------------------------------------|
+|Post-mix wallet MUST broadcast transactions in a private way.|Post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software.|
 
 As [Dandelion: Privacy-Preserving Transaction Propagation](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
 > Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
