@@ -435,14 +435,15 @@ The first implementation of the post mix wallet will set precedent. This sanity 
 Post-mix wallet SHOULD be able to produce any integer satoshi/byte fee rate that falls between the sanity check. It can be done, for instance salting results with randomization or from the UI with a slider, where the steps are integer numbers.  
 ![](https://i.imgur.com/JDF48aM.png)
   
-In order to avoid the identification of the transaction by timing attack, executed by the web api, post-mix wallets SHOULD retrieve sanity check from the common web API randomly from every 3 to 10 minutes.  
+In order to avoid the identification of the transaction by timing attack, executed by the web api, post-mix wallets SHOULD retrieve sanity check from the common web API randomly from every three to ten minutes.  
 
 #### Fee Calculation
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-|-|Post-mix wallet SHOULD calculate the final fee with `vsize` and make sure the final fee falls into sanity check.|  
+|-|Post-mix wallet SHOULD calculate the final fee virtual size. Post-mix wallet SHOULD make sure the final fee falls into sanity check.|  
 
-If any post-mix wallet produces a fee that does not fall into the sanity check, the post-mix wallet can be identified by blockchain analysis.  
+Virtual size is defined in [Segregated Witness Wallet Development Guide](https://bitcoincore.org/en/segwit_wallet_dev/).  
+If any post-mix wallet produces a fee that does not fall into the sanity check, with ten minutes fault tolerance, Blockchain analysis companies can reverse engineer the source code of all post-mix wallet software, figure out which wallet software can produce such results and the post-mix wallet software can be tied to the transaction.  
 
 #### Replace-by-Fee
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
