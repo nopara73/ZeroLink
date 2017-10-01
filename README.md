@@ -562,33 +562,33 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 
 |              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
 |:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
-| [Transaction Broadcasting][1]           |    Basic    | |                        |               |
-| [Transaction Broadcasting][1]           |  Uniformity | |                        |               |
-| [Retrieving Transaction Information][2] |    Basic    | |                        |               |
-| [Coin Selection][3]                     |    Basic    | |                        |               |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity | |                        |               |
-| [Change ScriptPubKey][5]                |  Uniformity | |                        |               |
-| [Active SriptPubKey][6]                 |  Uniformity | |                        |               |
-| [Output Indexing][7]                    |  Uniformity | |                        |               |
-| [Fee Rate Estimation][8]                |  Uniformity | |                        |               |
-| [Fee Calculation][9]                    |  Uniformity | |                        |               |
-| [Replace-by-Fee][10]                    |  Uniformity | |                        |               |
+| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted full node | &#9745;              | &#9745;             |
+| [Coin Selection][3]                     |    Basic    |                       |                              |                     |
+| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor       |                              | &#9745;             |
+| [Transaction Broadcasting][1]           |  Uniformity |                       |                              |                     |
+| [Spending Unconfirmed Transactions][4]  |  Uniformity | ?                     | &#9745;                      | &#9745;             |
+| [Change ScriptPubKey][5]                |  Uniformity |                       |                              | &#9745;             |
+| [Active SriptPubKey][6]                 |  Uniformity |                       |                              | &#9745;             |
+| [Output Indexing][7]                    |  Uniformity |                       |                              |                     |
+| [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
+| [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
+| [Replace-by-Fee][10]                    |  Uniformity |                       | &#9745;                      | &#9745;             |
 
 ### Popular Bitcoin Wallets
 
 |              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
 |:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
-| [Transaction Broadcasting][1]           |    Basic    |          |            |          |                 |          |
+| [Retrieving Transaction Information][2] |    Basic    |          | &#9745;    |          |                 |          |
+| [Coin Selection][3]                     |    Basic    |          | opt-in coin control feature |   |       |          |
+| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor | opt-in over Tor |       | | opt-in over Tor |
 | [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
-| [Retrieving Transaction Information][2] |    Basic    |          |            |          |                 |          |
-| [Coin Selection][3]                     |    Basic    |          |            |          |                 |          |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity |          |            |          |                 |          |
-| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 |          |
-| [Active SriptPubKey][6]                 |  Uniformity |          |            |          |                 |          |
+| [Spending Unconfirmed Transactions][4]  |  Uniformity |  ?       | ?          | ?        | ?               | ?        |
+| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 | ?        |
+| [Active SriptPubKey][6]                 |  Uniformity |          |            |          |                 | ?        |
 | [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
 | [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
 | [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
-| [Replace-by-Fee][10]                    |  Uniformity |          |            |          |                 |          |
+| [Replace-by-Fee][10]                    |  Uniformity |          |            | ?        | ?               | ?        |
 
 [1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
 [2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
