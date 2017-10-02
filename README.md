@@ -578,7 +578,7 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 
 |              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
 |:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
-| [Retrieving Transaction Information][2] |    Basic    |          | &#9745;    |          |                 |          |
+| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted Electrum server | &#9745; | |  |          |
 | [Coin Selection][3]                     |    Basic    |          | opt-in coin control feature |   |       |          |
 | [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor | opt-in over Tor |       | | opt-in over Tor |
 | [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
