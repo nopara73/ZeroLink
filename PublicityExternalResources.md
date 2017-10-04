@@ -1,6 +1,10 @@
 # English
 
-[2017-09-10 Breaking Bitcoin Paris Presentation Slides](https://prezi.com/view/4biN62sLkyS0w7muL2w4/)
+
+
+[2017-09-10 Breaking Bitcoin Paris Conference Presentation: ZeroLink: Roadmap To Anonymous Bitcoin](https://www.youtube.com/watch?v=RY-QQOjycgI&t=0m51s)
+
+[2017-09-10 Breaking Bitcoin Paris Conference Presentation Slides: ZeroLink: Roadmap To Anonymous Bitcoin](https://prezi.com/view/4biN62sLkyS0w7muL2w4/)
 
 [2017-08-22 TheMerkle.com - What is Zerolink?](https://themerkle.com/what-is-zerolink/)
 
