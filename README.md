@@ -572,7 +572,7 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 | [Output Indexing][7]                    |  Uniformity |                       |                              |                     |
 | [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
 | [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
-| [Replace-by-Fee][10]                    |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
+| [Replace-by-Fee][10]                    |  Uniformity | by default            | &#9745;                      | &#9745;             |
 
 ### Popular Bitcoin Wallets
 
