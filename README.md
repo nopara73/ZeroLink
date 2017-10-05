@@ -588,7 +588,7 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 | [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
 | [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
 | [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
-| [Replace-by-Fee][10]                    |  Uniformity |          |            | ?        | ?               | ?        |
+| [Replace-by-Fee][10]                    |  Uniformity | by default | by default | ?      | ?               | ?        |
 
 [1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
 [2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
