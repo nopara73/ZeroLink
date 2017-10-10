@@ -569,7 +569,7 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 | [Spending Unconfirmed Transactions][4]  |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
 | [Change ScriptPubKey][5]                |  Uniformity | &#9745;               |                              | &#9745;             |
 | [Active ScriptPubKey][6]                |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Output Indexing][7]                    |  Uniformity |                       |                              |                     |
+| [Output Indexing][7]                    |  Uniformity |                       | &#9745;                      | &#9745;             |
 | [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
 | [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
 | [Replace-by-Fee][10]                    |  Uniformity | by default            | &#9745;                      | &#9745;             |
