@@ -206,9 +206,6 @@ Assuming worst case sophisticated malicious actors at Signing, the round aborts 
 
 All Chaumian CoinJoin input MUST be Segregated Witness input. This prevents the transaction to be malleated, as a result the Tumbler can accept unconfirmed Chaumian CoinJoin change outputs from the user in the next round.
 
-#### Accepting Zero Confirmation
-If a 
-
 ### D. DoS Attack
 
 There are various ways malicious users can abort a round and there are various ways to defend against it:
