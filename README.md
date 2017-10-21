@@ -363,11 +363,13 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 ### B. Post-Mix Wallet
 
 The privacy requirements of the post-mix wallet are stronger, than the pre-mix wallet's.  
-A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example if only one wallet software is used as a post-mix wallet and it supports Replace-by-Fee (https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki) Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
+A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki) Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
 The first implementation of post-mix wallet will set precedents. In the future, when multiple implementations are created, it is important that these implementations are indistinguishable from the first implementation.  
 
 **Basic Post-Mix Wallet Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is the only wallet software that is used as a post-mix wallet of a specific mix.  
 **Post-Mix Wallet Uniformity Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is NOT the only wallet software that is used as a post-mix wallet of a specific mix.  
+
+Redisigning the post-mix-wallet based on the [Clusterfuck Wallet idea](https://github.com/nopara73/ZeroLink/issues/42) and considering possible JoinMarket additions should be an interest of future research.
 
 #### Coin Selection
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
