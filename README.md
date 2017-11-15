@@ -313,6 +313,19 @@ Attack Cost calculation assumed $1 Bitcoin transaction fees. The proposed DoS de
 
 The Attack Costs cannot be bypassed. Using such service would only impose additional costs on the attacker and introduce third party risk.
 
+**DoS 4: What if Bob provides a signed output in the wrong round?**   
+
+If Bob refuses to provide an output in the round it acquired its signature, then the corresponding Alice gets banned in Signing phase, because she will not provide signature to the CoinJoin.  
+However Bob's output will never be unblinded, therefore at OutputRegistration phase the Tumbler does not know if the output had been signed in the current or in some previous round.  
+In order to disrupt the round Alice can keep acquiring signatures (in expense for her utxos to get banned) and providing outputs to incorrect rounds.  
+For privacy reasons the Tumbler MUST refuse the same blinded signature to be registered twice in Input Registration phase and the Tumbler MUST refuse the same active output to be registered twice in Output Registration phase. This may already makes it uneconomical to keep this attack up for too long, but ZeroLink introduces an extension to the Chaumian CoinJoin protocol to completely defend against this attack:  
+
+1. At Connection Confirmation phase, for Alice's connection confirmation request, the Tumbler answers with a hash of all inputs, called `roundHash`.  
+2. At Output Registration phase this `roundHash` must be provided to the Tumbler by Bob.  
+3. At Signing phase, when Alice acquires the CoinJoin, she must check if the `roundHash` is indeed the hash of all inputs.  
+
+The question arises, why not use a random round identifier, instead of `roundHash`? It is because the Tumbler could trick Alices into providing them different round identifiers and with that information deanonymizing the round.  
+
 ### E. Sybil Attack
 
 ![](http://i.imgur.com/oQyrzqc.png)
