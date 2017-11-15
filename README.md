@@ -315,7 +315,7 @@ The Attack Costs cannot be bypassed. Using such service would only impose additi
 
 **DoS 4: What if Bob provides a signed output in the wrong round?**   
 
-If Bob refuses to provide an output in the round it acquired its signature, then the corresponding Alice gets banned in Signing phase, because she will not provide signature to the CoinJoin.  
+Another DoS attack [was identified](https://github.com/nopara73/ZeroLink/issues/51) by Antoine Walter. If Bob refuses to provide an output in the round it acquired its signature, then the corresponding Alice gets banned in Signing phase, because she will not provide signature to the CoinJoin.  
 However Bob's output will never be unblinded, therefore at OutputRegistration phase the Tumbler does not know if the output had been signed in the current or in some previous round.  
 In order to disrupt the round Alice can keep acquiring signatures (in expense for her utxos to get banned) and providing outputs to incorrect rounds.  
 For privacy reasons the Tumbler MUST refuse the same blinded signature to be registered twice in Input Registration phase and the Tumbler MUST refuse the same active output to be registered twice in Output Registration phase. This may already makes it uneconomical to keep this attack up for too long, but ZeroLink introduces an extension to the Chaumian CoinJoin protocol to completely defend against this attack:  
