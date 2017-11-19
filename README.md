@@ -21,6 +21,8 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 186n7me3QKajQZJnUsVsezVhVrSwyFCCZ  
 [![QR Code](http://i.imgur.com/grc5fBP.png)](https://www.smartbit.com.au/address/186n7me3QKajQZJnUsVsezVhVrSwyFCCZ)
 
+### [Donations Spent On](https://github.com/nopara73/HiddenWallet/blob/master/HiddenWallet.Documentation/DonationsSpentOn.md)
+
 ## [Publicity And External Resources](PublicityExternalResources.md)
 
 ## Abstract
