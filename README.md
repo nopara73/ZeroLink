@@ -42,6 +42,7 @@ II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)
 &nbsp;&nbsp;&nbsp;C. [Optimizing Performance](#c-optimizing-performance)  
 &nbsp;&nbsp;&nbsp;D. [DoS Attack](#d-dos-attack)  
 &nbsp;&nbsp;&nbsp;E. [Sybil Attack](#e-sybil-attack)  
+&nbsp;&nbsp;&nbsp;F. [General schema](#f-general-schema)  
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
@@ -341,6 +342,14 @@ This pattern can be noticed by the post-mix wallet. In this case the post mix wa
 
 There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attack should be an interest of future research.
 
+
+### F. General schema
+
+Alice and Bob are the same user, however the Tumbler does not know this.  
+
+![](https://i.imgur.com/xGhaSmS.jpg)
+
+
 ## III. Wallet Privacy Framework
 
 ### A. Pre-Mix Wallet
@@ -617,3 +626,4 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 [11]:https://github.com/Samourai-Wallet/
 [12]:https://github.com/stratisproject/Breeze
 [13]:https://github.com/nopara73/HiddenWallet
+
