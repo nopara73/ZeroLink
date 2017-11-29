@@ -586,7 +586,7 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 |              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
 |:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
 | [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted full node | &#9745;              | &#9745;             |
-| [Coin Selection][3]                     |    Basic    |                       |                              |                     |
+| [Coin Selection][3]                     |    Basic    |                       |                              | by default strongly discourages change generation and input joining |
 | [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor       |                              | &#9745;             |
 | [Transaction Broadcasting][1]           |  Uniformity |                       |                              |                     |
 | [Spending Unconfirmed Transactions][4]  |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
