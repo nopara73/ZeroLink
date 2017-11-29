@@ -409,6 +409,12 @@ To enhance useability of a post-mix wallet
 - the wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet,  
 - the wallet MAY also implement a visualized transaction history, instead of a traditional wallet history.
 
+---
+![](https://i.imgur.com/xvizcmu.png)
+---
+![](https://i.imgur.com/WMv4vQU.png)
+---
+
 ##### Dead Change Attack
 
 ![](http://i.imgur.com/3LtkqNA.png)
