@@ -21,7 +21,7 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 ### [Contributions Spent On](https://github.com/nopara73/HiddenWallet/blob/master/HiddenWallet.Documentation/DonationsSpentOn.md)
 
 bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m  
-[![QR Code](https://i.imgur.com/8JGnzJ7.png)]https://chainflyer.bitflyer.jp/Address/bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m)
+[![QR Code](https://i.imgur.com/8JGnzJ7.png)](https://chainflyer.bitflyer.jp/Address/bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m)
 
 ## [Publicity And External Resources](PublicityExternalResources.md)
 
