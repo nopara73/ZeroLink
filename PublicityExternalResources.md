@@ -26,7 +26,7 @@
 
 [2017-08-27 CriptoNoticias.com - Mecanismo Zerolink aumentará privacidad en carteras de bitcoin](https://criptonoticias.com/carteras/mecanismo-zerolink-aumentara-privacidad-carteras-bitcoin/#axzz4s0FjCUih)
 
-# Portoguese
+# Portuguese
 
 [2017-08-20 PortalDoBitcoin.com - Zerolink Alega Ter Desenvolvido Transações Totalmente Anônimas de Bitcoin](https://portaldobitcoin.com/zerolink-alega-ter-desenvolvido-transacoes-totalmente-anonimas-de-bitcoin/)
 

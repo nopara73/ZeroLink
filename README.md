@@ -151,9 +151,9 @@ Alice and Bob are the same user, however the Tumbler does not know this.
 
 #### 1. Input Registration Phase
 
-Many Alices register their 
+Many Alices register their: 
  - confirmed utxos as the inputs of the CoinJoin,
- - proofs, those are messages signed with the corresponding private keys,
+ - proofs - those are messages signed with the corresponding private keys,
  - their desired change outputs,
  - and blinded outputs to the Tumbler.
 
@@ -182,15 +182,15 @@ More sophisticated algorithms may be applied, too.
 
 #### No need for multiple mixing rounds
 
-If the denomination is one bitcoin and the user wants to mix eight bitcoins it must participate in eight mixing rounds. By allowing the user to register eight outputs within one round, this issue can be bypassed, resulting eight times cheaper and faster mixing. The drawbacks are weaker anonymity set, less liquidity, more complex implementation and longer mixing rounds. This improvement should be considered to be implemented when a Tumbler achieved massive liquidity. In depth discussion and specification can be found under the issue: [Bypass the need for multiple mixing rounds](https://github.com/nopara73/ZeroLink/issues/21).
+If the denomination is one bitcoin and the user wants to mix eight bitcoins it must participate in eight mixing rounds. By allowing the user to register eight outputs within one round, this issue can be bypassed, resulting eight times cheaper and faster mixing. The drawbacks are weaker anonymity set, less liquidity, more complex implementation and longer mixing rounds. This improvement should be considered to be implemented when a Tumbler has achieved massive liquidity. In depth discussion and specification can be found under the issue: [Bypass the need for multiple mixing rounds](https://github.com/nopara73/ZeroLink/issues/21).
 
 ### C. Optimizing Performance
 
 When to change between phases?  
 Phases can be triggered by Bitcoin blocks, for instance every time a block arrives the next phase is triggered. In order to eliminate the inconsistencies of the Bitcoin network it is a better idea to trigger a new phase at every even block.  
-Nonetheless it results unnecessarily long mixing rounds.  
-Another way of doing is to stick phases into timeframes. Assuming performant Tumbler and optimal utilization of the anonymity network by the clients, one minute is enough to complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
-Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is: Tumbler can execute various timing attacks, those result in user deanonymization. To make sure the Tumbler is honest about its phases all clients must setup another, monitoring identity: Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
+Nonetheless, it results in unnecessarily long mixing rounds.  
+Another way is to stick phases into timeframes. Assuming a performant Tumbler and optimal utilization of the anonymity network by the clients, one minute is enough to complete every phase. While it is a more performant way to complete a tumbling round, it is still not optimal.  
+Optimal performance is achieved when the Tumbler triggers the changes between phases, because it is the only actor that is aware of when a phase completes. The issue is: a Tumbler can execute various timing attacks, that results in user deanonymization. To make sure the Tumbler is honest about its phases, all clients must setup another, monitoring identity: Satoshi, who monitors the phases, so the Tumbler does not know who to lie to.  
 In addition every phase must time out after one minute. Timeout happens when malicious or disconnected Alice is detected.
 
 #### How long does a round take?  
@@ -199,7 +199,7 @@ The first phase: Input Registration, using the recommended dynamic anonymity set
 
 If actors disconnect during Input Registration, Connection Confirmation will time out after one minute, otherwise this phase should execute quickly.  
 
-The remaining phases, assuming no malicious actors, optimal anonymity network utilization the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the round should execute within a couple of seconds.  
+For the remaining phases, assuming no malicious actors and optimal anonymity network utilization, the bottle neck is the size of the transaction being downloaded by the clients, which at high liquidity would be approximately 100k byte. Even in this case the round should execute within a couple of seconds.  
 
 Assuming sophisticated malicious actors at Output Registration, the round aborts within two minutes, because the phase's timeout is one minute and these Alices could potentially delay their connection confirmation up to 0:59 seconds after the start of Connection Confirmation.  
 
@@ -207,7 +207,7 @@ Assuming worst case sophisticated malicious actors at Signing, the round aborts 
 
 #### Speeding Up Mixing
 
-All Chaumian CoinJoin input MUST be Segregated Witness input. This prevents the transaction to be malleated, as a result the Tumbler can accept unconfirmed Chaumian CoinJoin change outputs from the user in the next round.
+All Chaumian CoinJoin inputs MUST be Segregated Witness inputs. This prevents the transaction from being malleated, and as a result, the Tumbler can accept unconfirmed Chaumian CoinJoin change outputs from the user in the next round.
 
 ### D. DoS Attack
 
@@ -221,7 +221,7 @@ There are various ways malicious users can abort a round and there are various w
 
 
 Due to the nature of anonymity networks, which tend to reuse IP addresses, banning IP addresses SHOULD NOT be utilized.  
-The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity. A Tumbler MAY close source its DoS protection algorytm, thus forcing attackers into reverse engineering.  
+The "complete-with-subset" model MAY be implemented, however it is not clear if its benefits justify its complexity. A Tumbler MAY close source its DoS protection algorithm, thus forcing attackers into reverse engineering.  
 [Utilization of fidelity bonds](https://github.com/nopara73/ZeroLink/issues/6#issuecomment-321662470) SHOULD NOT be utilized. It ruins user experience and results in longer rounds.  
 This document recommends a DoS defense based on the utxo registration banning technique, which makes it economically infeasible to execute DoS attacks. In addition the Tumbler operator MUST evolve the protections if the need arises.  
 This protection requires the Tumbler to identify the malicious Alice's utxos it registered as inputs for the CoinJoin. The identification of malicious utxos is explained by examining all possible variations of DoS attacks.
@@ -238,7 +238,7 @@ The same strategy is applied as in DoS 1 and DoS 2. The only difference is that 
 A ban SHOULD time out after one month.  
 
 To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. These metrics are calculated in this document by assuming one bitcoin Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
-The most sophisticated attacker can delay the execution of a round maximum up to three minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
+The most sophisticated attacker can delay the execution of a round by a maximum of up to three minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
 For simplicity this document assumes a malicious Alice only registered one utxo. If there are any other utxos Alice registered with, the same ban applies to them.  
 
 #### Severity 0: No utxo banning
@@ -255,7 +255,7 @@ I.    |1btc                        |$0
 
 ![](http://i.imgur.com/SBqVPwb.png)
 
-In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
+In this case the most effective attack if the attacker holds 480btc. Assuming the attacker doesn't have 480btc predivided perfectly into 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
 
 The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. By not factoring in the predivision, the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
 
@@ -272,7 +272,7 @@ The first attack, where the attacker holds 480btc does not work anymore. Because
 
 ![](http://i.imgur.com/Uz8uw80.png)
 
-Therefore what the attacker would have to do is to predivide its coins in a different way. It cannot create one big transaction, instead it creates 480 transactions, thus its attack cost is $480.  
+Therefore, what the attacker would have to do is to predivide its coins in a different way. It cannot create one big transaction, instead it creates 480 transactions, thus its attack cost is $480.  
 
 The second attack results in exactly 480 transactions, too.  
 
@@ -283,7 +283,7 @@ II.   |4btc                        |$480
 
 #### Severity 3,4,5,6...
 
-To impose additional costs to the second type of attack the Tumbler can ban the outputs of the transaction that spends the malicious output.
+To impose additional costs to the second type of attack, the Tumbler can ban the outputs of the transaction that spends the malicious output.
 
 ![](http://i.imgur.com/BURPSWP.png)
 
@@ -302,7 +302,7 @@ The issue is increasing severity might result in banning honest actors out of th
 
 #### Imposing additional Attack Costs to attackers with huge Initial Bitcoin Reserves
 
-Moving the other direction on the transaction chain, towards the parents of the malicious utxo and banning them and their childs to participate in further mixes imposes additional costs to attackers with huge Initial Bitcoin Reserves. Such strategies should be used only if needed because it assumes the parent utxos and their childs are controlled by the attacker. This assumption increases the possibility of banning honest actors.
+Moving the other direction on the transaction chain, towards the parents of the malicious utxo and banning them and their children from participating in further mixes, imposes additional costs to attackers with huge Initial Bitcoin Reserves. Such strategies should be used only if needed because it assumes the parent utxos and their children are controlled by the attacker. This assumption increases the possibility of banning honest actors.
 
 #### Lowering denomination
 
@@ -314,14 +314,14 @@ Attack Cost calculation assumed $1 Bitcoin transaction fees. The proposed DoS de
 
 #### Can this system be bypassed with Bitcoin exchanges/mixers or similar services?
 
-The Attack Costs cannot be bypassed. Using such service would only impose additional costs on the attacker and introduce third party risk.
+The Attack Costs cannot be bypassed. Using such services would only impose additional costs on the attacker and introduce third party risk.
 
 **DoS 4: What if Bob provides a signed output in the wrong round?**   
 
 Another DoS attack [was identified](https://github.com/nopara73/ZeroLink/issues/51) by Antoine Walter. If Bob refuses to provide an output in the round it acquired its signature, then the corresponding Alice gets banned in Signing phase, because she will not provide signature to the CoinJoin.  
-However Bob's output will never be unblinded, therefore at OutputRegistration phase the Tumbler does not know if the output had been signed in the current or in some previous round.  
-In order to disrupt the round Alice can keep acquiring signatures (in expense for her utxos to get banned) and providing outputs to incorrect rounds.  
-For privacy reasons the Tumbler MUST refuse the same blinded signature to be registered twice in Input Registration phase and the Tumbler MUST refuse the same active output to be registered twice in Output Registration phase. This may already makes it uneconomical to keep this attack up for too long, but ZeroLink introduces an extension to the Chaumian CoinJoin protocol to completely defend against this attack:  
+However Bob's output will never be unblinded, therefore at OutputRegistration phase the Tumbler does not know if the output had been signed in the current round or in previous round.  
+In order to disrupt the round Alice can keep acquiring signatures (at the expense of having her utxos banned) and providing outputs to incorrect rounds.  
+For privacy reasons the Tumbler MUST refuse the same blinded signature to be registered twice in the Input Registration phase and the Tumbler MUST refuse the same active output to be registered twice in the Output Registration phase. This already makes it uneconomical to keep this attack up for too long, but ZeroLink introduces an extension to the Chaumian CoinJoin protocol to completely defend against this attack:  
 
 1. At Connection Confirmation phase, for Alice's connection confirmation request, the Tumbler answers with a hash of all inputs, called `roundHash`.  
 2. At Output Registration phase this `roundHash` must be provided to the Tumbler by Bob.  
@@ -333,10 +333,10 @@ The question arises, why not use a random round identifier, instead of `roundHas
 
 ![](http://i.imgur.com/oQyrzqc.png)
 
-It is possible to deanonymize a user if every participant of the mix is the attacker, except the user. Similarly to [Xim: Sybil-Resistant Mixing for Bitcoin](https://people.cs.umass.edu/~gbiss/mixing.pdf), the cost of this attack grows as the anonymity set grows. However unlinke in Xim, this attack is only feasible if the Tumbler is the attacker. If the attacker is not the Tumbler, it would have to figure out exactly in which rounds the targeted user participates and it must make sure nobody else gets to participate in that mix.  
+It is possible to deanonymize a user if every participant of the mix is the attacker, except the user. Similarly to [Xim: Sybil-Resistant Mixing for Bitcoin](https://people.cs.umass.edu/~gbiss/mixing.pdf), the cost of this attack grows as the anonymity set grows. However, unlike in Xim, this attack is only feasible if the Tumbler is the attacker. If the attacker is not the Tumbler, it would have to figure out exactly in which rounds the targeted user participates and it must make sure nobody else gets to participate in that mix.  
 Furthermore executing a covert Sybil attack as a Tumbler is not evident, it depends on the protocol implementation. Overt Sybil attack as a Tumbler is always possible, however in that case the Tumbler is accountable.  
 
-To execute this attack: when Tumbler notices an input is registered that it wants to deanonymize, it must refuse all following input registration and all the Connection Confirmation that has already been registered and is not from the target. Refusing input registration can happen for many raeason, therefore it can be done in a covert way, however refusing Connection Confirmation cannot. It can only happen if the input has been spent, therefore malicious Tumbler can be noticed. Clients whose Connection Confirmation are refused and they did not prematurely spent their inputs SHOULD NOT use the Tumbler anymore.  
+To execute this attack: when the Tumbler notices an input is registered that it wants to deanonymize, it must refuse all the following input registrations and all the Connection Confirmations that have already been registered and are not from the target. Refusing input registration can happen for many reasons, therefore it can be done in a covert way, however refusing Connection Confirmation cannot. It can only happen if the input has been spent, therefore malicious Tumbler can be noticed. Clients whose Connection Confirmation are refused and they did not prematurely spent their inputs SHOULD NOT use the Tumbler anymore.  
 The cost of the Sybil attack at $1 tranasction fees is `1.2 * number of sybils * $1`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `$1*(100*0.2)`= $20, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about $100, so the cost of this attack is $120 per round.  
 This pattern can be noticed by the post-mix wallet. In this case the post mix wallet MAY require re-mixing the coins.  
 
@@ -355,7 +355,7 @@ Alice and Bob are the same user, however the Tumbler does not know this.
 ### A. Pre-Mix Wallet
 
 A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.  
-Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
+Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case, pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
 Pre-mix wallets MUST be mixing from Segregated Witness outputs. This lowers the size of the transaction, thus enabling lower transaction fees overall, allows for a higher theoretical anonymity set and enables faster mixing by not needing to wait for confirmation when the input is an output of a Chaumian CoinJoin transaction, because the transaction will not be malleated.   
 
 Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
@@ -365,11 +365,11 @@ Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wal
 
 #### Retrieving Transaction Information  
 
-A pre-mix wallet can use a privacy breaching way to retrieve transaction and balance information, for instance it can query its address balances through a web API. In this case the web API knows about all the addresses the user possesses. However a pre-mix wallet MUST NOT use a privacy breaching way to acquire information about the childs of the extended public key, otherwise it would expose the post-mix wallet to a third party. An additional problem is that the pre-mix wallet cannot ever register the same addresses twice to a Tumbler. Therefore the pre-mix wallet must always register the next unused extended public key child, that was not registered before.  
+A pre-mix wallet can use a privacy breaching way to retrieve transaction and balance information, for instance it can query its address balances through a web API. In this case the web API knows about all the addresses the user possesses. However a pre-mix wallet MUST NOT use a privacy breaching way to acquire information about the children of the extended public key, otherwise it would expose the post-mix wallet to a third party. An additional problem is that the pre-mix wallet cannot ever register the same addresses twice to a Tumbler. Therefore the pre-mix wallet must always register the next unused extended public key child, that was not registered before.  
 
 A user to use the same extended public key in multiple pre-mix wallets is unlikely to happen, as well should be discouraged. If this is a given, a pre-mix wallet can keep records which derived keys it already registered before and never acquire their balances. This approach brings additional issues at wallet recovery.  
 
-Another way to solve this is to have a server that tells the pre-mix wallet all the addresses those have ever been used in CoinJoin transactions. In this case the pre-mix wallet does not expose which addresses it is interested in, because it gets all the addresses a any pre-mix wallet can be interested in. Additionally a pre-mix wallet MUST keep records which derived keys it already registered before.  
+Another way to solve this is to have a server that tells the pre-mix wallet all the addresses that have ever been used in CoinJoin transactions. In this case the pre-mix wallet does not expose which addresses it is interested in, because it gets all the addresses that any pre-mix wallet can be interested in. Additionally a pre-mix wallet MUST keep records of which derived keys it already registered before.  
 This approach is reliable, it can handle proper wallet recovery and the case if multiple pre-mix wallets use the same extended public keys. Some information leak is still possible, however it is unlikely.  
 Information leak happens if:  
 - a malicious attacker disrupted a round that the user is participated in
@@ -383,14 +383,14 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 
 ### B. Post-Mix Wallet
 
-The privacy requirements of the post-mix wallet are stronger, than the pre-mix wallet's.  
-A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki) Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
+The privacy requirements of the post-mix wallet are stronger, than that of the pre-mix wallet.  
+A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example, if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki), Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
 The first implementation of post-mix wallet will set precedents. In the future, when multiple implementations are created, it is important that these implementations are indistinguishable from the first implementation.  
 
 **Basic Post-Mix Wallet Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is the only wallet software that is used as a post-mix wallet of a specific mix.  
 **Post-Mix Wallet Uniformity Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is NOT the only wallet software that is used as a post-mix wallet of a specific mix.  
 
-Redisigning the post-mix-wallet based on the [Clusterfuck Wallet idea](https://github.com/nopara73/ZeroLink/issues/42) and considering possible JoinMarket additions should be an interest of future research.
+Redesigning the post-mix-wallet based on the [Clusterfuck Wallet idea](https://github.com/nopara73/ZeroLink/issues/42) and considering possible JoinMarket additions should be an interest of future research.
 
 #### Coin Selection
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -420,7 +420,7 @@ To enhance useability of a post-mix wallet
 ![](http://i.imgur.com/3LtkqNA.png)
 
 While the recommended strict coin selection properly separates mixed coins from each other, it does not protect against the [dead change attack](https://www.dash.org/forum/threads/dead-change-an-anonymity-issue.3019/). Change outputs will be used for different purposes, therefore it is possible to connect those payments together. Fortunately it does not affect the anonymity set of other users who participated in the mix, but it does affect individual privacy.  
-To encourage more cautious user behavior post-mix wallet MAY implement a transaction labeling system, so users can decide manually what purcheses it does not care about if they are connected together by third party observers.  
+To encourage more cautious user behavior post-mix wallet MAY implement a transaction labeling system, so users can decide manually what purchases it does not care about if they are connected together by third party observers.  
 
 ##### Additional Anonymity Set
 
@@ -431,7 +431,7 @@ A post-mix wallet MAY offer to make a user's first purchase to be a regular Coin
 #### Change ScriptPubKeys
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transction.|
+||Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transaction.|
 
 #### Active SriptPubKeys
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -449,14 +449,14 @@ A post-mix wallet, due to its design, will only have one input and a maximum of 
 
 Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
 
-It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.
+It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using this BIP leaves a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.
 
 #### Fee Rate Estimation	
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
 |-|Post-mix wallet SHOULD utilize fee rate sanity check through the same web API that is used by all other post-mix wallet software.|
 
-Blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee patterns. Therefore post-mix wallet implementations SHOULD use unified fee estimations.  
+One way blockchain analysis attempts to figure out which wallet a transaction was constructed with, is by examining the fee patterns. Therefore post-mix wallet implementations SHOULD use unified fee estimations.  
 
 Bitcoin Core `estimatesmartfee` may differ node by node, based on how much information is available to the node. Usually if a Bitcoin wallet is not built on top of Bitcoin Core's RPC API, it either implements its own fee estimation algorithm or uses a public API.  
 
@@ -478,26 +478,26 @@ If any post-mix wallet produces a fee that does not fall into the sanity check, 
 #### Replace-by-Fee
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD prevent its users to utilize RBF.|
+||Post-mix wallet SHOULD prevent its users from utilizing RBF.|
 
-Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in use.  
 Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
 
 #### Spending Unconfirmed Transactions
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD let its users to spend unconfirmed outputs.|
+||Post-mix wallet SHOULD let its users spend unconfirmed outputs.|
 
 It is possible to spend the output of a transaction that did not confirm yet. Post-mix wallet SHOULD let its users to spend unconfirmed transactions.  
 If a post-mix wallet software does not let its users to spend unconfirmed outputs, and Blockchain analysis finds a post-mix transaction that spends an unconfirmed output, it knows that output cannot come from that the post-mix wallet software.  
-Since spending unconfrimed outputs can be dangerous, post-mix wallets MAY discourage the user to do so, for instance with a warning.  
+Since spending unconfirmed outputs can be dangerous, post-mix wallets MAY discourage the user to do so, for instance with a warning.  
 
 #### Retrieving Transaction Information
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
 |Post-mix wallet MUST retrieve transaction information in a private way.||
 
-Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not a sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ), either.  
+Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not a sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) either.  
 
 There are four types of wallet architectures, ZeroLink classifies a private:    
 1. **Full Nodes:** Since they download all the transactions the network has nobody can tell who is interested in what transactions.  
@@ -519,10 +519,10 @@ As [Dandelion: Privacy-Preserving Transaction Propagation](https://github.com/gf
 Dandelion's explanation only applies to full nodes. Most wallet softwares are not constantly relaying transactions, for instance when the wallet software only connects to other nodes on the network to broadcast its transactions.  
 
 ZeroLink classifies broadcasting transactions over an anonymity network to the Bitcoin network as private.  
-Tus in order to fulfil Basic Post-Mix Wallet Requirement post-mix wallet MUST broadcast transactions in a private way.  
+Thus in order to fulfil Basic Post-Mix Wallet Requirement post-mix wallet MUST broadcast transactions in a private way.  
 Post-mix wallet SHOULD change anonymity network indentity between every transaction broadcast.  
-In order to fulfil the Post-Mix Wallet Uniformity Requirement post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software. 
-Post-mix wallet SHOULD broadcast every transaction on different Tor circuit.  
+In order to fulfil the Post-Mix Wallet Uniformity Requirement, post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software. 
+Post-mix wallet SHOULD broadcast every transaction on different Tor circuits.  
 
 Private transaction broadcasting, especially Dandelion, should be an interest of future research.
 
@@ -563,7 +563,7 @@ Disadvantages of extended public key-based solutions are:
 
 - Extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
 
-- In case of many continous round diruption by malicious actors, a new mix output address must be registered every time. This requires post-mix wallets to monitor the balances of its keys in huge depth.
+- In the case of many continous round diruptions by malicious actors, a new mix output address must be registered every time. This requires post-mix wallets to monitor the balances of its keys in huge depth.
 
 Payment codes can be exchanged, distributed, and published without compromising the secrecy and privacy of any individual address generated from the same payment codes thereafter.
 
