@@ -337,7 +337,7 @@ It is possible to deanonymize a user if every participant of the mix is the atta
 Furthermore executing a covert Sybil attack as a Tumbler is not evident, it depends on the protocol implementation. Overt Sybil attack as a Tumbler is always possible, however in that case the Tumbler is accountable.  
 
 To execute this attack: when the Tumbler notices an input is registered that it wants to deanonymize, it must refuse all the following input registrations and all the Connection Confirmations that have already been registered and are not from the target. Refusing input registration can happen for many reasons, therefore it can be done in a covert way, however refusing Connection Confirmation cannot. It can only happen if the input has been spent, therefore malicious Tumbler can be noticed. Clients whose Connection Confirmation are refused and they did not prematurely spent their inputs SHOULD NOT use the Tumbler anymore.  
-The cost of the Sybil attack at $1 tranasction fees is `1.2 * number of sybils * $1`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `$1*(100*0.2)`= $20, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about $100, so the cost of this attack is $120 per round.  
+The cost of the Sybil attack at $1 transaction fees is `1.2 * number of sybils * $1`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `$1*(100*0.2)`= $20, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about $100, so the cost of this attack is $120 per round.  
 This pattern can be noticed by the post-mix wallet. In this case the post mix wallet MAY require re-mixing the coins.  
 
 There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attack should be an interest of future research.
@@ -384,7 +384,7 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 ### B. Post-Mix Wallet
 
 The privacy requirements of the post-mix wallet are stronger, than that of the pre-mix wallet.  
-A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example, if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki), Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
+A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example, if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki), Blockchain analysis cannot come to valuable conclusions. However if different wallet software is used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
 The first implementation of post-mix wallet will set precedents. In the future, when multiple implementations are created, it is important that these implementations are indistinguishable from the first implementation.  
 
 **Basic Post-Mix Wallet Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is the only wallet software that is used as a post-mix wallet of a specific mix.  
@@ -402,9 +402,9 @@ Redesigning the post-mix-wallet based on the [Clusterfuck Wallet idea](https://g
 If the post-mix wallet would function as a normal Bitcoin wallet, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
 Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless, users would eventually still join inputs together.  
 ![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
-It is better to prevent input joining in post-mix wallets altogether. This, of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
+It is better to prevent input joining in post-mix wallets altogether. This, of course naturally restricts the usability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
 
-To enhance useability of a post-mix wallet
+To enhance usability of a post-mix wallet
 - the wallet MAY implement coin control feature, 
 - the wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet,  
 - the wallet MAY also implement a visualized transaction history, instead of a traditional wallet history.
@@ -480,7 +480,7 @@ If any post-mix wallet produces a fee that does not fall into the sanity check, 
 |---------------------------------|--------------------------------------|
 ||Post-mix wallet SHOULD prevent its users from utilizing RBF.|
 
-Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in use.  
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is an often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in use.  
 Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
 
 #### Spending Unconfirmed Transactions
@@ -505,7 +505,7 @@ There are four types of wallet architectures, ZeroLink classifies a private:
 3. **[Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21):** Which only exists as an idea to date.  
 4. **ZeroLink Specific Transaction Retrieval:** There is an easier and more user friendly way to achieve it: The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other transaction. This would result in drastically better user experience, because it does not need to wait hours for Blockchain syncing.  
   
-Furthermore, because  every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.  
+Furthermore, because every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.  
 Alternatively, if the Tumbler serves already registered, but unused addresses the post-mix wallet can use this to avoid monitoring huge depth.  
 
 #### Transaction Broadcasting
@@ -516,11 +516,11 @@ Alternatively, if the Tumbler serves already registered, but unused addresses th
 As [Dandelion: Privacy-Preserving Transaction Propagation](https://github.com/gfanti/bips/blob/master/bip-dandelion.mediawiki) BIP candidate explains:
 > Bitcoin transaction propagation does not hide the source of a transaction very well, especially against a “supernode” eavesdropper that forms a large number of outgoing connections to reachable nodes on the network. From the point of view of a supernode, the peer that relays the transaction *first* is the most likely to be the true source, or at least a close neighbor of the source. Various application-level behaviors of Bitcoin Core enable eavesdroppers to infer the peer-to-peer connection topology, which can further help identify the source.
 
-Dandelion's explanation only applies to full nodes. Most wallet softwares are not constantly relaying transactions, for instance when the wallet software only connects to other nodes on the network to broadcast its transactions.  
+Dandelion's explanation only applies to full nodes. Most wallet software is not constantly relaying transactions, for instance when the wallet software only connects to other nodes on the network to broadcast its transactions.  
 
 ZeroLink classifies broadcasting transactions over an anonymity network to the Bitcoin network as private.  
 Thus in order to fulfil Basic Post-Mix Wallet Requirement post-mix wallet MUST broadcast transactions in a private way.  
-Post-mix wallet SHOULD change anonymity network indentity between every transaction broadcast.  
+Post-mix wallet SHOULD change anonymity network identity between every transaction broadcast.  
 In order to fulfil the Post-Mix Wallet Uniformity Requirement, post-mix wallet SHOULD broadcast transactions over Tor through the same web API that is used by all other post-mix wallet software. 
 Post-mix wallet SHOULD broadcast every transaction on different Tor circuits.  
 
@@ -529,7 +529,7 @@ Private transaction broadcasting, especially Dandelion, should be an interest of
 #### Moving Money Between Post And Pre-Mix Wallets
 
 The user MAY send transactions from pre-mix to post-mix wallet directly, because joining inputs are not allowed in post-mix wallets, therefore the coins will be separated.  
-The user SHOULD NOT send transactions from post-mix to pre-mix wallet directly, because pre-mix wallets join inputs together. If an observer notices any connection between pre-mix coins and post-mix coins, it may re-estabilish a link in the CoinJoin transaction.
+The user SHOULD NOT send transactions from post-mix to pre-mix wallet directly, because pre-mix wallets join inputs together. If an observer notices any connection between pre-mix coins and post-mix coins, it may re-establish a link in the CoinJoin transaction.
 
 ### C. Stealth Addresses
 
@@ -551,7 +551,7 @@ It should be noted that Dark Wallet started work on [their own](https://github.c
 
 ##### Background
 
-For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Addressing, BIP47 could be used. However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and librairies and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Neverthless it should be a topic of future research.  
+For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Addressing, BIP47 could be used. However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and libraries and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Nevertheless it should be a topic of future research.  
 
 BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
 
@@ -563,7 +563,7 @@ Disadvantages of extended public key-based solutions are:
 
 - Extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
 
-- In the case of many continous round diruptions by malicious actors, a new mix output address must be registered every time. This requires post-mix wallets to monitor the balances of its keys in huge depth.
+- In the case of many continuous round disruptions by malicious actors, a new mix output address must be registered every time. This requires post-mix wallets to monitor the balances of its keys in huge depth.
 
 Payment codes can be exchanged, distributed, and published without compromising the secrecy and privacy of any individual address generated from the same payment codes thereafter.
 
