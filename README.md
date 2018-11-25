@@ -195,7 +195,7 @@ In addition every phase must time out after one minute. Timeout happens when mal
 
 #### How long does a round take?  
 
-The first phase: Input Registration, using the recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average to three minutes, at high liquidity it will run within a few seconds.  
+The first phase: Input Registration, using the recommended dynamic anonymity set algorithm at low liquidity could take hours or days. At medium liquidity it will average three minutes, at high liquidity it will run within a few seconds.  
 
 If actors disconnect during Input Registration, Connection Confirmation will time out after one minute, otherwise this phase should execute quickly.  
 
@@ -340,7 +340,7 @@ To execute this attack: when the Tumbler notices an input is registered that it 
 The cost of the Sybil attack at $1 transaction fees is `1.2 * number of sybils * $1`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `$1*(100*0.2)`= $20, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about $100, so the cost of this attack is $120 per round.  
 This pattern can be noticed by the post-mix wallet. In this case the post mix wallet MAY require re-mixing the coins.  
 
-There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attack should be an interest of future research.
+There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attacks should be an interest of future research.
 
 
 ### F. General schema
@@ -358,7 +358,7 @@ A pre-mix wallet can be any Bitcoin wallet, without much privacy requirements.
 Pre-mix wallets MUST either get bitcoin addresses of the post-mix wallet directly, for instance through a local RPC API or through the sharing of the post-mix wallet's [extended public key](https://bitcoin.org/en/glossary/extended-key). In the latter case, pre-mix wallets MUST NOT share the extended public key or any of its derived keys of the post-mix wallets with any third party.  
 Pre-mix wallets MUST be mixing from Segregated Witness outputs. This lowers the size of the transaction, thus enabling lower transaction fees overall, allows for a higher theoretical anonymity set and enables faster mixing by not needing to wait for confirmation when the input is an output of a Chaumian CoinJoin transaction, because the transaction will not be malleated.   
 
-Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallet might work:  
+Pre-mix and post-mix wallets MAY be separate wallet accounts within the same wallet. From an end user perspective the following GUI workflow illustrates how such wallets might work:  
 
 ![HiddenWalletTumbleBit1](http://i.imgur.com/xT0Ezvm.png)  
 ![HiddenWalletTumbleBit2](http://i.imgur.com/rdOGZKG.png)
@@ -497,7 +497,7 @@ Since spending unconfirmed outputs can be dangerous, post-mix wallets MAY discou
 |---------------------------------|--------------------------------------|
 |Post-mix wallet MUST retrieve transaction information in a private way.||
 
-Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not a sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) either.  
+Retrieving private transaction information from the Blockchain is the [most challenging](https://hackernoon.com/bitcoin-privacy-landscape-in-2017-zero-to-hero-guidelines-and-research-a10d30f1e034) part of implementing a wallet that aims to not breach its users' privacy. Querying the balances of a central server shares private information with that central server. Bloom filtering SPV wallets are [not sufficiently private](https://groups.google.com/forum/#!msg/bitcoinj/Ys13qkTwcNg/9qxnhwnkeoIJ) either.  
 
 There are four types of wallet architectures, ZeroLink classifies a private:    
 1. **Full Nodes:** Since they download all the transactions the network has nobody can tell who is interested in what transactions.  
@@ -505,8 +505,8 @@ There are four types of wallet architectures, ZeroLink classifies a private:
 3. **[Transaction Filtered Full Block Downloading Wallet](https://medium.com/@nopara73/full-node-level-privacy-even-for-mobile-wallets-transaction-filtered-full-block-downloading-wallet-16ef1847c21):** Which only exists as an idea to date.  
 4. **ZeroLink Specific Transaction Retrieval:** There is an easier and more user friendly way to achieve it: The post-mix wallet MAY accept deposits to be directly made to its addresses, without mixing. Since the input joining is disallowed there is no reason not to enable that. However if the post-mix wallet disables it, it can simply query all the Chaumian CoinJoin transactions and all its ZeroLink compliant children, since it is not interested in any other transaction. This would result in drastically better user experience, because it does not need to wait hours for Blockchain syncing.  
   
-Furthermore, because every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is not unlikely that an attacker ever tries to disrupt any round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallets would still show the right balances if the pre-mix wallet participates in disrupted rounds continuously for two days.  
-Alternatively, if the Tumbler serves already registered, but unused addresses the post-mix wallet can use this to avoid monitoring huge depth.  
+Furthermore, because every time a CoinJoin transaction fails a new post-mix wallet output is registered, post-mix wallets SHOULD be monitored in huge depth. While it is unlikely that an attacker tries to disrupt every round, because of the reasons detailed above, nevertheless a post-mix wallet is recommended to monitor 1000 clean addresses after the last used one. In this case a post-mix wallet would still show the right balance if the pre-mix wallet participates in disrupted rounds continuously for two days.  
+Alternatively, if the Tumbler serves already registered, but unused addresses, the post-mix wallet can use this to avoid monitoring huge depths.  
 
 #### Transaction Broadcasting
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -555,11 +555,11 @@ For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Add
 
 BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
 
-There is no need to exchange or publish individual addresses, public keys or extended public keys before any transaction. In this way, the individual derived addresses will remain off the radar of Blockchain analytics and surveillance services in the event of data leak.  
+There is no need to exchange or publish individual addresses, public keys or extended public keys before any transaction. In this way, the individual derived addresses will remain off the radar of Blockchain analytics and surveillance services in the event of a data leak.  
 
 Disadvantages of extended public key-based solutions are:
 
-- Address reuse may occur if multiple pre-mix wallets are using the same extended public keys of one post-mix wallet and the Tumbler does not refuses already registered mix output addresses. Address spaces based on BIP47 payment codes can easily be kept synchronized because there are only two parties involved in any channel and transactions can be followed in lockstep.
+- Address reuse may occur if multiple pre-mix wallets are using the same extended public keys of one post-mix wallet and the Tumbler does not refuse already registered mix output addresses. Address spaces based on BIP47 payment codes can easily be kept synchronized because there are only two parties involved in any channel and transactions can be followed in lockstep.
 
 - Extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
 
