@@ -433,7 +433,7 @@ A post-mix wallet MAY offer to make a user's first purchase to be a regular Coin
 |---------------------------------|--------------------------------------|
 ||Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transaction.|
 
-#### Active SriptPubKeys
+#### Active ScriptPubKeys
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
 ||Post-mix wallet SHOULD be able to build transactions to P2PKH, P2WPKH, P2SH and P2WSH active outputs.|  
