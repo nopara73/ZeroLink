@@ -16,15 +16,6 @@ TDevD,
 
 Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedbacks.
 
-## Support
-
-### [Contributions Spent On](https://github.com/nopara73/HiddenWallet/blob/master/HiddenWallet.Documentation/DonationsSpentOn.md)
-
-bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m  
-[![QR Code](https://i.imgur.com/8JGnzJ7.png)](https://chainflyer.bitflyer.jp/Address/bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m)
-
-## [Publicity And External Resources](PublicityExternalResources.md)
-
 ## Abstract
 
 While [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. The scope of ZeroLink is not limited to a single transaction, it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
