@@ -37,8 +37,7 @@ II. [Chaumian CoinJoin](#ii-chaumian-coinjoin)
 III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)  
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
-&nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
-IV. [ZeroLink Compliance Checklist](#iv-zerolink-compliance-checklist)  
+IV. [Implementation](#iv-implementation)  
 
 ## I. Introduction
 
@@ -522,105 +521,6 @@ Private transaction broadcasting, especially Dandelion, should be an interest of
 The user MAY send transactions from pre-mix to post-mix wallet directly, because joining inputs are not allowed in post-mix wallets, therefore the coins will be separated.  
 The user SHOULD NOT send transactions from post-mix to pre-mix wallet directly, because pre-mix wallets join inputs together. If an observer notices any connection between pre-mix coins and post-mix coins, it may re-establish a link in the CoinJoin transaction.
 
-### C. Stealth Addresses
+# IV. Implementation
 
-#### History
-
-Stealth Addresses were described in detail by Peter Todd and the subject was assigned to [BIP63](https://github.com/genjix/bips/blob/master/bip-stealth.mediawiki), although it was never published in the BIP repository.
-The concept was popularized by [Dark Wallet](https://github.com/darkwallet/darkwallet) which combined Stealth Addresses and coin mixing.
-The Dark Wallet project ground to a halt and, despite a couple of attempts at relaunching it, it remains inactive to this day.
-
-BIP47 Stealth Addresses were proposed by Justus Ranvier and described in [BIP47](https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki).
-
-BIP47 Stealth Addresses differ from Dark Wallet Stealth Addresses in that both sides of a BIP47 payment channel handle address detection and synchronization rather than relying on any server-assisted Blockchain scanning. BIP47 provides the privacy advantages of Dark Wallet-style Stealth Addresses to Simplified Payment Verification and other light clients without necessitating the use of a trusted full node.
-
-Following the publishing of the BIP, BIP47 Stealth Addresses were [implemented](https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet](https://samouraiwallet.com) and have since gained traction through real usage with over 420 active channels having been created by privacy-seeking users.
-
-It should be noted that Dark Wallet started work on [their own](https://github.com/darkwallet/darkwallet/commits/pcodes) BIP47 implementation during a short period in early 2016 when their project was momentarily revived. 
-
-#### Chaumian CoinJoin And Stealth Addressing
-
-##### Background
-
-For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Addressing, BIP47 could be used. However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and libraries and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Nevertheless it should be a topic of future research.  
-
-BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
-
-There is no need to exchange or publish individual addresses, public keys or extended public keys before any transaction. In this way, the individual derived addresses will remain off the radar of Blockchain analytics and surveillance services in the event of a data leak.  
-
-Disadvantages of extended public key-based solutions are:
-
-- Address reuse may occur if multiple pre-mix wallets are using the same extended public keys of one post-mix wallet and the Tumbler does not refuse already registered mix output addresses. Address spaces based on BIP47 payment codes can easily be kept synchronized because there are only two parties involved in any channel and transactions can be followed in lockstep.
-
-- Extended public keys can leak and compromise privacy. Any party having knowledge of somebody else's extended public key will have complete knowledge of their transaction history and mixing balance. Payment codes provide no information about transaction amounts or addresses used between parties and can be openly distributed without concern of compromise to transactional privacy.
-
-- In the case of many continuous round disruptions by malicious actors, a new mix output address must be registered every time. This requires post-mix wallets to monitor the balances of its keys in huge depth.
-
-Payment codes can be exchanged, distributed, and published without compromising the secrecy and privacy of any individual address generated from the same payment codes thereafter.
-
-##### Application
-
-Stealth Addresses generated from BIP47 payment codes can be used within the Wallet Privacy Framework described above.
-
-Rather than relying on post-mix wallet extended public keys, pre-mix and post-mix wallets exchange payment codes and derive addresses on an "as needed" basis. Synchronization between wallets is simplified as address lookahead is greatly reduced.
-
-Payment codes can be included in the Chaumian encrypted payload. In this way, the server will have no knowledge of which payment codes have been matched with each other. Note that even with knowledge of which payment codes are paired with each other, there is still no knowledge of derived individual addresses or transactions because the server never has any private keys required for address calculating.
-
-Since BIP47 payment codes are used to derive compressed public keys, payments can be made to P2WPKH addresses. Chaumian CoinJoin transactions using BIP47 Stealth Addressing will not be identifiable on the Bitcoin Blockchain.  
-
-Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob/master/bip-0047.mediawiki#Notification_Transaction) can be ignored for this application. Notification transactions allow payment codes to be communicated encrypted over the Blockchain and be recoverable in the event of a wallet restore and the subsequent address rediscovery and synchronization. For this application, payment codes will be relayed within the Chaumian encrypted payload. If a post-mix wallet loses its own metadata containing the payment code and associated indexes the necessary information can be recalculated the next time, if ever, that the same payment code is received by the post-mix wallet.
-
-##### Pseudonymous Repositories
-
-BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
-
-## IV. ZeroLink Compliance Checklist
-
-It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet requirements aim to make sure that after-mix privacy loss does not happen.  
-
-### Bitcoin Wallets Interested In ZeroLink 
-
-|              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
-|:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted full node | &#9745;              | &#9745;             |
-| [Coin Selection][3]                     |    Basic    |                       |                              | by default strongly discourages change generation and input joining |
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor       |                              | &#9745;             |
-| [Transaction Broadcasting][1]           |  Uniformity |                       |                              |                     |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Change ScriptPubKey][5]                |  Uniformity | &#9745;               |                              | &#9745;             |
-| [Active ScriptPubKey][6]                |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Output Indexing][7]                    |  Uniformity |                       | &#9745;                      | &#9745;             |
-| [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
-| [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
-| [Replace-by-Fee][10]                    |  Uniformity | by default            | &#9745;                      | &#9745;             |
-
-### Popular Bitcoin Wallets
-
-|              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
-|:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted Electrum server | &#9745; | |  |          |
-| [Coin Selection][3]                     |    Basic    | opt-in coin control feature | opt-in coin control feature | |||
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor | opt-in over Tor |       | | opt-in over Tor |
-| [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity |  ?       | ?          | ?        | ?               | ?        |
-| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 | ?        |
-| [Active ScriptPubKey][6]                |  Uniformity |          |            |          |                 | ?        |
-| [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
-| [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
-| [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
-| [Replace-by-Fee][10]                    |  Uniformity | by default | by default | ?      | ?               | ?        |
-
-[1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
-[2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
-[3]:https://github.com/nopara73/ZeroLink#coin-selection
-[4]:https://github.com/nopara73/ZeroLink#spending-unconfirmed-transactions
-[5]:https://github.com/nopara73/ZeroLink#change-scriptpubkeys 
-[6]:https://github.com/nopara73/ZeroLink#active-sriptpubkeys
-[7]:https://github.com/nopara73/ZeroLink#transaction-output-indexing
-[8]:https://github.com/nopara73/ZeroLink#fee-rate-estimation
-[9]:https://github.com/nopara73/ZeroLink#fee-calculation
-[10]:https://github.com/nopara73/ZeroLink#replace-by-fee
-[11]:https://github.com/Samourai-Wallet/
-[12]:https://github.com/stratisproject/Breeze
-[13]:https://github.com/nopara73/HiddenWallet
-
+In August 1, 2018, [Wasabi Wallet](https://wasabiwallet.io/) was successfully deployed into production.
