@@ -5,7 +5,7 @@
 ## Authors
 
 nopara73,  
-[Hidden Wallet](https://github.com/nopara73/HiddenWallet),  
+[Wasabi Wallet](https://github.com/zkSNACKs/WalletWasabi),  
 adam.ficsor73@gmail.com
 
 TDevD,  
@@ -14,13 +14,13 @@ TDevD,
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedbacks.
+Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedback.
 
 ## Abstract
 
-While [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. The scope of ZeroLink is not limited to a single transaction, it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
+Although [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. Thus the scope of ZeroLink is not limited to a single transaction, but it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
   
-Ideal fungibility requires every Bitcoin transaction to be indistinguishable from each other, but it is an unrealistic goal. ZeroLink's objective is to break all links between separate sets of coins. ZeroLink presents a wallet privacy framework coupled with Chaumian CoinJoin, which was first introduced in 2013 by Gregory Maxwell. A mixing round runs within seconds, its anonymity set can go beyond a single CoinJoin transaction's if needed, and its DoS resilience presumes a transaction fee environment above $1 Bitcoin.  
+Ideal fungibility requires every Bitcoin transaction to be indistinguishable from each other, but it is an unrealistic goal. ZeroLink's objective is to break all links between separate sets of coins. ZeroLink presents a wallet privacy framework coupled with Chaumian CoinJoin, which was first [hinted by hashcoin in 2011](https://bitcointalk.org/index.php?topic=12751.msg315793#msg315793) and [described in more detail by killerstorm in 2013](https://bitcointalk.org/index.php?topic=150681.0). A mixing round runs within seconds, its anonymity set can go beyond a single CoinJoin transaction's if needed, and its DoS resilience presumes a transaction fee environment above $1 Bitcoin.  
   
 Hopefully, ZeroLink will enable the usage of Bitcoin in a fully anonymous way for the first time.  
 
