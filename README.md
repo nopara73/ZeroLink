@@ -1,3 +1,7 @@
+# ATTENTION
+
+ZeroLink is obsolated in favor of WabiSabi: https://github.com/zkSNACKs/WabiSabi
+
 # ZeroLink: The Bitcoin Fungibility Framework
 
 ![](http://i.imgur.com/ODjt3wf.png)
