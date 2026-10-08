@@ -8,7 +8,7 @@ ZeroLink is obsolated in favor of WabiSabi: https://github.com/zkSNACKs/WabiSabi
 
 ## Authors
 
-nopara73,  
+[nopara73](https://adamficsor.com/work.html),  
 [Wasabi Wallet](https://github.com/zkSNACKs/WalletWasabi),  
 adam.ficsor73@gmail.com
 
